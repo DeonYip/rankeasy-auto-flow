@@ -120,8 +120,8 @@ export default function Dashboard() {
     <div className="space-y-6">
       {/* Page Header */}
       <div>
-        <h1 className="text-3xl font-bold text-foreground">Dashboard</h1>
-        <p className="text-muted-foreground">
+        <h1 className="admin-title text-foreground">Dashboard</h1>
+        <p className="admin-subtitle">
           Overview of your AI content generation platform
         </p>
       </div>
@@ -139,14 +139,14 @@ export default function Dashboard() {
             {stats.filter(stat => stat.visible).map((stat) => (
               <Card key={stat.name} className="border-card-border hover:shadow-md transition-all duration-200">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium text-muted-foreground">
+                  <CardTitle className="admin-label text-muted-foreground">
                     {stat.name}
                   </CardTitle>
                   <stat.icon className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold text-foreground">{stat.value}</div>
-                  <p className="text-xs text-muted-foreground flex items-center mt-1">
+                  <div className="admin-stats-value text-foreground">{stat.value}</div>
+                  <p className="admin-stats-label text-muted-foreground flex items-center mt-1">
                     <span className={`${stat.changeType === 'positive' ? 'text-success' : 'text-destructive'} mr-1`}>
                       {stat.change}
                     </span>
@@ -161,11 +161,11 @@ export default function Dashboard() {
             {/* Recent Activity */}
             <Card className="lg:col-span-2 border-card-border">
               <CardHeader>
-                <CardTitle className="flex items-center">
+                <CardTitle className="admin-card-title flex items-center">
                   <Activity className="w-5 h-5 mr-2" />
                   Recent Activity
                 </CardTitle>
-                <CardDescription>
+                <CardDescription className="admin-card-description">
                   Latest tasks and operations in the system
                 </CardDescription>
               </CardHeader>
@@ -176,17 +176,17 @@ export default function Dashboard() {
                       <div className="flex items-center space-x-3">
                         {getStatusIcon(task.status)}
                         <div>
-                          <p className="text-sm font-medium text-foreground">
+                          <p className="admin-label text-foreground">
                             {task.type}
                           </p>
-                          <p className="text-xs text-muted-foreground">
+                          <p className="admin-stats-label text-muted-foreground">
                             {task.product} • {task.articles} articles
                           </p>
                         </div>
                       </div>
                       <div className="text-right">
                         {getStatusBadge(task.status)}
-                        <p className="text-xs text-muted-foreground mt-1">
+                        <p className="admin-stats-label text-muted-foreground mt-1">
                           {task.time}
                         </p>
                       </div>
@@ -199,8 +199,8 @@ export default function Dashboard() {
             {/* Quick Actions */}
             <Card className="border-card-border">
               <CardHeader>
-                <CardTitle>Quick Actions</CardTitle>
-                <CardDescription>
+                <CardTitle className="admin-card-title">Quick Actions</CardTitle>
+                <CardDescription className="admin-card-description">
                   Common tasks and shortcuts
                 </CardDescription>
               </CardHeader>
@@ -236,31 +236,31 @@ export default function Dashboard() {
           {/* System Health */}
           <Card className="border-card-border">
             <CardHeader>
-              <CardTitle className="flex items-center">
+              <CardTitle className="admin-card-title flex items-center">
                 <TrendingUp className="w-5 h-5 mr-2" />
                 System Health
               </CardTitle>
-              <CardDescription>
+              <CardDescription className="admin-card-description">
                 Current system status and performance metrics
               </CardDescription>
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                 <div className="text-center p-4 bg-background-alt rounded-lg border border-border">
-                  <div className="text-2xl font-bold text-success">99.9%</div>
-                  <p className="text-sm text-muted-foreground">Uptime</p>
+                  <div className="admin-stats-value text-success">99.9%</div>
+                  <p className="admin-stats-label text-muted-foreground">Uptime</p>
                 </div>
                 <div className="text-center p-4 bg-background-alt rounded-lg border border-border">
-                  <div className="text-2xl font-bold text-primary">120ms</div>
-                  <p className="text-sm text-muted-foreground">Avg Response</p>
+                  <div className="admin-stats-value text-primary">120ms</div>
+                  <p className="admin-stats-label text-muted-foreground">Avg Response</p>
                 </div>
                 <div className="text-center p-4 bg-background-alt rounded-lg border border-border">
-                  <div className="text-2xl font-bold text-accent">15</div>
-                  <p className="text-sm text-muted-foreground">Active Tasks</p>
+                  <div className="admin-stats-value text-accent">15</div>
+                  <p className="admin-stats-label text-muted-foreground">Active Tasks</p>
                 </div>
                 <div className="text-center p-4 bg-background-alt rounded-lg border border-border">
-                  <div className="text-2xl font-bold text-warning">2.1GB</div>
-                  <p className="text-sm text-muted-foreground">Memory Usage</p>
+                  <div className="admin-stats-value text-warning">2.1GB</div>
+                  <p className="admin-stats-label text-muted-foreground">Memory Usage</p>
                 </div>
               </div>
             </CardContent>

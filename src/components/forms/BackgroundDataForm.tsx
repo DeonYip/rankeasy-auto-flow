@@ -101,8 +101,8 @@ export function BackgroundDataForm() {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-2xl font-bold text-foreground">Background Data Configuration</h2>
-        <p className="text-muted-foreground">
+        <h2 className="admin-section-title text-foreground">Background Data Configuration</h2>
+        <p className="admin-subtitle">
           Configure the background parameters for article generation
         </p>
       </div>
@@ -111,11 +111,11 @@ export function BackgroundDataForm() {
         {/* 基礎資訊 */}
         <Card className="border-card-border">
           <CardHeader>
-            <CardTitle className="flex items-center">
+            <CardTitle className="admin-card-title flex items-center">
               <FileText className="w-5 h-5 mr-2" />
               Basic Information
             </CardTitle>
-            <CardDescription>
+            <CardDescription className="admin-card-description">
               Core parameters for content generation
             </CardDescription>
           </CardHeader>
@@ -215,11 +215,11 @@ export function BackgroundDataForm() {
         {/* 品牌與產品資訊 */}
         <Card className="border-card-border">
           <CardHeader>
-            <CardTitle className="flex items-center">
+            <CardTitle className="admin-card-title flex items-center">
               <Building className="w-5 h-5 mr-2" />
               Brand & Company Information
             </CardTitle>
-            <CardDescription>
+            <CardDescription className="admin-card-description">
               Company and brand details for content integration
             </CardDescription>
           </CardHeader>
@@ -284,7 +284,7 @@ export function BackgroundDataForm() {
             <Separator className="my-4" />
 
             <div className="space-y-4">
-              <h4 className="flex items-center text-sm font-medium text-foreground">
+              <h4 className="admin-label flex items-center text-foreground">
                 <Package className="w-4 h-4 mr-2" />
                 Product/Service Details
               </h4>

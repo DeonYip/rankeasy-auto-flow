@@ -46,8 +46,8 @@ export function Sidebar() {
               />
             </div>
             <div>
-              <h1 className="text-xl font-bold text-sidebar-foreground">RankEasy.ai</h1>
-              <p className="text-sm text-sidebar-foreground/60">Admin Panel</p>
+              <h1 className="admin-card-title text-sidebar-foreground">RankEasy.ai</h1>
+              <p className="admin-stats-label text-sidebar-foreground/60">Admin Panel</p>
             </div>
           </div>
         </div>
@@ -61,7 +61,7 @@ export function Sidebar() {
                 key={item.name}
                 to={item.href}
                 className={cn(
-                  'group flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-all duration-200',
+                  'group flex items-center px-4 py-3 admin-nav-item rounded-lg transition-all duration-200',
                   isActive
                     ? 'bg-sidebar-primary text-sidebar-primary-foreground shadow-primary'
                     : 'text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground'
@@ -89,10 +89,10 @@ export function Sidebar() {
               <Zap className="w-4 h-4 text-white" />
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium text-sidebar-accent-foreground truncate">
+              <p className="admin-label text-sidebar-accent-foreground truncate">
                 {user?.name}
               </p>
-              <p className="text-xs text-sidebar-accent-foreground/60 capitalize">
+              <p className="admin-stats-label text-sidebar-accent-foreground/60 capitalize">
                 {user?.role?.replace('_', ' ')}
               </p>
             </div>
