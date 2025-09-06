@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
-import { LineChart, Line, XAxis, YAxis, ResponsiveContainer } from 'recharts';
+import { LineChart, Line, BarChart, Bar, XAxis, YAxis, ResponsiveContainer } from 'recharts';
 import {
   Coins,
   TrendingUp,
@@ -29,6 +29,7 @@ export default function UserDashboard() {
   ];
 
   const countryDistribution = [
+    { country: 'Worldwide', keywords: 1270, percentage: 100, flag: '🌍' },
     { country: 'United States', keywords: 487, percentage: 38.3, flag: '🇺🇸' },
     { country: 'United Kingdom', keywords: 203, percentage: 16.0, flag: '🇬🇧' },
     { country: 'Canada', keywords: 178, percentage: 14.0, flag: '🇨🇦' },
@@ -51,6 +52,12 @@ export default function UserDashboard() {
       color: "hsl(var(--primary))",
     },
   };
+
+  const distributionChartData = keywordDistribution.map(item => ({
+    position: item.label,
+    count: item.count,
+    fill: item.color.replace('bg-', '').replace('-500', '').replace('-600', '')
+  }));
 
   const indexingData = [
     {
@@ -214,14 +221,27 @@ export default function UserDashboard() {
           {/* Keyword Distribution */}
           <div className="mt-8 space-y-4">
             <h3 className="admin-card-title text-foreground text-lg">Keyword Ranking Distribution</h3>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-              {keywordDistribution.map((item, index) => (
-                <div key={index} className="text-center">
-                  <div className={`w-full h-2 ${item.color} rounded-full mb-2`}></div>
-                  <div className="admin-stats-value text-foreground text-sm">{item.count}</div>
-                  <div className="admin-stats-label text-muted-foreground text-xs">{item.label}</div>
-                </div>
-              ))}
+            <div className="h-64">
+              <ChartContainer config={chartConfig}>
+                <BarChart data={distributionChartData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+                  <XAxis 
+                    dataKey="position" 
+                    axisLine={false}
+                    tickLine={false}
+                    tick={{ fontSize: 12, fill: 'hsl(var(--muted-foreground))' }}
+                  />
+                  <YAxis 
+                    axisLine={false}
+                    tickLine={false}
+                    tick={{ fontSize: 12, fill: 'hsl(var(--muted-foreground))' }}
+                  />
+                  <ChartTooltip content={<ChartTooltipContent />} />
+                  <Bar 
+                    dataKey="count" 
+                    radius={[4, 4, 0, 0]}
+                  />
+                </BarChart>
+              </ChartContainer>
             </div>
             <div className="mt-4 p-4 bg-card-hover rounded-lg">
               <div className="flex items-center justify-between">
