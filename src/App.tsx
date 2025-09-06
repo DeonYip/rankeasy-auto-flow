@@ -11,13 +11,18 @@ import { CheckEmailForm } from "@/components/auth/CheckEmailForm";
 import { VerifyEmailForm } from "@/components/auth/VerifyEmailForm";
 import { EmailVerifiedForm } from "@/components/auth/EmailVerifiedForm";
 import { AdminLayout } from "@/components/layout/AdminLayout";
+import { UserLayout } from "@/components/layout/UserLayout";
 import Dashboard from "./pages/admin/Dashboard";
+import UserDashboard from "./pages/user/Dashboard";
+import AutomationPage from "./pages/user/Automation";
+import KeywordsPage from "./pages/user/Keywords";
+import BlogPage from "./pages/user/Blog";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
 function AppRoutes() {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, user } = useAuth();
 
   if (!isAuthenticated) {
     return (
@@ -34,6 +39,23 @@ function AppRoutes() {
     );
   }
 
+  // Route based on user role
+  if (user?.role === 'user') {
+    return (
+      <UserLayout>
+        <Routes>
+          <Route path="/" element={<UserDashboard />} />
+          <Route path="/user/dashboard" element={<UserDashboard />} />
+          <Route path="/user/automation" element={<AutomationPage />} />
+          <Route path="/user/keywords" element={<KeywordsPage />} />
+          <Route path="/user/blog" element={<BlogPage />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </UserLayout>
+    );
+  }
+
+  // Admin routes for super_admin, operator, prompt_manager
   return (
     <AdminLayout>
       <Routes>
