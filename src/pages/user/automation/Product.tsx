@@ -48,10 +48,10 @@ export default function ProductPage() {
             <span>Product Type Configuration</span>
           </CardTitle>
           <CardDescription className="admin-card-description">
-            Optional configuration for product details for enhanced content recommendations, making sure all the padding are the same.
+            Configure product details for enhanced content recommendations and integrations.
           </CardDescription>
         </CardHeader>
-        <CardContent className="space-y-6 pb-8">
+        <CardContent className="p-6 space-y-6">
           <div className="bg-orange-50 border border-orange-200 rounded-lg p-4 mb-6">
             <p className="text-orange-800 text-sm">
               <strong>Optional Configuration:</strong> Configure product details for enhanced content recommendations and integrations.
