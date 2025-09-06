@@ -34,12 +34,12 @@ export default function UserDashboard() {
       color: 'text-green-600'
     },
     {
-      title: 'Automation Active',
-      value: '3',
-      icon: Bot,
-      description: 'Running campaigns',
-      trend: '+5.2%',
-      color: 'text-purple-600'
+      title: 'Indexed Pages',
+      value: '287',
+      icon: TrendingUp,
+      description: 'Submitted and indexed',
+      trend: '67%',
+      color: 'text-green-600'
     },
     {
       title: 'Keywords Tracked',
