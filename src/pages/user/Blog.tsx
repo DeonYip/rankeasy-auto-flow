@@ -83,211 +83,194 @@ export default function BlogPage() {
       </div>
 
       {/* Integration Status */}
-      <Card className="bg-gradient-card shadow-md hover:shadow-lg transition-all duration-300 border-l-4 border-l-primary">
-        <CardHeader className="bg-gradient-to-r from-primary/5 to-primary/10 border-b border-card-border">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
-              <div className={`w-12 h-12 rounded-xl flex items-center justify-center shadow-sm ${
-                connectionStatus === 'connected' 
-                  ? 'bg-green-100 border border-green-200' 
-                  : 'bg-orange-100 border border-orange-200'
-              }`}>
-                <Plug className={`h-6 w-6 ${
-                  connectionStatus === 'connected' ? 'text-green-600' : 'text-orange-600'
-                }`} />
-              </div>
-              <div>
-                <CardTitle className="admin-card-title flex items-center space-x-2">
-                  <span>DropinBlog Integration</span>
-                </CardTitle>
-                <CardDescription className="admin-card-description">
-                  {connectionStatus === 'connected' 
-                    ? 'Connected and ready for automated publishing'
-                    : 'Blog platform integration required'
-                  }
-                </CardDescription>
-              </div>
-            </div>
-            <Button variant="outline" size="sm" className="admin-button">
-              <Settings className="h-4 w-4 mr-2" />
-              Configure
-            </Button>
-          </div>
-        </CardHeader>
-        <CardContent className="p-6">
-          {connectionStatus === 'connected' ? (
-            <div className="space-y-6">
-              {/* Connection Details */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="space-y-4">
-                  <div className="p-4 rounded-lg bg-muted/30 border border-card-border">
-                    <div className="flex items-center space-x-2 mb-2">
-                      <ExternalLink className="h-4 w-4 text-primary" />
-                      <p className="admin-label">Blog URL</p>
-                    </div>
-                    <a 
-                      href="https://yourblog.dropinblog.com" 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="admin-body-text text-primary hover:underline font-medium"
-                    >
-                      yourblog.dropinblog.com
-                    </a>
-                  </div>
-
-                  <div className="p-4 rounded-lg bg-muted/30 border border-card-border">
-                    <div className="flex items-center space-x-2 mb-2">
-                      <ExternalLink className="h-4 w-4 text-primary" />
-                      <p className="admin-label">Sitemap URL</p>
-                    </div>
-                    <span className="admin-body-text text-muted-foreground font-mono text-sm">
-                      api.dropinblog.com/v2/blog/[blog_id]/rendered/sitemap
-                    </span>
-                  </div>
+      <div className="space-y-6">
+        {/* Connection Status Overview */}
+        <Card className="border-l-4 border-l-green-500 bg-gradient-to-r from-green-50/50 to-white shadow-md hover:shadow-lg transition-all duration-300">
+          <CardHeader className="bg-gradient-to-r from-green-50 to-green-25 border-b border-green-100">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-4">
+                <div className="w-12 h-12 rounded-xl bg-green-100 border border-green-200 flex items-center justify-center shadow-sm">
+                  <Plug className="h-6 w-6 text-green-600" />
                 </div>
-
-                <div className="space-y-4">
-                  <div className="p-6 rounded-lg bg-green-50 border border-green-200">
-                    <div className="flex items-center justify-between mb-4">
-                      <div className="flex items-center space-x-3">
-                        <div className="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center">
-                          <CheckCircle className="h-5 w-5 text-green-600" />
-                        </div>
-                        <p className="admin-label text-green-800 text-base font-semibold">Integration Status</p>
-                      </div>
-                    </div>
-                    
-                    <div className="grid grid-cols-1 gap-4">
-                      {/* Connection Status */}
-                      <div className="flex items-center justify-between p-3 bg-white/50 rounded-lg border border-green-100">
-                        <div className="flex items-center space-x-3">
-                          <div className="w-3 h-3 rounded-full bg-green-500"></div>
-                          <span className="text-green-800 font-medium">Connected</span>
-                        </div>
-                        <Badge 
-                          variant="outline" 
-                          className="border-green-300 text-green-700 bg-green-100 font-medium"
-                        >
-                          Active
-                        </Badge>
-                      </div>
-                      
-                      {/* Sync Status */}
-                      <div className="flex items-center justify-between p-3 bg-white/50 rounded-lg border border-green-100">
-                        <div className="flex items-center space-x-3">
-                          <div className="w-3 h-3 rounded-full bg-green-500 animate-pulse"></div>
-                          <span className="text-green-800 font-medium">Fully Synced</span>
-                        </div>
-                        <span className="text-sm text-green-600 font-medium">Live</span>
-                      </div>
-                      
-                      {/* Last Sync */}
-                      <div className="flex items-center justify-between p-3 bg-white/50 rounded-lg border border-green-100">
-                        <div className="flex items-center space-x-3">
-                          <Clock className="h-4 w-4 text-green-600" />
-                          <span className="text-green-800 font-medium">Last Sync</span>
-                        </div>
-                        <span className="text-sm text-green-600 font-medium">2 minutes ago</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="p-4 rounded-lg bg-blue-50 border border-blue-200">
-                    <div className="flex items-center space-x-2 mb-2">
-                      <Info className="h-4 w-4 text-blue-600" />
-                      <p className="admin-label text-blue-800">Quick Actions</p>
-                    </div>
-                    <div className="flex space-x-2">
-                      <Button variant="outline" size="sm" className="text-xs h-8">
-                        <ExternalLink className="h-3 w-3 mr-1" />
-                        Dashboard
-                      </Button>
-                      <Button variant="outline" size="sm" className="text-xs h-8">
-                        <Settings className="h-3 w-3 mr-1" />
-                        Settings
-                      </Button>
-                    </div>
-                  </div>
+                <div>
+                  <CardTitle className="admin-card-title flex items-center space-x-2">
+                    <span>DropinBlog Integration</span>
+                    <Badge className="bg-green-100 text-green-700 border-green-200 hover:bg-green-100">
+                      Connected
+                    </Badge>
+                  </CardTitle>
+                  <CardDescription className="admin-card-description text-green-700">
+                    Connected and ready for automated publishing
+                  </CardDescription>
                 </div>
               </div>
+              <Button variant="outline" size="sm" className="admin-button border-green-200 text-green-700 hover:bg-green-50">
+                <Settings className="h-4 w-4 mr-2" />
+                Configure
+              </Button>
             </div>
-          ) : (
-            <div className="text-center py-12">
-              <div className="w-16 h-16 rounded-full bg-orange-100 flex items-center justify-center mx-auto mb-4">
-                <Plug className="h-8 w-8 text-orange-600" />
+          </CardHeader>
+        </Card>
+
+        {/* Detailed Status Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Connection Details */}
+          <Card className="lg:col-span-2 bg-gradient-card shadow-md hover:shadow-lg transition-all duration-300">
+            <CardHeader className="border-b border-card-border">
+              <CardTitle className="admin-card-title text-sm">Connection Details</CardTitle>
+            </CardHeader>
+            <CardContent className="p-6 space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="p-4 rounded-lg bg-blue-50 border border-blue-200">
+                  <div className="flex items-center space-x-2 mb-2">
+                    <ExternalLink className="h-4 w-4 text-blue-600" />
+                    <p className="admin-label text-blue-800">Blog URL</p>
+                  </div>
+                  <a 
+                    href="https://yourblog.dropinblog.com" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="admin-body-text text-blue-700 hover:underline font-medium text-sm"
+                  >
+                    yourblog.dropinblog.com
+                  </a>
+                </div>
+
+                <div className="p-4 rounded-lg bg-purple-50 border border-purple-200">
+                  <div className="flex items-center space-x-2 mb-2">
+                    <ExternalLink className="h-4 w-4 text-purple-600" />
+                    <p className="admin-label text-purple-800">Sitemap URL</p>
+                  </div>
+                  <span className="admin-body-text text-purple-700 font-mono text-xs">
+                    api.dropinblog.com/v2/blog/[blog_id]/rendered/sitemap
+                  </span>
+                </div>
               </div>
-              <h3 className="admin-section-title mb-2">Connect Your Blog</h3>
-              <p className="admin-card-description mb-6 max-w-md mx-auto">
-                Connect your DropinBlog account to enable automated content publishing and management. 
-                Get started in just a few clicks.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                <Button className="admin-button">
-                  <ExternalLink className="h-4 w-4 mr-2" />
-                  Connect DropinBlog
-                </Button>
-                <Button variant="outline" className="admin-button">
-                  <Info className="h-4 w-4 mr-2" />
-                  Learn More
-                </Button>
+
+              <div className="p-4 rounded-lg bg-gray-50 border border-gray-200">
+                <div className="flex items-center space-x-2 mb-3">
+                  <Info className="h-4 w-4 text-gray-600" />
+                  <p className="admin-label text-gray-800">Quick Actions</p>
+                </div>
+                <div className="flex space-x-2">
+                  <Button variant="outline" size="sm" className="text-xs h-8 border-gray-300 text-gray-700 hover:bg-gray-100">
+                    <ExternalLink className="h-3 w-3 mr-1" />
+                    Dashboard
+                  </Button>
+                  <Button variant="outline" size="sm" className="text-xs h-8 border-gray-300 text-gray-700 hover:bg-gray-100">
+                    <Settings className="h-3 w-3 mr-1" />
+                    Settings
+                  </Button>
+                </div>
               </div>
-            </div>
-          )}
-        </CardContent>
-      </Card>
+            </CardContent>
+          </Card>
+
+          {/* Live Status */}
+          <Card className="bg-gradient-to-br from-green-50 to-emerald-50 border-green-200 shadow-md hover:shadow-lg transition-all duration-300">
+            <CardHeader className="border-b border-green-100">
+              <CardTitle className="admin-card-title text-sm text-green-800">Live Status</CardTitle>
+            </CardHeader>
+            <CardContent className="p-6">
+              <div className="space-y-4">
+                {/* Connection Status */}
+                <div className="flex items-center justify-between p-3 bg-green-100/50 rounded-lg border border-green-200">
+                  <div className="flex items-center space-x-3">
+                    <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                    <span className="text-green-800 font-medium text-sm">Connected</span>
+                  </div>
+                  <Badge className="bg-green-100 text-green-700 border-green-300 text-xs">
+                    Active
+                  </Badge>
+                </div>
+                
+                {/* Sync Status */}
+                <div className="flex items-center justify-between p-3 bg-green-100/50 rounded-lg border border-green-200">
+                  <div className="flex items-center space-x-3">
+                    <div className="w-3 h-3 rounded-full bg-green-500 animate-pulse"></div>
+                    <span className="text-green-800 font-medium text-sm">Synced</span>
+                  </div>
+                  <span className="text-xs text-green-600 font-medium">Live</span>
+                </div>
+                
+                {/* Last Sync */}
+                <div className="flex items-center justify-between p-3 bg-green-100/50 rounded-lg border border-green-200">
+                  <div className="flex items-center space-x-3">
+                    <Clock className="h-4 w-4 text-green-600" />
+                    <span className="text-green-800 font-medium text-sm">Last Sync</span>
+                  </div>
+                  <span className="text-xs text-green-600 font-medium">2 min ago</span>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
 
       {/* Blog Statistics */}
       {connectionStatus === 'connected' && (
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-          <Card className="bg-gradient-card shadow-md hover:shadow-lg transition-all duration-300">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="admin-card-description font-medium">
+          {/* Total Articles */}
+          <Card className="bg-gradient-to-br from-blue-50 to-indigo-50 border-blue-200 shadow-md hover:shadow-lg transition-all duration-300">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 border-b border-blue-100">
+              <CardTitle className="admin-card-description font-medium text-blue-800">
                 Total Articles
               </CardTitle>
-              <FileText className="h-4 w-4 text-muted-foreground" />
+              <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center">
+                <FileText className="h-4 w-4 text-blue-600" />
+              </div>
             </CardHeader>
-            <CardContent>
-              <div className="admin-stats-value">60</div>
-              <p className="admin-stats-label text-green-600">+15 this month</p>
+            <CardContent className="pt-4">
+              <div className="admin-stats-value text-blue-900">60</div>
+              <p className="admin-stats-label text-blue-600">+15 this month</p>
             </CardContent>
           </Card>
 
-          <Card className="bg-gradient-card shadow-md hover:shadow-lg transition-all duration-300">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="admin-card-description font-medium">
+          {/* Published */}
+          <Card className="bg-gradient-to-br from-green-50 to-emerald-50 border-green-200 shadow-md hover:shadow-lg transition-all duration-300">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 border-b border-green-100">
+              <CardTitle className="admin-card-description font-medium text-green-800">
                 Published
               </CardTitle>
-              <CheckCircle className="h-4 w-4 text-muted-foreground" />
+              <div className="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center">
+                <CheckCircle className="h-4 w-4 text-green-600" />
+              </div>
             </CardHeader>
-            <CardContent>
-              <div className="admin-stats-value">47</div>
+            <CardContent className="pt-4">
+              <div className="admin-stats-value text-green-900">47</div>
               <p className="admin-stats-label text-green-600">+12 this month</p>
             </CardContent>
           </Card>
 
-          <Card className="bg-gradient-card shadow-md hover:shadow-lg transition-all duration-300">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="admin-card-description font-medium">
+          {/* Scheduled */}
+          <Card className="bg-gradient-to-br from-purple-50 to-violet-50 border-purple-200 shadow-md hover:shadow-lg transition-all duration-300">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 border-b border-purple-100">
+              <CardTitle className="admin-card-description font-medium text-purple-800">
                 Scheduled
               </CardTitle>
-              <Clock className="h-4 w-4 text-muted-foreground" />
+              <div className="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center">
+                <Clock className="h-4 w-4 text-purple-600" />
+              </div>
             </CardHeader>
-            <CardContent>
-              <div className="admin-stats-value">5</div>
-              <p className="admin-stats-label text-green-600">+2 this month</p>
+            <CardContent className="pt-4">
+              <div className="admin-stats-value text-purple-900">5</div>
+              <p className="admin-stats-label text-purple-600">+2 this month</p>
             </CardContent>
           </Card>
 
-          <Card className="bg-gradient-card shadow-md hover:shadow-lg transition-all duration-300">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="admin-card-description font-medium">
+          {/* Draft */}
+          <Card className="bg-gradient-to-br from-yellow-50 to-orange-50 border-yellow-200 shadow-md hover:shadow-lg transition-all duration-300">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 border-b border-yellow-100">
+              <CardTitle className="admin-card-description font-medium text-yellow-800">
                 Draft
               </CardTitle>
-              <Eye className="h-4 w-4 text-muted-foreground" />
+              <div className="w-8 h-8 rounded-full bg-yellow-100 flex items-center justify-center">
+                <Eye className="h-4 w-4 text-yellow-600" />
+              </div>
             </CardHeader>
-            <CardContent>
-              <div className="admin-stats-value">8</div>
-              <p className="admin-stats-label text-green-600">+1 this month</p>
+            <CardContent className="pt-4">
+              <div className="admin-stats-value text-yellow-900">8</div>
+              <p className="admin-stats-label text-yellow-600">+1 this month</p>
             </CardContent>
           </Card>
         </div>
