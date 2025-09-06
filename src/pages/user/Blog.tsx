@@ -20,27 +20,36 @@ export default function BlogPage() {
   
   const recentArticles = [
     {
-      id: 1,
+      id: 'article_001',
       title: '10 Essential SEO Strategies for 2025',
+      url: 'allcancer.com/seo-strategies-2025',
       status: 'published',
       publishedDate: '2024-01-15',
-      views: 1247,
+      indexing: true,
+      lastCrawl: '3 days ago',
+      googleStatus: 'Submitted and indexed',
       keywords: ['SEO', 'digital marketing', 'content strategy']
     },
     {
-      id: 2,
+      id: 'article_002',
       title: 'Complete Guide to Content Marketing ROI',
+      url: 'allcancer.com/content-marketing-roi',
       status: 'draft',
       publishedDate: null,
-      views: 0,
+      indexing: false,
+      lastCrawl: '5 days ago',
+      googleStatus: 'URL is unknown to Google',
       keywords: ['content marketing', 'ROI', 'analytics']
     },
     {
-      id: 3,
+      id: 'article_003',
       title: 'Social Media Automation Best Practices',
+      url: 'allcancer.com/social-media-automation',
       status: 'scheduled',
       publishedDate: '2024-01-20',
-      views: 0,
+      indexing: true,
+      lastCrawl: '1 day ago',
+      googleStatus: 'Submitted and indexed',
       keywords: ['social media', 'automation', 'marketing']
     }
   ];
@@ -122,6 +131,15 @@ export default function BlogPage() {
                   >
                     yourblog.dropinblog.com
                   </a>
+                </div>
+              </div>
+              <div>
+                <p className="admin-label mb-2">Sitemap URL</p>
+                <div className="flex items-center space-x-2">
+                  <ExternalLink className="h-4 w-4 text-muted-foreground" />
+                  <span className="admin-body-text text-primary text-sm font-mono">
+                    api.dropinblog.com/v2/blog/[blog_id]/rendered/sitemap
+                  </span>
                 </div>
               </div>
               <div>
@@ -228,38 +246,76 @@ export default function BlogPage() {
               </Button>
             </div>
           </CardHeader>
-          <CardContent>
+          <CardContent className="p-6">
             <div className="space-y-4">
-              {recentArticles.map((article) => (
-                <div key={article.id} className="flex items-center justify-between p-4 rounded-lg bg-muted/50 hover:bg-muted/70 transition-colors duration-200 border border-card-border">
-                  <div className="flex-1">
-                    <div className="flex items-center space-x-3 mb-2">
-                      <h3 className="admin-body-text font-medium">{article.title}</h3>
+              {recentArticles.map((article, index) => (
+                <div key={article.id} className="p-4 rounded-lg bg-muted/50 hover:bg-muted/70 transition-colors duration-200 border border-card-border">
+                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-start">
+                    {/* Index and Title */}
+                    <div className="lg:col-span-1 flex items-center">
+                      <span className="text-sm font-medium text-muted-foreground bg-muted rounded px-2 py-1">
+                        {index + 1}
+                      </span>
+                    </div>
+                    
+                    <div className="lg:col-span-4">
+                      <div className="space-y-1">
+                        <h3 className="admin-body-text font-medium leading-tight">{article.title}</h3>
+                        <p className="text-xs text-muted-foreground">ID: {article.id}</p>
+                        <p className="text-xs text-primary hover:underline cursor-pointer">{article.url}</p>
+                      </div>
+                    </div>
+
+                    {/* Status */}
+                    <div className="lg:col-span-2">
                       <Badge 
                         variant="outline" 
-                        className={`${getStatusColor(article.status)} flex items-center space-x-1`}
+                        className={`${getStatusColor(article.status)} flex items-center space-x-1 w-fit`}
                       >
                         {getStatusIcon(article.status)}
                         <span className="capitalize">{article.status}</span>
                       </Badge>
                     </div>
-                    <div className="flex items-center space-x-4 text-sm">
-                      <span className="admin-stats-label">
-                        {article.status === 'published' 
-                          ? `Published ${article.publishedDate}` 
-                          : article.status === 'scheduled' 
-                          ? `Scheduled for ${article.publishedDate}`
-                          : 'Draft'
-                        }
-                      </span>
-                      {article.views > 0 && (
-                        <span className="admin-stats-label flex items-center space-x-1">
-                          <Eye className="h-3 w-3" />
-                          <span>{article.views.toLocaleString()} views</span>
-                        </span>
+
+                    {/* Indexing */}
+                    <div className="lg:col-span-1 flex justify-center">
+                      {article.indexing ? (
+                        <CheckCircle className="h-4 w-4 text-green-600" />
+                      ) : (
+                        <span className="text-yellow-600 font-bold">?</span>
                       )}
                     </div>
-                    <div className="flex flex-wrap gap-1 mt-2">
+
+                    {/* Last Crawl */}
+                    <div className="lg:col-span-2">
+                      <p className="text-xs text-muted-foreground">Last Crawl: {article.lastCrawl}</p>
+                    </div>
+
+                    {/* Google Status & Action */}
+                    <div className="lg:col-span-2">
+                      <div className="space-y-2">
+                        <div className="flex items-center space-x-1">
+                          {article.googleStatus === 'Submitted and indexed' ? (
+                            <CheckCircle className="h-3 w-3 text-green-600" />
+                          ) : (
+                            <span className="h-3 w-3 rounded-full bg-gray-400"></span>
+                          )}
+                          <span className="text-xs text-muted-foreground">
+                            Google: {article.googleStatus}
+                          </span>
+                        </div>
+                        {article.googleStatus === 'URL is unknown to Google' && (
+                          <Button variant="outline" size="sm" className="text-xs h-6 px-2">
+                            Submit Instant Indexing
+                          </Button>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Keywords */}
+                  <div className="mt-3 pt-3 border-t border-card-border">
+                    <div className="flex flex-wrap gap-1">
                       {article.keywords.map((keyword, index) => (
                         <Badge key={index} variant="outline" className="text-xs">
                           {keyword}
@@ -267,9 +323,6 @@ export default function BlogPage() {
                       ))}
                     </div>
                   </div>
-                  <Button variant="ghost" size="sm" className="ml-4">
-                    <ExternalLink className="h-4 w-4" />
-                  </Button>
                 </div>
               ))}
             </div>
