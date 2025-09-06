@@ -221,27 +221,14 @@ export default function UserDashboard() {
           {/* Keyword Distribution */}
           <div className="mt-8 space-y-4">
             <h3 className="admin-card-title text-foreground text-lg">Keyword Ranking Distribution</h3>
-            <div className="h-48">
-              <ChartContainer config={chartConfig}>
-                <BarChart data={distributionChartData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
-                  <XAxis 
-                    dataKey="position" 
-                    axisLine={false}
-                    tickLine={false}
-                    tick={{ fontSize: 12, fill: 'hsl(var(--muted-foreground))' }}
-                  />
-                  <YAxis 
-                    axisLine={false}
-                    tickLine={false}
-                    tick={{ fontSize: 12, fill: 'hsl(var(--muted-foreground))' }}
-                  />
-                  <ChartTooltip content={<ChartTooltipContent />} />
-                  <Bar 
-                    dataKey="count" 
-                    radius={[4, 4, 0, 0]}
-                  />
-                </BarChart>
-              </ChartContainer>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+              {keywordDistribution.map((item, index) => (
+                <div key={index} className="text-center">
+                  <div className={`w-full h-2 ${item.color} rounded-full mb-2`}></div>
+                  <div className="admin-stats-value text-foreground text-sm">{item.count}</div>
+                  <div className="admin-stats-label text-muted-foreground text-xs">{item.label}</div>
+                </div>
+              ))}
             </div>
             <div className="mt-4 p-4 bg-card-hover rounded-lg">
               <div className="flex items-center justify-between">
