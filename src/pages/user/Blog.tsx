@@ -64,7 +64,7 @@ export default function BlogPage() {
   };
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 p-8">
       {/* Header */}
       <div>
         <h1 className="admin-title">Blog Management</h1>
