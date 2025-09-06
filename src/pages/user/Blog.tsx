@@ -120,7 +120,7 @@ export default function BlogPage() {
               <CardTitle className="admin-card-title text-sm">Connection Details</CardTitle>
             </CardHeader>
             <CardContent className="p-6 space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-4">
                 <div className="p-4 rounded-lg bg-blue-50 border border-blue-200">
                   <div className="flex items-center space-x-2 mb-2">
                     <ExternalLink className="h-4 w-4 text-blue-600" />
@@ -144,23 +144,6 @@ export default function BlogPage() {
                   <span className="admin-body-text text-purple-700 font-mono text-xs">
                     api.dropinblog.com/v2/blog/[blog_id]/rendered/sitemap
                   </span>
-                </div>
-              </div>
-
-              <div className="p-4 rounded-lg bg-gray-50 border border-gray-200">
-                <div className="flex items-center space-x-2 mb-3">
-                  <Info className="h-4 w-4 text-gray-600" />
-                  <p className="admin-label text-gray-800">Quick Actions</p>
-                </div>
-                <div className="flex space-x-2">
-                  <Button variant="outline" size="sm" className="text-xs h-8 border-gray-300 text-gray-700 hover:bg-gray-100">
-                    <ExternalLink className="h-3 w-3 mr-1" />
-                    Dashboard
-                  </Button>
-                  <Button variant="outline" size="sm" className="text-xs h-8 border-gray-300 text-gray-700 hover:bg-gray-100">
-                    <Settings className="h-3 w-3 mr-1" />
-                    Settings
-                  </Button>
                 </div>
               </div>
             </CardContent>
