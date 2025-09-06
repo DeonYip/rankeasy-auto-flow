@@ -15,6 +15,9 @@ import { UserLayout } from "@/components/layout/UserLayout";
 import Dashboard from "./pages/admin/Dashboard";
 import UserDashboard from "./pages/user/Dashboard";
 import AutomationPage from "./pages/user/Automation";
+import BrandingPage from "./pages/user/automation/Branding";
+import ArticlePage from "./pages/user/automation/Article";
+import ProductPage from "./pages/user/automation/Product";
 import KeywordsPage from "./pages/user/Keywords";
 import BlogPage from "./pages/user/Blog";
 import NotFound from "./pages/NotFound";
@@ -47,6 +50,9 @@ function AppRoutes() {
           <Route path="/" element={<UserDashboard />} />
           <Route path="/user/dashboard" element={<UserDashboard />} />
           <Route path="/user/automation" element={<AutomationPage />} />
+          <Route path="/user/automation/branding" element={<BrandingPage />} />
+          <Route path="/user/automation/article" element={<ArticlePage />} />
+          <Route path="/user/automation/product" element={<ProductPage />} />
           <Route path="/user/keywords" element={<KeywordsPage />} />
           <Route path="/user/blog" element={<BlogPage />} />
           <Route path="*" element={<NotFound />} />
