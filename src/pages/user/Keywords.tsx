@@ -152,10 +152,10 @@ export default function KeywordsPage() {
               Enter keywords separated by commas
             </CardDescription>
           </CardHeader>
-          <CardContent className="space-y-4">
+          <CardContent className="space-y-4 p-6">
             <div className="space-y-2">
               <Label htmlFor="keywords-text" className="admin-label">
-                Keywords <Badge variant="outline" className="ml-2">{`{{keyword}}`}</Badge>
+                Keywords
               </Label>
               <Textarea
                 id="keywords-text"
@@ -189,7 +189,7 @@ export default function KeywordsPage() {
               Upload a CSV file containing your keywords
             </CardDescription>
           </CardHeader>
-          <CardContent className="space-y-4">
+          <CardContent className="space-y-4 p-6">
             <div
               className={`border-2 border-dashed rounded-lg p-8 text-center transition-colors ${
                 dragActive 
@@ -265,7 +265,7 @@ export default function KeywordsPage() {
             </div>
           </div>
         </CardHeader>
-        <CardContent>
+        <CardContent className="p-6">
           {keywords.length === 0 ? (
             <Alert>
               <AlertCircle className="h-4 w-4" />
