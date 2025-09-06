@@ -99,16 +99,6 @@ export default function BlogPage() {
               <div>
                 <CardTitle className="admin-card-title flex items-center space-x-2">
                   <span>DropinBlog Integration</span>
-                  <Badge 
-                    variant="outline" 
-                    className={`${
-                      connectionStatus === 'connected' 
-                        ? 'border-green-200 text-green-700 bg-green-50' 
-                        : 'border-orange-200 text-orange-700 bg-orange-50'
-                    } font-medium`}
-                  >
-                    {connectionStatus === 'connected' ? 'Connected' : 'Not Connected'}
-                  </Badge>
                 </CardTitle>
                 <CardDescription className="admin-card-description">
                   {connectionStatus === 'connected' 
@@ -162,8 +152,22 @@ export default function BlogPage() {
                       <CheckCircle className="h-4 w-4 text-green-600" />
                       <p className="admin-label text-green-800">Integration Status</p>
                     </div>
-                    <span className="admin-body-text text-green-700 font-medium">Fully Synced</span>
-                    <p className="text-xs text-green-600 mt-1">Last sync: 2 minutes ago</p>
+                    <div className="space-y-2">
+                      <div className="flex items-center space-x-2">
+                        <Badge 
+                          variant="outline" 
+                          className={`${
+                            connectionStatus === 'connected' 
+                              ? 'border-green-200 text-green-700 bg-green-50' 
+                              : 'border-orange-200 text-orange-700 bg-orange-50'
+                          } font-medium text-xs`}
+                        >
+                          {connectionStatus === 'connected' ? 'Connected' : 'Not Connected'}
+                        </Badge>
+                      </div>
+                      <span className="admin-body-text text-green-700 font-medium">Fully Synced</span>
+                      <p className="text-xs text-green-600 mt-1">Last sync: 2 minutes ago</p>
+                    </div>
                   </div>
 
                   <div className="p-4 rounded-lg bg-blue-50 border border-blue-200">
