@@ -18,36 +18,39 @@ export default function UserDashboard() {
 
   const stats = [
     {
-      title: 'Token Balance',
-      value: user?.tokenBalance?.toLocaleString() || '0',
-      icon: Coins,
-      description: 'Available tokens',
-      trend: '+2.1%',
-      color: 'text-primary'
-    },
-    {
-      title: 'Articles Generated',
-      value: '47',
-      icon: FileText,
-      description: 'This month',
-      trend: '+12.3%',
-      color: 'text-green-600'
-    },
-    {
-      title: 'Indexed Pages',
-      value: '287',
-      icon: TrendingUp,
-      description: 'Submitted and indexed',
-      trend: '67%',
-      color: 'text-green-600'
-    },
-    {
       title: 'Ranked Keywords',
       value: '156',
       icon: TrendingUp,
       description: 'Total keywords',
       trend: '+8.1%',
       color: 'text-orange-600'
+    }
+  ];
+
+  const indexingData = [
+    {
+      label: 'Submitted and indexed',
+      percentage: 67,
+      count: 287,
+      color: 'bg-blue-500'
+    },
+    {
+      label: 'URL is unknown to Google',
+      percentage: 28,
+      count: 121,
+      color: 'bg-cyan-500'
+    },
+    {
+      label: 'Crawled - currently not indexed',
+      percentage: 2,
+      count: 9,
+      color: 'bg-pink-500'
+    },
+    {
+      label: 'Discovered - currently not indexed',
+      percentage: 2,
+      count: 7,
+      color: 'bg-orange-500'
     }
   ];
 
@@ -128,13 +131,60 @@ export default function UserDashboard() {
         ))}
       </div>
 
+      {/* Indexed on Google */}
+      <Card className="bg-card border-card-border shadow-sm hover:shadow-md transition-all duration-300 max-w-4xl">
+        <CardHeader className="border-b border-card-border/50">
+          <CardTitle className="admin-card-title text-foreground">Indexed on Google</CardTitle>
+          <CardDescription className="admin-card-description text-muted-foreground">
+            Google indexing status overview
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="pt-6">
+          <div className="space-y-4">
+            {indexingData.map((item, index) => (
+              <div key={index} className="flex items-center justify-between">
+                <div className="flex items-center space-x-3 flex-1">
+                  <div className={`w-4 h-4 rounded-sm ${item.color}`}></div>
+                  <span className="admin-body-text text-foreground">{item.label}</span>
+                </div>
+                <div className="flex items-center space-x-4">
+                  <div className="w-32 bg-muted rounded-full h-2 relative">
+                    <div 
+                      className={`${item.color} h-2 rounded-full transition-all duration-300`}
+                      style={{ width: `${item.percentage}%` }}
+                    ></div>
+                  </div>
+                  <span className="admin-stats-label text-muted-foreground min-w-[3rem] text-right">
+                    {item.percentage}%
+                  </span>
+                  <span className="admin-stats-value text-foreground min-w-[3rem] text-right">
+                    {item.count}
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+
       {/* Recent Article Generation */}
       <Card className="bg-card border-card-border shadow-sm hover:shadow-md transition-all duration-300 max-w-4xl">
         <CardHeader className="border-b border-card-border/50">
-          <CardTitle className="admin-card-title text-foreground">Recent Article Generation</CardTitle>
-          <CardDescription className="admin-card-description text-muted-foreground">
-            Your latest generated articles and their details
-          </CardDescription>
+          <div className="flex items-center justify-between">
+            <div>
+              <CardTitle className="admin-card-title text-foreground">Recent Article Generation</CardTitle>
+              <CardDescription className="admin-card-description text-muted-foreground">
+                Your latest generated articles and their details
+              </CardDescription>
+            </div>
+            <div className="text-right">
+              <div className="admin-stats-value text-foreground">47</div>
+              <div className="flex items-center space-x-2 mt-1">
+                <span className="admin-stats-label text-green-600">+12.3%</span>
+                <span className="admin-stats-label text-muted-foreground">This month</span>
+              </div>
+            </div>
+          </div>
         </CardHeader>
         <CardContent className="pt-6">
           <div className="space-y-4">
