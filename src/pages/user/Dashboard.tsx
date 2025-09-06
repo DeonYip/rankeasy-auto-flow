@@ -97,7 +97,7 @@ export default function UserDashboard() {
                 <Crown className="h-5 w-5 text-primary" />
               </div>
               <div>
-                <CardTitle className="admin-card-title text-foreground">Premium Plan</CardTitle>
+                <CardTitle className="text-lg font-semibold text-foreground">Premium Plan</CardTitle>
                 <CardDescription className="admin-card-description text-muted-foreground">
                   Your current subscription plan
                 </CardDescription>
@@ -243,7 +243,7 @@ export default function UserDashboard() {
       {/* Indexed on Google */}
       <Card className="bg-card border-card-border shadow-sm hover:shadow-md transition-all duration-300 max-w-4xl">
         <CardHeader className="border-b border-card-border/50">
-          <CardTitle className="admin-card-title text-foreground">Indexed on Google</CardTitle>
+          <CardTitle className="text-lg font-semibold text-foreground">Indexed on Google</CardTitle>
           <CardDescription className="admin-card-description text-muted-foreground">
             Google indexing status overview
           </CardDescription>
@@ -281,7 +281,7 @@ export default function UserDashboard() {
         <CardHeader className="border-b border-card-border/50">
           <div className="flex items-center justify-between">
             <div>
-              <CardTitle className="admin-card-title text-foreground">Recent Article Generation</CardTitle>
+              <CardTitle className="text-lg font-semibold text-foreground">Recent Article Generation</CardTitle>
               <CardDescription className="admin-card-description text-muted-foreground">
                 Your latest generated articles and their details
               </CardDescription>
