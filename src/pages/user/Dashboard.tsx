@@ -147,9 +147,9 @@ export default function UserDashboard() {
         <CardContent className="pt-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {/* Distribution by Country */}
-            <div className="space-y-4">
+            <div className="space-y-4 h-96 flex flex-col">
               <h3 className="admin-card-title text-foreground text-lg">Distribution by Country</h3>
-              <div className="space-y-3">
+              <div className="space-y-3 flex-1 overflow-y-auto">
                 {countryDistribution.map((item, index) => (
                   <div key={index} className="flex items-center justify-between p-3 rounded-lg bg-card-hover border border-card-border/30">
                     <div className="flex items-center space-x-3">
@@ -168,7 +168,7 @@ export default function UserDashboard() {
             </div>
 
             {/* Organic Keywords Graph */}
-            <div className="space-y-4">
+            <div className="space-y-4 h-96 flex flex-col">
               <div className="flex items-center justify-between">
                 <h3 className="admin-card-title text-foreground text-lg">Organic Keywords</h3>
                 <div className="flex items-center space-x-2">
@@ -185,7 +185,7 @@ export default function UserDashboard() {
                   ))}
                 </div>
               </div>
-              <div className="h-64">
+              <div className="flex-1">
                 <ChartContainer config={chartConfig}>
                   <LineChart data={chartData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
                     <XAxis 
