@@ -53,14 +53,6 @@ export default function UserDashboard() {
 
   return (
     <div className="space-y-8 p-8">
-      {/* Welcome Section */}
-      <div className="max-w-4xl">
-        <h1 className="admin-title text-foreground">Welcome back, {user?.name}</h1>
-        <p className="admin-subtitle mt-2 text-muted-foreground">
-          Here's an overview of your content automation and performance metrics.
-        </p>
-      </div>
-
       {/* Current Plan */}
       <Card className="border-card-border bg-gradient-card shadow-sm hover:shadow-md transition-all duration-300 max-w-4xl">
         <CardHeader className="border-b border-card-border/50">
