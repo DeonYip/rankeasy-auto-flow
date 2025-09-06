@@ -139,7 +139,7 @@ export default function UserDashboard() {
       {/* Organic Keywords */}
       <Card className="bg-card border-card-border shadow-sm hover:shadow-md transition-all duration-300 max-w-6xl">
         <CardHeader className="border-b border-card-border/50">
-          <CardTitle className="admin-card-title text-foreground">Organic Keywords 1,270</CardTitle>
+          <CardTitle className="admin-card-title text-foreground">Organic Keywords</CardTitle>
           <CardDescription className="admin-card-description text-muted-foreground">
             Keyword ranking distribution and performance
           </CardDescription>
