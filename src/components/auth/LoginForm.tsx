@@ -46,9 +46,9 @@ export function LoginForm() {
         <div className="text-center mb-8">
           <div className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-6 overflow-hidden">
             <img 
-              src="/lovable-uploads/a02443b5-5412-4d06-b775-84f6abcd2767.png" 
+              src="/lovable-uploads/992f6f2f-cae4-4dd1-b25e-53c04748d451.png" 
               alt="RankEasy.ai Logo" 
-              className="w-full h-full object-contain"
+              className="w-full h-full object-cover"
             />
           </div>
           <div className="mb-2">

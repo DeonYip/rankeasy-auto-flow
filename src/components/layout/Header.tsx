@@ -51,12 +51,8 @@ export function Header() {
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" className="flex items-center space-x-2 px-3">
-                <div className="w-8 h-8 rounded-full overflow-hidden">
-                  <img 
-                    src="/lovable-uploads/a02443b5-5412-4d06-b775-84f6abcd2767.png" 
-                    alt="RankEasy.ai Logo" 
-                    className="w-full h-full object-contain"
-                  />
+                <div className="w-8 h-8 bg-gradient-primary rounded-full flex items-center justify-center">
+                  <User className="w-4 h-4 text-white" />
                 </div>
                 <span className="text-sm font-medium">{user?.name}</span>
               </Button>

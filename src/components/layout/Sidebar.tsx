@@ -40,9 +40,9 @@ export function Sidebar() {
           <div className="flex items-center space-x-3">
             <div className="w-10 h-10 rounded-xl overflow-hidden shadow-primary">
               <img 
-                src="/lovable-uploads/a02443b5-5412-4d06-b775-84f6abcd2767.png" 
+                src="/lovable-uploads/992f6f2f-cae4-4dd1-b25e-53c04748d451.png" 
                 alt="RankEasy.ai Logo" 
-                className="w-full h-full object-contain"
+                className="w-full h-full object-cover"
               />
             </div>
             <div>
