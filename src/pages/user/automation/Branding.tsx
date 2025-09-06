@@ -52,7 +52,7 @@ export default function BrandingPage() {
             Company and brand details for content integration, making sure all the padding are the same.
           </CardDescription>
         </CardHeader>
-        <CardContent className="space-y-6 pb-8">
+        <CardContent className="p-6 space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-2">
               <Label htmlFor="company_name" className="admin-label">
