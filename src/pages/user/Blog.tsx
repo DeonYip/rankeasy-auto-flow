@@ -160,9 +160,22 @@ export default function BlogPage() {
           <Card className="bg-gradient-card shadow-md hover:shadow-lg transition-all duration-300">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="admin-card-description font-medium">
-                Published Articles
+                Total Articles
               </CardTitle>
               <FileText className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="admin-stats-value">60</div>
+              <p className="admin-stats-label text-green-600">+15 this month</p>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-gradient-card shadow-md hover:shadow-lg transition-all duration-300">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="admin-card-description font-medium">
+                Published
+              </CardTitle>
+              <CheckCircle className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
               <div className="admin-stats-value">47</div>
@@ -173,39 +186,26 @@ export default function BlogPage() {
           <Card className="bg-gradient-card shadow-md hover:shadow-lg transition-all duration-300">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="admin-card-description font-medium">
-                Total Views
-              </CardTitle>
-              <Eye className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="admin-stats-value">24.5K</div>
-              <p className="admin-stats-label text-green-600">+18.2% this month</p>
-            </CardContent>
-          </Card>
-
-          <Card className="bg-gradient-card shadow-md hover:shadow-lg transition-all duration-300">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="admin-card-description font-medium">
-                Draft Articles
+                Scheduled
               </CardTitle>
               <Clock className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="admin-stats-value">8</div>
-              <p className="admin-stats-label">Pending review</p>
+              <div className="admin-stats-value">5</div>
+              <p className="admin-stats-label text-green-600">+2 this month</p>
             </CardContent>
           </Card>
 
           <Card className="bg-gradient-card shadow-md hover:shadow-lg transition-all duration-300">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="admin-card-description font-medium">
-                Scheduled
+                Draft
               </CardTitle>
-              <CheckCircle className="h-4 w-4 text-muted-foreground" />
+              <Eye className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="admin-stats-value">5</div>
-              <p className="admin-stats-label">Next 7 days</p>
+              <div className="admin-stats-value">8</div>
+              <p className="admin-stats-label text-green-600">+1 this month</p>
             </CardContent>
           </Card>
         </div>
