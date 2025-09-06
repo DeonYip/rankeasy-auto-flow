@@ -42,7 +42,7 @@ export default function UserDashboard() {
       color: 'text-green-600'
     },
     {
-      title: 'Keywords Tracked',
+      title: 'Ranked Keywords',
       value: '156',
       icon: TrendingUp,
       description: 'Total keywords',
