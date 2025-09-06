@@ -29,7 +29,7 @@ export function UserSidebar() {
       <div className="flex h-16 items-center px-6 border-b border-sidebar-border/50">
         <div className="flex items-center space-x-3">
           <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
-            <Bot className="h-5 w-5 text-primary-foreground" />
+            <Bot className="h-5 w-5 text-primary" />
           </div>
           <div>
             <h1 className="admin-card-title text-sidebar-foreground">RankEasy.ai</h1>
@@ -55,7 +55,7 @@ export function UserSidebar() {
             </div>
           </div>
           <div className="mt-3 flex items-center space-x-2">
-            <Coins className="h-4 w-4 text-blue-600" />
+            <Coins className="h-4 w-4 text-primary" />
             <span className="text-sm text-sidebar-foreground">
               {user.tokenBalance.toLocaleString()} tokens
             </span>

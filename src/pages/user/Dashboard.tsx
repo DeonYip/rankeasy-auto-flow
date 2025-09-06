@@ -23,7 +23,7 @@ export default function UserDashboard() {
       icon: Coins,
       description: 'Available tokens',
       trend: '+2.1%',
-      color: 'text-blue-600'
+      color: 'text-primary'
     },
     {
       title: 'Articles Generated',
@@ -67,7 +67,7 @@ export default function UserDashboard() {
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
               <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
-                <Crown className="h-5 w-5 text-primary-foreground" />
+                <Crown className="h-5 w-5 text-primary" />
               </div>
               <div>
                 <CardTitle className="admin-card-title text-foreground">Premium Plan</CardTitle>
@@ -76,7 +76,7 @@ export default function UserDashboard() {
                 </CardDescription>
               </div>
             </div>
-            <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">
+            <Badge variant="outline" className="bg-primary/5 text-primary border-primary/20">
               Active
             </Badge>
           </div>
@@ -179,7 +179,7 @@ export default function UserDashboard() {
                 </div>
                 <Badge 
                   variant={activity.status === 'active' ? 'default' : 'outline'}
-                  className={activity.status === 'active' ? 'bg-blue-50 text-blue-700 border-blue-200' : 'border-border'}
+                  className={activity.status === 'active' ? 'bg-primary/10 text-primary border-primary/20' : 'border-border'}
                 >
                   {activity.status}
                 </Badge>

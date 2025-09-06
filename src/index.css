@@ -6,16 +6,16 @@
 
 @layer base {
   :root {
-    /* Clean Modern Theme - Inspired by reference design */
-    --primary: 220 14% 96%; /* #F1F5F9 - Very light blue-gray */
-    --primary-foreground: 222 84% 5%; /* #020617 - Deep dark */
-    --primary-hover: 215 20% 88%;
-    --primary-glow: 220 14% 98%;
+    /* Blue Theme - #413fed Primary */
+    --primary: 249 95% 61%; /* #413fed - Main blue */
+    --primary-foreground: 0 0% 100%;
+    --primary-hover: 249 95% 55%;
+    --primary-glow: 249 95% 75%;
     
-    /* Refined accent colors */
-    --accent: 220 14% 96%;
-    --accent-foreground: 222 84% 5%;
-    --accent-hover: 215 20% 90%;
+    /* Complementary accent colors */
+    --accent: 249 95% 96%; /* Very light blue tint */
+    --accent-foreground: 249 95% 61%;
+    --accent-hover: 249 95% 90%;
     
     /* Ultra clean backgrounds */
     --background: 0 0% 100%; /* Pure white */
@@ -31,12 +31,12 @@
     /* Clean sidebar - Light theme */
     --sidebar-background: 0 0% 100%;
     --sidebar-foreground: 222 84% 5%;
-    --sidebar-primary: 220 14% 96%;
-    --sidebar-primary-foreground: 222 84% 5%;
+    --sidebar-primary: 249 95% 61%; /* Blue primary */
+    --sidebar-primary-foreground: 0 0% 100%;
     --sidebar-accent: 220 14% 97%;
     --sidebar-accent-foreground: 222 84% 5%;
     --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 220 14% 96%;
+    --sidebar-ring: 249 95% 61%;
     
     /* Minimal status colors */
     --success: 142 71% 45%;
@@ -50,31 +50,31 @@
     --input: 220 13% 96%; /* Very light input background */
     --input-foreground: 222 84% 5%;
     --border: 220 13% 91%; /* Minimal border */
-    --ring: 220 14% 96%; /* Subtle focus ring */
+    --ring: 249 95% 61%; /* Blue focus ring */
     
     /* Refined muted states */
     --muted: 220 14% 96%;
     --muted-foreground: 215 16% 47%;
-    --secondary: 220 14% 96%;
-    --secondary-foreground: 222 84% 5%;
+    --secondary: 249 95% 96%; /* Light blue secondary */
+    --secondary-foreground: 249 95% 61%;
     
     /* Popover */
     --popover: 0 0% 100%;
     --popover-foreground: 210 40% 15%;
     
-    /* Minimal gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(220 14% 96%), hsl(220 14% 98%));
-    --gradient-secondary: linear-gradient(135deg, hsl(0 0% 100%), hsl(220 14% 98%));
-    --gradient-accent: linear-gradient(135deg, hsl(220 14% 97%), hsl(220 13% 93%));
-    --gradient-hero: linear-gradient(135deg, hsl(0 0% 100%), hsl(220 14% 96%));
-    --gradient-card: linear-gradient(135deg, hsl(0 0% 100%), hsl(220 14% 98%));
+    /* Blue-tinted gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(249 95% 61%), hsl(249 95% 75%));
+    --gradient-secondary: linear-gradient(135deg, hsl(0 0% 100%), hsl(249 95% 98%));
+    --gradient-accent: linear-gradient(135deg, hsl(249 95% 96%), hsl(249 95% 90%));
+    --gradient-hero: linear-gradient(135deg, hsl(0 0% 100%), hsl(249 95% 96%));
+    --gradient-card: linear-gradient(135deg, hsl(0 0% 100%), hsl(249 95% 98%));
     
     /* Ultra subtle shadows */
     --shadow-sm: 0 1px 2px hsl(222 84% 5% / 0.02);
     --shadow-md: 0 2px 4px hsl(222 84% 5% / 0.03);
     --shadow-lg: 0 4px 8px hsl(222 84% 5% / 0.04);
-    --shadow-glow: 0 0 20px hsl(220 14% 96% / 0.2);
-    --shadow-primary: 0 2px 6px hsl(220 14% 96% / 0.1);
+    --shadow-glow: 0 0 20px hsl(249 95% 61% / 0.15);
+    --shadow-primary: 0 2px 6px hsl(249 95% 61% / 0.1);
     
     /* Layout */
     --radius: 0.75rem;
