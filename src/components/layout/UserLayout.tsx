@@ -15,7 +15,7 @@ export function UserLayout({ children }: UserLayoutProps) {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-gradient-hero">
       <UserSidebar />
       <div className="lg:pl-72">
         <Header />

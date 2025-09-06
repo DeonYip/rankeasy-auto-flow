@@ -15,7 +15,7 @@ export function AdminLayout({ children }: AdminLayoutProps) {
   }
 
   return (
-    <div className="min-h-screen bg-background-alt">
+    <div className="min-h-screen bg-gradient-hero">
       <Sidebar />
       <div className="lg:pl-80">
         <Header />

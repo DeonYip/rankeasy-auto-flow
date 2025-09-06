@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { StatsCard } from '@/components/ui/stats-card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -137,29 +138,20 @@ export default function Dashboard() {
           {/* Stats Cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {stats.filter(stat => stat.visible).map((stat) => (
-              <Card key={stat.name} className="border-card-border hover:shadow-md transition-all duration-200">
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="admin-label text-muted-foreground">
-                    {stat.name}
-                  </CardTitle>
-                  <stat.icon className="h-4 w-4 text-muted-foreground" />
-                </CardHeader>
-                <CardContent>
-                  <div className="admin-stats-value text-foreground">{stat.value}</div>
-                  <p className="admin-stats-label text-muted-foreground flex items-center mt-1">
-                    <span className={`${stat.changeType === 'positive' ? 'text-success' : 'text-destructive'} mr-1`}>
-                      {stat.change}
-                    </span>
-                    from last month
-                  </p>
-                </CardContent>
-              </Card>
+              <StatsCard
+                key={stat.name}
+                variant={stat.name === 'Total Users' ? 'primary' : 'stats'}
+                title={stat.name}
+                value={stat.value}
+                description={`${stat.change} from last month`}
+                icon={<stat.icon className="h-5 w-5" />}
+              />
             ))}
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {/* Recent Activity */}
-            <Card className="lg:col-span-2 border-card-border">
+            <Card className="lg:col-span-2 border-card-border shadow-card">
               <CardHeader>
                 <CardTitle className="admin-card-title flex items-center">
                   <Activity className="w-5 h-5 mr-2" />
@@ -197,7 +189,7 @@ export default function Dashboard() {
             </Card>
 
             {/* Quick Actions */}
-            <Card className="border-card-border">
+            <Card className="border-card-border shadow-card">
               <CardHeader>
                 <CardTitle className="admin-card-title">Quick Actions</CardTitle>
                 <CardDescription className="admin-card-description">
@@ -234,7 +226,7 @@ export default function Dashboard() {
           </div>
 
           {/* System Health */}
-          <Card className="border-card-border">
+          <Card className="border-card-border shadow-card">
             <CardHeader>
               <CardTitle className="admin-card-title flex items-center">
                 <TrendingUp className="w-5 h-5 mr-2" />

@@ -6,37 +6,37 @@
 
 @layer base {
   :root {
-    /* Blue Theme - #413fed Primary */
-    --primary: 249 95% 61%; /* #413fed - Main blue */
+    /* Purple-Blue Theme - Inspired by CopyGen */
+    --primary: 262 83% 58%; /* #6366F1 - Soft purple-blue */
     --primary-foreground: 0 0% 100%;
-    --primary-hover: 249 95% 55%;
-    --primary-glow: 249 95% 75%;
+    --primary-hover: 262 83% 52%;
+    --primary-glow: 262 83% 75%;
     
-    /* Complementary accent colors */
-    --accent: 249 95% 96%; /* Very light blue tint */
-    --accent-foreground: 249 95% 61%;
-    --accent-hover: 249 95% 90%;
+    /* Soft complementary accent colors */
+    --accent: 262 83% 96%; /* Very light purple tint */
+    --accent-foreground: 262 83% 58%;
+    --accent-hover: 262 83% 92%;
     
-    /* Ultra clean backgrounds */
-    --background: 0 0% 100%; /* Pure white */
-    --foreground: 222 84% 5%; /* #020617 - Deep slate */
-    --background-alt: 220 14% 98%; /* #F8FAFC - Ultra light */
+    /* Soft clean backgrounds */
+    --background: 0 0% 99%; /* Soft white */
+    --foreground: 220 9% 15%; /* #1E293B - Soft dark */
+    --background-alt: 262 50% 98%; /* #FAFAFF - Purple-tinted light */
     
-    /* Minimal card system */
+    /* Enhanced card system with gradients */
     --card: 0 0% 100%;
-    --card-foreground: 222 84% 5%;
-    --card-border: 220 13% 91%; /* #E2E8F0 - Very light border */
-    --card-hover: 220 14% 97%;
+    --card-foreground: 220 9% 15%;
+    --card-border: 262 30% 92%; /* #E8E7F3 - Purple-tinted border */
+    --card-hover: 262 50% 97%;
     
-    /* Clean sidebar - Light theme */
-    --sidebar-background: 0 0% 100%;
-    --sidebar-foreground: 222 84% 5%;
-    --sidebar-primary: 249 95% 61%; /* Blue primary */
+    /* Modern sidebar - Purple theme */
+    --sidebar-background: 262 83% 97%; /* #F5F4FF - Light purple */
+    --sidebar-foreground: 220 9% 15%;
+    --sidebar-primary: 262 83% 58%; /* Purple primary */
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 220 14% 97%;
-    --sidebar-accent-foreground: 222 84% 5%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 249 95% 61%;
+    --sidebar-accent: 262 83% 94%; /* #EEECFF - Purple accent */
+    --sidebar-accent-foreground: 220 9% 15%;
+    --sidebar-border: 262 30% 90%;
+    --sidebar-ring: 262 83% 58%;
     
     /* Minimal status colors */
     --success: 142 71% 45%;
@@ -53,28 +53,30 @@
     --ring: 249 95% 61%; /* Blue focus ring */
     
     /* Refined muted states */
-    --muted: 220 14% 96%;
-    --muted-foreground: 215 16% 47%;
-    --secondary: 249 95% 96%; /* Light blue secondary */
-    --secondary-foreground: 249 95% 61%;
+    --muted: 262 50% 96%;
+    --muted-foreground: 220 9% 46%;
+    --secondary: 262 83% 96%; /* Light purple secondary */
+    --secondary-foreground: 262 83% 58%;
     
     /* Popover */
     --popover: 0 0% 100%;
     --popover-foreground: 210 40% 15%;
     
-    /* Blue-tinted gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(249 95% 61%), hsl(249 95% 75%));
-    --gradient-secondary: linear-gradient(135deg, hsl(0 0% 100%), hsl(249 95% 98%));
-    --gradient-accent: linear-gradient(135deg, hsl(249 95% 96%), hsl(249 95% 90%));
-    --gradient-hero: linear-gradient(135deg, hsl(0 0% 100%), hsl(249 95% 96%));
-    --gradient-card: linear-gradient(135deg, hsl(0 0% 100%), hsl(249 95% 98%));
+    /* Purple-blue gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(262 83% 58%), hsl(262 83% 75%));
+    --gradient-secondary: linear-gradient(135deg, hsl(0 0% 100%), hsl(262 83% 98%));
+    --gradient-accent: linear-gradient(135deg, hsl(262 83% 96%), hsl(262 83% 90%));
+    --gradient-hero: linear-gradient(135deg, hsl(0 0% 100%), hsl(262 83% 96%));
+    --gradient-card: linear-gradient(135deg, hsl(0 0% 100%), hsl(262 83% 98%));
+    --gradient-stats: linear-gradient(135deg, hsl(262 83% 94%), hsl(262 83% 88%));
     
-    /* Ultra subtle shadows */
-    --shadow-sm: 0 1px 2px hsl(222 84% 5% / 0.02);
-    --shadow-md: 0 2px 4px hsl(222 84% 5% / 0.03);
-    --shadow-lg: 0 4px 8px hsl(222 84% 5% / 0.04);
-    --shadow-glow: 0 0 20px hsl(249 95% 61% / 0.15);
-    --shadow-primary: 0 2px 6px hsl(249 95% 61% / 0.1);
+    /* Soft modern shadows */
+    --shadow-sm: 0 1px 3px hsl(262 83% 58% / 0.08);
+    --shadow-md: 0 2px 6px hsl(262 83% 58% / 0.10);
+    --shadow-lg: 0 4px 12px hsl(262 83% 58% / 0.12);
+    --shadow-glow: 0 0 24px hsl(262 83% 58% / 0.20);
+    --shadow-primary: 0 3px 8px hsl(262 83% 58% / 0.15);
+    --shadow-card: 0 1px 3px hsl(262 83% 58% / 0.06);
     
     /* Layout */
     --radius: 0.75rem;
