@@ -58,7 +58,7 @@ export default function UserDashboard() {
       </div>
 
       {/* Current Plan */}
-      <Card className="border-primary/20 bg-gradient-to-r from-primary/5 to-primary/10">
+      <Card className="border-primary/20 bg-gradient-card shadow-primary">
         <CardHeader>
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
@@ -70,7 +70,7 @@ export default function UserDashboard() {
                 </CardDescription>
               </div>
             </div>
-            <Badge variant="secondary" className="bg-primary/10 text-primary border-primary/20">
+            <Badge variant="secondary" className="bg-primary/10 text-primary border-primary/20 shadow-sm">
               Active
             </Badge>
           </div>
@@ -106,7 +106,7 @@ export default function UserDashboard() {
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {stats.map((stat) => (
-          <Card key={stat.title}>
+          <Card key={stat.title} className="bg-gradient-card shadow-md hover:shadow-lg transition-all duration-300">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="admin-card-description font-medium">
                 {stat.title}
@@ -129,7 +129,7 @@ export default function UserDashboard() {
       </div>
 
       {/* Recent Activity */}
-      <Card>
+      <Card className="bg-gradient-card shadow-md">
         <CardHeader>
           <CardTitle className="admin-card-title">Recent Activity</CardTitle>
           <CardDescription className="admin-card-description">
@@ -164,7 +164,7 @@ export default function UserDashboard() {
                 status: 'published'
               }
             ].map((activity, index) => (
-              <div key={index} className="flex items-center justify-between p-3 rounded-lg bg-muted/30">
+              <div key={index} className="flex items-center justify-between p-4 rounded-lg bg-muted/50 hover:bg-muted/70 transition-colors duration-200 border border-card-border">
                 <div>
                   <p className="admin-body-text font-medium">{activity.title}</p>
                   <p className="admin-stats-label">{activity.type} • {activity.time}</p>

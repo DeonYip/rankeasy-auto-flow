@@ -99,7 +99,7 @@ export default function KeywordsPage() {
 
       {/* Keyword Stats */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <Card>
+        <Card className="bg-gradient-card shadow-md hover:shadow-lg transition-all duration-300">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="admin-card-description font-medium">
               Total Keywords
@@ -112,7 +112,7 @@ export default function KeywordsPage() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="bg-gradient-card shadow-md hover:shadow-lg transition-all duration-300">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="admin-card-description font-medium">
               Articles Generated
@@ -125,7 +125,7 @@ export default function KeywordsPage() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="bg-gradient-card shadow-md hover:shadow-lg transition-all duration-300">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="admin-card-description font-medium">
               Avg. Performance
@@ -142,10 +142,10 @@ export default function KeywordsPage() {
       {/* Add Keywords Methods */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Text Input Method */}
-        <Card>
-          <CardHeader>
+        <Card className="bg-gradient-card shadow-md hover:shadow-lg transition-all duration-300">
+          <CardHeader className="border-b border-card-border bg-gradient-to-r from-primary/5 to-primary/10">
             <CardTitle className="admin-card-title flex items-center space-x-2">
-              <Plus className="h-5 w-5" />
+              <Plus className="h-5 w-5 text-primary" />
               <span>Add Keywords (Text Input)</span>
             </CardTitle>
             <CardDescription className="admin-card-description">
@@ -179,10 +179,10 @@ export default function KeywordsPage() {
         </Card>
 
         {/* CSV Upload Method */}
-        <Card>
-          <CardHeader>
+        <Card className="bg-gradient-card shadow-md hover:shadow-lg transition-all duration-300">
+          <CardHeader className="border-b border-card-border bg-gradient-to-r from-primary/5 to-primary/10">
             <CardTitle className="admin-card-title flex items-center space-x-2">
-              <Upload className="h-5 w-5" />
+              <Upload className="h-5 w-5 text-primary" />
               <span>Upload CSV File</span>
             </CardTitle>
             <CardDescription className="admin-card-description">
@@ -232,8 +232,8 @@ export default function KeywordsPage() {
       </div>
 
       {/* Current Keywords */}
-      <Card>
-        <CardHeader>
+      <Card className="bg-gradient-card shadow-md hover:shadow-lg transition-all duration-300">
+        <CardHeader className="border-b border-card-border bg-gradient-to-r from-primary/5 to-primary/10">
           <div className="flex items-center justify-between">
             <div>
               <CardTitle className="admin-card-title">Current Keywords</CardTitle>

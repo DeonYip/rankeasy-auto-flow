@@ -6,74 +6,75 @@
 
 @layer base {
   :root {
-    /* CopyGen Brand Colors - Vibrant Blue/Indigo Theme */
-    --primary: 231 91% 63%; /* #6366F1 - CopyGen blue */
+    /* Premium User Panel - Modern Emerald & Teal Theme */
+    --primary: 167 85% 45%; /* #10B981 - Modern emerald green */
     --primary-foreground: 0 0% 100%;
-    --primary-hover: 231 91% 55%;
-    --primary-glow: 231 91% 75%;
+    --primary-hover: 167 85% 40%;
+    --primary-glow: 167 85% 65%;
     
     /* Complementary accent colors */
-    --accent: 231 91% 75%;
+    --accent: 174 72% 56%; /* #4ADEAA - Light teal */
     --accent-foreground: 0 0% 100%;
-    --accent-hover: 231 91% 70%;
+    --accent-hover: 174 72% 50%;
     
-    /* Clean neutral backgrounds */
-    --background: 0 0% 100%;
-    --foreground: 210 40% 15%;
-    --background-alt: 210 20% 98%;
+    /* Clean modern backgrounds */
+    --background: 210 11% 97%; /* #F8FAFC - Cooler white */
+    --foreground: 217 33% 17%; /* #1E293B - Slate blue-gray */
+    --background-alt: 210 14% 95%; /* #F1F5F9 - Light slate */
     
-    /* Card system with subtle shadows */
+    /* Card system with modern styling */
     --card: 0 0% 100%;
-    --card-foreground: 210 40% 15%;
-    --card-border: 210 20% 90%;
-    --card-hover: 210 25% 97%;
+    --card-foreground: 217 33% 17%;
+    --card-border: 214 20% 85%; /* #CBD5E1 - Cooler border */
+    --card-hover: 210 17% 96%; /* #F1F5F9 - Subtle hover */
     
-    /* Sidebar - Dark theme to match admin panels */
-    --sidebar-background: 210 40% 8%;
-    --sidebar-foreground: 210 20% 85%;
-    --sidebar-primary: 231 91% 63%;
+    /* Premium Sidebar - Light modern theme */
+    --sidebar-background: 0 0% 100%; /* White sidebar for premium feel */
+    --sidebar-foreground: 217 33% 17%; /* Dark text for contrast */
+    --sidebar-primary: 167 85% 45%; /* Primary emerald */
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 210 30% 12%;
-    --sidebar-accent-foreground: 210 20% 85%;
-    --sidebar-border: 210 30% 15%;
-    --sidebar-ring: 231 91% 63%;
+    --sidebar-accent: 210 17% 96%; /* Light gray accent */
+    --sidebar-accent-foreground: 217 33% 17%;
+    --sidebar-border: 214 20% 85%; /* Subtle border */
+    --sidebar-ring: 167 85% 45%;
     
-    /* Status colors */
-    --success: 142 76% 36%;
+    /* Status colors - Softer, modern palette */
+    --success: 142 71% 45%; /* #22C55E - Modern green */
     --success-foreground: 0 0% 100%;
-    --warning: 45 93% 47%;
+    --warning: 35 91% 55%; /* #F59E0B - Warm amber */
     --warning-foreground: 0 0% 100%;
-    --destructive: 0 84% 60%;
+    --destructive: 0 72% 51%; /* #EF4444 - Softer red */
     --destructive-foreground: 0 0% 100%;
     
-    /* Input system */
-    --input: 210 20% 96%;
-    --input-foreground: 210 40% 15%;
-    --border: 210 20% 87%;
-    --ring: 231 91% 63%;
+    /* Input system - Clean and modern */
+    --input: 214 32% 91%; /* #E2E8F0 - Cool gray input */
+    --input-foreground: 217 33% 17%;
+    --border: 214 20% 85%; /* #CBD5E1 - Consistent border */
+    --ring: 167 85% 45%; /* Primary color ring */
     
-    /* Muted states */
-    --muted: 210 20% 96%;
-    --muted-foreground: 210 20% 55%;
-    --secondary: 210 20% 96%;
-    --secondary-foreground: 210 40% 15%;
+    /* Muted states - Better contrast */
+    --muted: 210 17% 94%; /* #F1F5F9 - Light muted */
+    --muted-foreground: 215 16% 47%; /* #64748B - Medium gray */
+    --secondary: 210 17% 94%;
+    --secondary-foreground: 217 33% 17%;
     
     /* Popover */
     --popover: 0 0% 100%;
     --popover-foreground: 210 40% 15%;
     
-    /* Gradients - CopyGen style */
-    --gradient-primary: linear-gradient(135deg, hsl(231 91% 63%), hsl(231 91% 75%));
-    --gradient-secondary: linear-gradient(135deg, hsl(210 20% 98%), hsl(210 25% 95%));
-    --gradient-accent: linear-gradient(135deg, hsl(231 91% 75%), hsl(240 95% 78%));
-    --gradient-hero: linear-gradient(135deg, hsl(231 91% 63%), hsl(231 91% 75%), hsl(240 95% 78%));
+    /* Gradients - Modern emerald theme */
+    --gradient-primary: linear-gradient(135deg, hsl(167 85% 45%), hsl(167 85% 65%));
+    --gradient-secondary: linear-gradient(135deg, hsl(210 17% 96%), hsl(210 14% 95%));
+    --gradient-accent: linear-gradient(135deg, hsl(167 85% 65%), hsl(174 72% 56%));
+    --gradient-hero: linear-gradient(135deg, hsl(167 85% 45%), hsl(167 85% 65%), hsl(174 72% 56%));
+    --gradient-card: linear-gradient(135deg, hsl(0 0% 100%), hsl(210 17% 98%));
     
-    /* Shadows - Professional and subtle */
-    --shadow-sm: 0 2px 4px hsl(210 40% 15% / 0.05);
-    --shadow-md: 0 4px 12px hsl(210 40% 15% / 0.08);
-    --shadow-lg: 0 8px 24px hsl(210 40% 15% / 0.12);
-    --shadow-glow: 0 0 40px hsl(231 91% 63% / 0.3);
-    --shadow-primary: 0 4px 16px hsl(231 91% 63% / 0.25);
+    /* Shadows - Softer, modern shadows */
+    --shadow-sm: 0 1px 3px hsl(217 33% 17% / 0.04);
+    --shadow-md: 0 4px 8px hsl(217 33% 17% / 0.06);
+    --shadow-lg: 0 8px 20px hsl(217 33% 17% / 0.08);
+    --shadow-glow: 0 0 30px hsl(167 85% 45% / 0.2);
+    --shadow-primary: 0 4px 12px hsl(167 85% 45% / 0.15);
     
     /* Layout */
     --radius: 0.75rem;
@@ -86,29 +87,35 @@
   }
 
   .dark {
-    /* Dark theme overrides */
-    --background: 210 40% 8%;
-    --foreground: 210 20% 92%;
-    --background-alt: 210 40% 10%;
+    /* Dark theme overrides - Premium dark mode */
+    --background: 217 33% 8%; /* #0F172A - Rich dark slate */
+    --foreground: 210 17% 95%;
+    --background-alt: 217 33% 10%; /* #1E293B - Darker slate */
     
-    --card: 210 40% 10%;
-    --card-foreground: 210 20% 92%;
-    --card-border: 210 30% 18%;
-    --card-hover: 210 40% 12%;
+    --card: 217 33% 12%; /* #1E293B - Dark card */
+    --card-foreground: 210 17% 95%;
+    --card-border: 215 25% 20%; /* #334155 - Subtle border */
+    --card-hover: 217 33% 15%;
     
-    --input: 210 30% 15%;
-    --input-foreground: 210 20% 92%;
-    --border: 210 30% 18%;
+    --sidebar-background: 217 33% 8%;
+    --sidebar-foreground: 210 17% 95%;
+    --sidebar-accent: 217 33% 15%;
+    --sidebar-border: 215 25% 20%;
     
-    --muted: 210 30% 15%;
-    --muted-foreground: 210 20% 65%;
-    --secondary: 210 30% 15%;
-    --secondary-foreground: 210 20% 92%;
+    --input: 215 25% 20%;
+    --input-foreground: 210 17% 95%;
+    --border: 215 25% 20%;
     
-    --popover: 210 40% 10%;
-    --popover-foreground: 210 20% 92%;
+    --muted: 215 25% 20%;
+    --muted-foreground: 215 16% 65%;
+    --secondary: 215 25% 20%;
+    --secondary-foreground: 210 17% 95%;
     
-    --gradient-secondary: linear-gradient(135deg, hsl(210 40% 10%), hsl(210 30% 12%));
+    --popover: 217 33% 12%;
+    --popover-foreground: 210 17% 95%;
+    
+    --gradient-secondary: linear-gradient(135deg, hsl(217 33% 12%), hsl(215 25% 20%));
+    --gradient-card: linear-gradient(135deg, hsl(217 33% 12%), hsl(217 33% 15%));
   }
 }
 

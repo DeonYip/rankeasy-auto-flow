@@ -84,10 +84,10 @@ export default function AutomationPage() {
 
         {/* Brand & Company Information */}
         <TabsContent value="brand" className="space-y-6">
-          <Card>
-            <CardHeader>
+          <Card className="bg-gradient-card shadow-md hover:shadow-lg transition-all duration-300">
+            <CardHeader className="border-b border-card-border bg-gradient-to-r from-primary/5 to-primary/10">
               <CardTitle className="admin-card-title flex items-center space-x-2">
-                <Building2 className="h-5 w-5" />
+                <Building2 className="h-5 w-5 text-primary" />
                 <span>Brand & Company Information</span>
               </CardTitle>
               <CardDescription className="admin-card-description">
@@ -206,10 +206,10 @@ export default function AutomationPage() {
 
         {/* Article Automation Setup */}
         <TabsContent value="automation" className="space-y-6">
-          <Card>
-            <CardHeader>
+          <Card className="bg-gradient-card shadow-md hover:shadow-lg transition-all duration-300">
+            <CardHeader className="border-b border-card-border bg-gradient-to-r from-primary/5 to-primary/10">
               <CardTitle className="admin-card-title flex items-center space-x-2">
-                <Settings className="h-5 w-5" />
+                <Settings className="h-5 w-5 text-primary" />
                 <span>Article Automation Setup</span>
               </CardTitle>
               <CardDescription className="admin-card-description">
@@ -359,10 +359,10 @@ export default function AutomationPage() {
 
         {/* Product Type */}
         <TabsContent value="product" className="space-y-6">
-          <Card>
-            <CardHeader>
+          <Card className="bg-gradient-card shadow-md hover:shadow-lg transition-all duration-300">
+            <CardHeader className="border-b border-card-border bg-gradient-to-r from-primary/5 to-primary/10">
               <CardTitle className="admin-card-title flex items-center space-x-2">
-                <Package className="h-5 w-5" />
+                <Package className="h-5 w-5 text-primary" />
                 <span>Product Type Configuration</span>
               </CardTitle>
               <CardDescription className="admin-card-description">

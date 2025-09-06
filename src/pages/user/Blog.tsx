@@ -74,7 +74,7 @@ export default function BlogPage() {
       </div>
 
       {/* Integration Status */}
-      <Card className={connectionStatus === 'connected' ? 'border-green-200 bg-green-50/50' : 'border-orange-200 bg-orange-50/50'}>
+      <Card className={`bg-gradient-card shadow-md hover:shadow-lg transition-all duration-300 ${connectionStatus === 'connected' ? 'border-green-200 bg-green-50/50' : 'border-orange-200 bg-orange-50/50'}`}>
         <CardHeader>
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
@@ -157,7 +157,7 @@ export default function BlogPage() {
       {/* Blog Statistics */}
       {connectionStatus === 'connected' && (
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-          <Card>
+          <Card className="bg-gradient-card shadow-md hover:shadow-lg transition-all duration-300">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="admin-card-description font-medium">
                 Published Articles
@@ -170,7 +170,7 @@ export default function BlogPage() {
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="bg-gradient-card shadow-md hover:shadow-lg transition-all duration-300">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="admin-card-description font-medium">
                 Total Views
@@ -183,7 +183,7 @@ export default function BlogPage() {
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="bg-gradient-card shadow-md hover:shadow-lg transition-all duration-300">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="admin-card-description font-medium">
                 Draft Articles
@@ -196,7 +196,7 @@ export default function BlogPage() {
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="bg-gradient-card shadow-md hover:shadow-lg transition-all duration-300">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="admin-card-description font-medium">
                 Scheduled
@@ -213,8 +213,8 @@ export default function BlogPage() {
 
       {/* Recent Articles */}
       {connectionStatus === 'connected' && (
-        <Card>
-          <CardHeader>
+        <Card className="bg-gradient-card shadow-md hover:shadow-lg transition-all duration-300">
+          <CardHeader className="border-b border-card-border bg-gradient-to-r from-primary/5 to-primary/10">
             <div className="flex items-center justify-between">
               <div>
                 <CardTitle className="admin-card-title">Recent Articles</CardTitle>
@@ -231,7 +231,7 @@ export default function BlogPage() {
           <CardContent>
             <div className="space-y-4">
               {recentArticles.map((article) => (
-                <div key={article.id} className="flex items-center justify-between p-4 rounded-lg bg-muted/30">
+                <div key={article.id} className="flex items-center justify-between p-4 rounded-lg bg-muted/50 hover:bg-muted/70 transition-colors duration-200 border border-card-border">
                   <div className="flex-1">
                     <div className="flex items-center space-x-3 mb-2">
                       <h3 className="admin-body-text font-medium">{article.title}</h3>
