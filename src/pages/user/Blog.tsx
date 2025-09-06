@@ -83,19 +83,33 @@ export default function BlogPage() {
       </div>
 
       {/* Integration Status */}
-      <Card className={`bg-gradient-card shadow-md hover:shadow-lg transition-all duration-300 ${connectionStatus === 'connected' ? 'border-green-200 bg-green-50/50' : 'border-orange-200 bg-orange-50/50'}`}>
-        <CardHeader>
+      <Card className="bg-gradient-card shadow-md hover:shadow-lg transition-all duration-300 border-l-4 border-l-primary">
+        <CardHeader className="bg-gradient-to-r from-primary/5 to-primary/10 border-b border-card-border">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-3">
-              <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
-                connectionStatus === 'connected' ? 'bg-green-100' : 'bg-orange-100'
+            <div className="flex items-center space-x-4">
+              <div className={`w-12 h-12 rounded-xl flex items-center justify-center shadow-sm ${
+                connectionStatus === 'connected' 
+                  ? 'bg-green-100 border border-green-200' 
+                  : 'bg-orange-100 border border-orange-200'
               }`}>
-                <Plug className={`h-5 w-5 ${
+                <Plug className={`h-6 w-6 ${
                   connectionStatus === 'connected' ? 'text-green-600' : 'text-orange-600'
                 }`} />
               </div>
               <div>
-                <CardTitle className="admin-card-title">DropinBlog Integration</CardTitle>
+                <CardTitle className="admin-card-title flex items-center space-x-2">
+                  <span>DropinBlog Integration</span>
+                  <Badge 
+                    variant="outline" 
+                    className={`${
+                      connectionStatus === 'connected' 
+                        ? 'border-green-200 text-green-700 bg-green-50' 
+                        : 'border-orange-200 text-orange-700 bg-orange-50'
+                    } font-medium`}
+                  >
+                    {connectionStatus === 'connected' ? 'Connected' : 'Not Connected'}
+                  </Badge>
+                </CardTitle>
                 <CardDescription className="admin-card-description">
                   {connectionStatus === 'connected' 
                     ? 'Connected and ready for automated publishing'
@@ -104,69 +118,93 @@ export default function BlogPage() {
                 </CardDescription>
               </div>
             </div>
-            <Badge 
-              variant="outline" 
-              className={`${
-                connectionStatus === 'connected' 
-                  ? 'border-green-200 text-green-700 bg-green-50' 
-                  : 'border-orange-200 text-orange-700 bg-orange-50'
-              }`}
-            >
-              {connectionStatus === 'connected' ? 'Connected' : 'Not Connected'}
-            </Badge>
+            <Button variant="outline" size="sm" className="admin-button">
+              <Settings className="h-4 w-4 mr-2" />
+              Configure
+            </Button>
           </div>
         </CardHeader>
-        <CardContent>
+        <CardContent className="p-6">
           {connectionStatus === 'connected' ? (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div>
-                <p className="admin-label mb-2">Blog URL</p>
-                <div className="flex items-center space-x-2">
-                  <ExternalLink className="h-4 w-4 text-muted-foreground" />
-                  <a 
-                    href="https://yourblog.dropinblog.com" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="admin-body-text text-primary hover:underline"
-                  >
-                    yourblog.dropinblog.com
-                  </a>
+            <div className="space-y-6">
+              {/* Connection Details */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-4">
+                  <div className="p-4 rounded-lg bg-muted/30 border border-card-border">
+                    <div className="flex items-center space-x-2 mb-2">
+                      <ExternalLink className="h-4 w-4 text-primary" />
+                      <p className="admin-label">Blog URL</p>
+                    </div>
+                    <a 
+                      href="https://yourblog.dropinblog.com" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="admin-body-text text-primary hover:underline font-medium"
+                    >
+                      yourblog.dropinblog.com
+                    </a>
+                  </div>
+
+                  <div className="p-4 rounded-lg bg-muted/30 border border-card-border">
+                    <div className="flex items-center space-x-2 mb-2">
+                      <ExternalLink className="h-4 w-4 text-primary" />
+                      <p className="admin-label">Sitemap URL</p>
+                    </div>
+                    <span className="admin-body-text text-muted-foreground font-mono text-sm">
+                      api.dropinblog.com/v2/blog/[blog_id]/rendered/sitemap
+                    </span>
+                  </div>
                 </div>
-              </div>
-              <div>
-                <p className="admin-label mb-2">Sitemap URL</p>
-                <div className="flex items-center space-x-2">
-                  <ExternalLink className="h-4 w-4 text-muted-foreground" />
-                  <span className="admin-body-text text-primary text-sm font-mono">
-                    api.dropinblog.com/v2/blog/[blog_id]/rendered/sitemap
-                  </span>
+
+                <div className="space-y-4">
+                  <div className="p-4 rounded-lg bg-green-50 border border-green-200">
+                    <div className="flex items-center space-x-2 mb-2">
+                      <CheckCircle className="h-4 w-4 text-green-600" />
+                      <p className="admin-label text-green-800">Integration Status</p>
+                    </div>
+                    <span className="admin-body-text text-green-700 font-medium">Fully Synced</span>
+                    <p className="text-xs text-green-600 mt-1">Last sync: 2 minutes ago</p>
+                  </div>
+
+                  <div className="p-4 rounded-lg bg-blue-50 border border-blue-200">
+                    <div className="flex items-center space-x-2 mb-2">
+                      <Info className="h-4 w-4 text-blue-600" />
+                      <p className="admin-label text-blue-800">Quick Actions</p>
+                    </div>
+                    <div className="flex space-x-2">
+                      <Button variant="outline" size="sm" className="text-xs h-8">
+                        <ExternalLink className="h-3 w-3 mr-1" />
+                        Dashboard
+                      </Button>
+                      <Button variant="outline" size="sm" className="text-xs h-8">
+                        <Settings className="h-3 w-3 mr-1" />
+                        Settings
+                      </Button>
+                    </div>
+                  </div>
                 </div>
-              </div>
-              <div>
-                <p className="admin-label mb-2">Integration Status</p>
-                <div className="flex items-center space-x-2">
-                  <CheckCircle className="h-4 w-4 text-green-600" />
-                  <span className="admin-body-text">Fully Synced</span>
-                </div>
-              </div>
-              <div className="flex items-end justify-end">
-                <Button variant="outline" size="sm" className="admin-button">
-                  <Settings className="h-4 w-4 mr-2" />
-                  Configure
-                </Button>
               </div>
             </div>
           ) : (
-            <div className="text-center py-8">
-              <Plug className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+            <div className="text-center py-12">
+              <div className="w-16 h-16 rounded-full bg-orange-100 flex items-center justify-center mx-auto mb-4">
+                <Plug className="h-8 w-8 text-orange-600" />
+              </div>
               <h3 className="admin-section-title mb-2">Connect Your Blog</h3>
               <p className="admin-card-description mb-6 max-w-md mx-auto">
-                Connect your DropinBlog account to enable automated content publishing and management.
+                Connect your DropinBlog account to enable automated content publishing and management. 
+                Get started in just a few clicks.
               </p>
-              <Button className="admin-button">
-                <ExternalLink className="h-4 w-4 mr-2" />
-                Connect DropinBlog
-              </Button>
+              <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                <Button className="admin-button">
+                  <ExternalLink className="h-4 w-4 mr-2" />
+                  Connect DropinBlog
+                </Button>
+                <Button variant="outline" className="admin-button">
+                  <Info className="h-4 w-4 mr-2" />
+                  Learn More
+                </Button>
+              </div>
             </div>
           )}
         </CardContent>
