@@ -241,7 +241,7 @@ export default function UserDashboard() {
       </Card>
 
       {/* Indexed on Google */}
-      <Card className="bg-card border-card-border shadow-sm hover:shadow-md transition-all duration-300">
+      <Card className="w-full bg-card border-card-border shadow-sm hover:shadow-md transition-all duration-300">
         <CardHeader className="border-b border-card-border/50">
           <CardTitle className="text-lg font-semibold text-foreground">Indexed on Google</CardTitle>
           <CardDescription className="admin-card-description text-muted-foreground">
@@ -277,7 +277,7 @@ export default function UserDashboard() {
       </Card>
 
       {/* Recent Article Generation */}
-      <Card className="bg-card border-card-border shadow-sm hover:shadow-md transition-all duration-300">
+      <Card className="w-full bg-card border-card-border shadow-sm hover:shadow-md transition-all duration-300">
         <CardHeader className="border-b border-card-border/50">
           <div className="flex items-center justify-between">
             <div>
