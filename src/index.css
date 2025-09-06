@@ -120,5 +120,67 @@
   body {
     @apply bg-background text-foreground font-inter;
     font-feature-settings: 'rlig' 1, 'calt' 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Enhanced Typography System */
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-inter;
+    font-feature-settings: 'rlig' 1, 'calt' 1;
+    letter-spacing: -0.025em;
+  }
+
+  /* Auth Form Typography */
+  .auth-title {
+    @apply text-3xl font-bold tracking-tight;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  .auth-subtitle {
+    @apply text-base text-muted-foreground;
+    font-weight: 400;
+    line-height: 1.5;
+  }
+
+  .auth-label {
+    @apply text-sm font-medium text-foreground;
+    font-weight: 500;
+    line-height: 1.4;
+  }
+
+  .auth-input {
+    @apply text-base;
+    font-weight: 400;
+    line-height: 1.5;
+  }
+
+  .auth-button {
+    @apply text-sm font-semibold;
+    font-weight: 600;
+    line-height: 1.4;
+    letter-spacing: -0.01em;
+  }
+
+  .auth-link {
+    @apply text-sm font-medium;
+    font-weight: 500;
+    line-height: 1.4;
+  }
+
+  .auth-helper-text {
+    @apply text-sm text-muted-foreground;
+    font-weight: 400;
+    line-height: 1.5;
+  }
+
+  /* Enhanced spacing for auth forms */
+  .auth-form-spacing > * + * {
+    @apply mt-6;
+  }
+
+  .auth-input-spacing > * + * {
+    @apply mt-4;
   }
 }
