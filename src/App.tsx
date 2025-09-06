@@ -13,6 +13,12 @@ import { EmailVerifiedForm } from "@/components/auth/EmailVerifiedForm";
 import { AdminLayout } from "@/components/layout/AdminLayout";
 import { UserLayout } from "@/components/layout/UserLayout";
 import Dashboard from "./pages/admin/Dashboard";
+import UserManagement from "./pages/admin/UserManagement";
+import UserBlogAdmin from "./pages/admin/UserBlogAdmin";
+import PromptManagement from "./pages/admin/PromptManagement";
+import DebugTasks from "./pages/admin/DebugTasks";
+import ProductsGeneration from "./pages/admin/ProductsGeneration";
+import SystemSettings from "./pages/admin/SystemSettings";
 import UserDashboard from "./pages/user/Dashboard";
 import AutomationPage from "./pages/user/Automation";
 import BrandingPage from "./pages/user/automation/Branding";
@@ -70,7 +76,12 @@ function AppRoutes() {
         <Route path="/" element={<Dashboard />} />
         <Route path="/admin" element={<Dashboard />} />
         <Route path="/admin/dashboard" element={<Dashboard />} />
-        {/* Other admin routes will be added here */}
+        <Route path="/admin/users" element={<UserManagement />} />
+        <Route path="/admin/blogs" element={<UserBlogAdmin />} />
+        <Route path="/admin/prompts" element={<PromptManagement />} />
+        <Route path="/admin/debug" element={<DebugTasks />} />
+        <Route path="/admin/products" element={<ProductsGeneration />} />
+        <Route path="/admin/settings" element={<SystemSettings />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </AdminLayout>
