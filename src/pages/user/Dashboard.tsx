@@ -221,7 +221,7 @@ export default function UserDashboard() {
           {/* Keyword Distribution */}
           <div className="mt-8 space-y-4">
             <h3 className="admin-card-title text-foreground text-lg">Keyword Ranking Distribution</h3>
-            <div className="h-64">
+            <div className="h-48">
               <ChartContainer config={chartConfig}>
                 <BarChart data={distributionChartData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
                   <XAxis 
