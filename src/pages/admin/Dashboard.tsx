@@ -121,8 +121,8 @@ export default function Dashboard() {
     <div className="space-y-6">
       {/* Page Header */}
       <div>
-        <h1 className="admin-title text-foreground">Dashboard</h1>
-        <p className="admin-subtitle">
+        <h1 className="page-title">Dashboard</h1>
+        <p className="description-text">
           Overview of your AI content generation platform
         </p>
       </div>

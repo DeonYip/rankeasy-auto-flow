@@ -19,10 +19,10 @@ export function Header() {
     <header className="bg-card border-b border-card-border px-6 py-4">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="admin-section-title text-foreground">
+          <h2 className="section-header">
             Welcome back, {user?.name}
           </h2>
-          <p className="admin-subtitle">
+          <p className="description-text">
             Manage your AI content generation platform
           </p>
         </div>
@@ -31,7 +31,7 @@ export function Header() {
           {/* Token Balance */}
           <div className="flex items-center space-x-2 bg-background-alt px-4 py-2 rounded-lg border border-border">
             <div className="w-2 h-2 bg-success rounded-full"></div>
-            <span className="admin-label text-foreground">
+            <span className="table-cell">
               {user?.tokenBalance?.toLocaleString()} tokens
             </span>
           </div>
@@ -54,14 +54,14 @@ export function Header() {
                 <div className="w-8 h-8 bg-gradient-primary rounded-full flex items-center justify-center">
                   <User className="w-4 h-4 text-white" />
                 </div>
-                <span className="admin-label">{user?.name}</span>
+                <span className="table-cell">{user?.name}</span>
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-56">
               <DropdownMenuLabel className="font-normal">
                 <div className="flex flex-col space-y-1">
-                  <p className="admin-label leading-none">{user?.name}</p>
-                  <p className="admin-stats-label leading-none text-muted-foreground">
+                  <p className="table-cell leading-none">{user?.name}</p>
+                  <p className="description-text leading-none">
                     {user?.email}
                   </p>
                 </div>

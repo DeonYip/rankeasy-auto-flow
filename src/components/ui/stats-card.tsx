@@ -50,7 +50,7 @@ const StatsCard = React.forwardRef<HTMLDivElement, StatsCardProps>(
         
         <div className="relative">
           {/* Header */}
-          <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-3">
               {icon && (
                 <div className="p-2 rounded-lg bg-white/10 backdrop-blur-sm">
@@ -59,13 +59,20 @@ const StatsCard = React.forwardRef<HTMLDivElement, StatsCardProps>(
               )}
               <div>
                 {title && (
-                  <h3 className="text-sm font-medium text-current/80 mb-1">
+                  <div className="card-label mb-1">
                     {title}
-                  </h3>
+                  </div>
                 )}
                 {value && (
-                  <div className="text-2xl font-bold text-current">
-                    {value}
+                  <div className="flex items-baseline gap-1">
+                    <span className="stat-value">
+                      {value}
+                    </span>
+                    {title && (
+                      <span className="stat-label">
+                        {title.split(' ')[0]}
+                      </span>
+                    )}
                   </div>
                 )}
               </div>
@@ -73,7 +80,7 @@ const StatsCard = React.forwardRef<HTMLDivElement, StatsCardProps>(
             {actionLabel && actionHref && (
               <a 
                 href={actionHref}
-                className="text-sm text-current/70 hover:text-current transition-colors"
+                className="action-link"
               >
                 {actionLabel}
               </a>
@@ -82,9 +89,9 @@ const StatsCard = React.forwardRef<HTMLDivElement, StatsCardProps>(
 
           {/* Description */}
           {description && (
-            <p className="text-sm text-current/70 mb-4">
+            <div className="description-text">
               {description}
-            </p>
+            </div>
           )}
 
           {/* Custom content */}

@@ -127,137 +127,163 @@
   }
 
   body {
-    @apply bg-background text-foreground font-inter;
+    @apply bg-background text-foreground;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
     font-feature-settings: 'rlig' 1, 'calt' 1;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-  }
-
-  /* Enhanced Typography System */
-  h1, h2, h3, h4, h5, h6 {
-    @apply font-inter;
-    font-feature-settings: 'rlig' 1, 'calt' 1;
-    letter-spacing: -0.025em;
-  }
-
-  /* Auth Form Typography */
-  .auth-title {
-    @apply text-3xl font-bold tracking-tight;
-    font-weight: 700;
-    line-height: 1.2;
-  }
-
-  .auth-subtitle {
-    @apply text-base text-muted-foreground;
-    font-weight: 400;
+    font-size: 14px;
     line-height: 1.5;
   }
 
-  .auth-label {
+  /* CopyGen-inspired Typography Hierarchy */
+  
+  /* Page Titles - Large welcome headings like "Welcome Shawn!" */
+  .page-title {
+    @apply text-2xl font-semibold text-foreground;
+    font-weight: 600;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+    margin-bottom: 8px;
+  }
+
+  /* Section Headers - Like "Popular Templates", "Recent Documents" */
+  .section-header {
+    @apply text-lg font-semibold text-foreground;
+    font-weight: 600;
+    line-height: 1.4;
+    letter-spacing: -0.005em;
+    margin-bottom: 16px;
+  }
+
+  /* Card Titles - Small labels above stats like "Words Available" */
+  .card-label {
+    @apply text-sm font-medium text-muted-foreground;
+    font-weight: 500;
+    line-height: 1.4;
+    margin-bottom: 4px;
+  }
+
+  /* Stat Values - Large numbers like "452", "3", "6" */
+  .stat-value {
+    @apply text-2xl font-bold text-foreground;
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+  }
+
+  /* Stat Labels - Text after numbers like "Words", "Drafts" */
+  .stat-label {
     @apply text-sm font-medium text-foreground;
     font-weight: 500;
     line-height: 1.4;
+    margin-left: 2px;
   }
 
-  .auth-input {
-    @apply text-base;
+  /* Description Text - Small descriptions under stats */
+  .description-text {
+    @apply text-xs text-muted-foreground;
     font-weight: 400;
-    line-height: 1.5;
+    line-height: 1.4;
+    margin-top: 2px;
   }
 
-  .auth-button {
-    @apply text-sm font-semibold;
+  /* Template Card Titles - Like "Blog Ideas", "Social Media Posts" */
+  .template-title {
+    @apply text-base font-semibold text-foreground;
     font-weight: 600;
     line-height: 1.4;
-    letter-spacing: -0.01em;
+    letter-spacing: -0.005em;
+    margin-bottom: 6px;
   }
 
-  .auth-link {
-    @apply text-sm font-medium;
-    font-weight: 500;
-    line-height: 1.4;
-  }
-
-  .auth-helper-text {
+  /* Template Descriptions */
+  .template-description {
     @apply text-sm text-muted-foreground;
     font-weight: 400;
     line-height: 1.5;
   }
 
-  /* Admin Panel Typography */
-  .admin-title {
-    @apply text-3xl font-bold tracking-tight;
-    font-weight: 700;
-    line-height: 1.2;
-  }
-
-  .admin-subtitle {
-    @apply text-base text-muted-foreground;
-    font-weight: 400;
-    line-height: 1.5;
-  }
-
-  .admin-section-title {
-    @apply text-xl font-semibold tracking-tight;
+  /* Table Headers */
+  .table-header {
+    @apply text-xs font-semibold text-muted-foreground uppercase;
     font-weight: 600;
-    line-height: 1.3;
-  }
-
-  .admin-card-title {
-    @apply text-lg font-medium;
-    font-weight: 500;
     line-height: 1.4;
+    letter-spacing: 0.05em;
   }
 
-  .admin-card-description {
-    @apply text-sm text-muted-foreground;
-    font-weight: 400;
-    line-height: 1.5;
-  }
-
-  .admin-body-text {
+  /* Table Cell Text */
+  .table-cell {
     @apply text-sm text-foreground;
     font-weight: 400;
     line-height: 1.5;
   }
 
-  .admin-label {
+  /* Action Links - Like "See History", "See All" */
+  .action-link {
+    @apply text-sm font-medium text-primary;
+    font-weight: 500;
+    line-height: 1.4;
+    text-decoration: none;
+  }
+
+  .action-link:hover {
+    text-decoration: underline;
+  }
+
+  /* Sidebar Navigation */
+  .nav-item {
     @apply text-sm font-medium text-foreground;
     font-weight: 500;
     line-height: 1.4;
   }
 
-  .admin-button {
-    @apply text-sm font-semibold;
+  .nav-item.active {
+    @apply text-primary font-semibold;
     font-weight: 600;
-    line-height: 1.4;
-    letter-spacing: -0.01em;
   }
 
-  .admin-stats-value {
-    @apply text-2xl font-bold;
-    font-weight: 700;
-    line-height: 1.2;
-  }
-
-  .admin-stats-label {
-    @apply text-xs text-muted-foreground;
-    font-weight: 400;
-    line-height: 1.4;
-  }
-
-  .admin-nav-item {
+  /* Button Text */
+  .button-text {
     @apply text-sm font-medium;
     font-weight: 500;
     line-height: 1.4;
+    letter-spacing: -0.005em;
   }
 
-  /* Enhanced spacing for auth forms */
-  .auth-form-spacing > * + * {
+  /* Form Labels */
+  .form-label {
+    @apply text-sm font-medium text-foreground;
+    font-weight: 500;
+    line-height: 1.4;
+    margin-bottom: 6px;
+  }
+
+  /* Input Text */
+  .input-text {
+    @apply text-sm text-foreground;
+    font-weight: 400;
+    line-height: 1.5;
+  }
+
+  /* Badge Text */
+  .badge-text {
+    @apply text-xs font-medium;
+    font-weight: 500;
+    line-height: 1.3;
+    letter-spacing: 0.01em;
+  }
+
+  /* Enhanced spacing for consistent layouts */
+  .content-spacing > * + * {
     @apply mt-6;
   }
 
-  .auth-input-spacing > * + * {
+  .card-spacing > * + * {
     @apply mt-4;
+  }
+
+  .section-spacing > * + * {
+    @apply mt-8;
   }
 }

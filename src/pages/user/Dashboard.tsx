@@ -95,10 +95,10 @@ export default function UserDashboard() {
     <div className="space-y-6 p-6">
       {/* Welcome Header */}
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-foreground mb-2">
+        <h1 className="page-title">
           Welcome {user?.name || 'User'}!
         </h1>
-        <p className="text-muted-foreground">
+        <p className="description-text">
           Here's an overview of your content generation activity
         </p>
       </div>
@@ -155,10 +155,10 @@ export default function UserDashboard() {
                 <Crown className="h-5 w-5 text-primary" />
               </div>
               <div>
-                <CardTitle className="admin-card-title text-foreground">Premium Plan</CardTitle>
-                <CardDescription className="admin-card-description text-muted-foreground">
+                <div className="card-label">Premium Plan</div>
+                <div className="description-text">
                   Your current subscription plan
-                </CardDescription>
+                </div>
               </div>
             </div>
             <Badge variant="outline" className="bg-primary/5 text-primary border-primary/20">
@@ -169,24 +169,24 @@ export default function UserDashboard() {
         <CardContent className="pt-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="space-y-3">
-              <p className="admin-label text-foreground">Monthly Token Usage</p>
+              <p className="form-label">Monthly Token Usage</p>
               <div className="space-y-3">
                 <div className="flex justify-between">
-                  <span className="admin-body-text text-foreground">2,340 / 10,000</span>
-                  <span className="admin-body-text text-muted-foreground">23%</span>
+                  <span className="table-cell">2,340 / 10,000</span>
+                  <span className="description-text">23%</span>
                 </div>
                 <Progress value={23} className="h-2 bg-muted" />
               </div>
             </div>
             <div className="space-y-3">
-              <p className="admin-label text-foreground">Next Billing</p>
+              <p className="form-label">Next Billing</p>
               <div className="flex items-center space-x-2">
                 <Calendar className="h-4 w-4 text-muted-foreground" />
-                <span className="admin-body-text text-foreground">January 15, 2025</span>
+                <span className="table-cell">January 15, 2025</span>
               </div>
             </div>
             <div className="flex items-end justify-end">
-              <Button variant="outline" size="sm" className="admin-button border-border hover:bg-accent">
+              <Button variant="outline" size="sm" className="button-text border-border hover:bg-accent">
                 Upgrade Plan
               </Button>
             </div>
@@ -197,8 +197,8 @@ export default function UserDashboard() {
       {/* Organic Keywords */}
       <Card className="bg-card border-card-border shadow-card hover:shadow-md transition-all duration-300">
         <CardHeader className="border-b border-card-border/50">
-          <CardTitle className="admin-card-title text-foreground">Organic Keywords</CardTitle>
-          <CardDescription className="admin-card-description text-muted-foreground">
+          <CardTitle className="section-header">Organic Keywords</CardTitle>
+          <CardDescription className="description-text">
             Keyword ranking distribution and performance
           </CardDescription>
         </CardHeader>
