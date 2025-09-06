@@ -6,75 +6,75 @@
 
 @layer base {
   :root {
-    /* Premium User Panel - Modern Emerald & Teal Theme */
-    --primary: 167 85% 45%; /* #10B981 - Modern emerald green */
-    --primary-foreground: 0 0% 100%;
-    --primary-hover: 167 85% 40%;
-    --primary-glow: 167 85% 65%;
+    /* Clean Modern Theme - Inspired by reference design */
+    --primary: 220 14% 96%; /* #F1F5F9 - Very light blue-gray */
+    --primary-foreground: 222 84% 5%; /* #020617 - Deep dark */
+    --primary-hover: 215 20% 88%;
+    --primary-glow: 220 14% 98%;
     
-    /* Complementary accent colors */
-    --accent: 174 72% 56%; /* #4ADEAA - Light teal */
-    --accent-foreground: 0 0% 100%;
-    --accent-hover: 174 72% 50%;
+    /* Refined accent colors */
+    --accent: 220 14% 96%;
+    --accent-foreground: 222 84% 5%;
+    --accent-hover: 215 20% 90%;
     
-    /* Clean modern backgrounds */
-    --background: 210 11% 97%; /* #F8FAFC - Cooler white */
-    --foreground: 217 33% 17%; /* #1E293B - Slate blue-gray */
-    --background-alt: 210 14% 95%; /* #F1F5F9 - Light slate */
+    /* Ultra clean backgrounds */
+    --background: 0 0% 100%; /* Pure white */
+    --foreground: 222 84% 5%; /* #020617 - Deep slate */
+    --background-alt: 220 14% 98%; /* #F8FAFC - Ultra light */
     
-    /* Card system with modern styling */
+    /* Minimal card system */
     --card: 0 0% 100%;
-    --card-foreground: 217 33% 17%;
-    --card-border: 214 20% 85%; /* #CBD5E1 - Cooler border */
-    --card-hover: 210 17% 96%; /* #F1F5F9 - Subtle hover */
+    --card-foreground: 222 84% 5%;
+    --card-border: 220 13% 91%; /* #E2E8F0 - Very light border */
+    --card-hover: 220 14% 97%;
     
-    /* Premium Sidebar - Light modern theme */
-    --sidebar-background: 0 0% 100%; /* White sidebar for premium feel */
-    --sidebar-foreground: 217 33% 17%; /* Dark text for contrast */
-    --sidebar-primary: 167 85% 45%; /* Primary emerald */
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 210 17% 96%; /* Light gray accent */
-    --sidebar-accent-foreground: 217 33% 17%;
-    --sidebar-border: 214 20% 85%; /* Subtle border */
-    --sidebar-ring: 167 85% 45%;
+    /* Clean sidebar - Light theme */
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 222 84% 5%;
+    --sidebar-primary: 220 14% 96%;
+    --sidebar-primary-foreground: 222 84% 5%;
+    --sidebar-accent: 220 14% 97%;
+    --sidebar-accent-foreground: 222 84% 5%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 220 14% 96%;
     
-    /* Status colors - Softer, modern palette */
-    --success: 142 71% 45%; /* #22C55E - Modern green */
+    /* Minimal status colors */
+    --success: 142 71% 45%;
     --success-foreground: 0 0% 100%;
-    --warning: 35 91% 55%; /* #F59E0B - Warm amber */
+    --warning: 35 91% 55%;
     --warning-foreground: 0 0% 100%;
-    --destructive: 0 72% 51%; /* #EF4444 - Softer red */
+    --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 100%;
     
-    /* Input system - Clean and modern */
-    --input: 214 32% 91%; /* #E2E8F0 - Cool gray input */
-    --input-foreground: 217 33% 17%;
-    --border: 214 20% 85%; /* #CBD5E1 - Consistent border */
-    --ring: 167 85% 45%; /* Primary color ring */
+    /* Ultra clean inputs */
+    --input: 220 13% 96%; /* Very light input background */
+    --input-foreground: 222 84% 5%;
+    --border: 220 13% 91%; /* Minimal border */
+    --ring: 220 14% 96%; /* Subtle focus ring */
     
-    /* Muted states - Better contrast */
-    --muted: 210 17% 94%; /* #F1F5F9 - Light muted */
-    --muted-foreground: 215 16% 47%; /* #64748B - Medium gray */
-    --secondary: 210 17% 94%;
-    --secondary-foreground: 217 33% 17%;
+    /* Refined muted states */
+    --muted: 220 14% 96%;
+    --muted-foreground: 215 16% 47%;
+    --secondary: 220 14% 96%;
+    --secondary-foreground: 222 84% 5%;
     
     /* Popover */
     --popover: 0 0% 100%;
     --popover-foreground: 210 40% 15%;
     
-    /* Gradients - Modern emerald theme */
-    --gradient-primary: linear-gradient(135deg, hsl(167 85% 45%), hsl(167 85% 65%));
-    --gradient-secondary: linear-gradient(135deg, hsl(210 17% 96%), hsl(210 14% 95%));
-    --gradient-accent: linear-gradient(135deg, hsl(167 85% 65%), hsl(174 72% 56%));
-    --gradient-hero: linear-gradient(135deg, hsl(167 85% 45%), hsl(167 85% 65%), hsl(174 72% 56%));
-    --gradient-card: linear-gradient(135deg, hsl(0 0% 100%), hsl(210 17% 98%));
+    /* Minimal gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(220 14% 96%), hsl(220 14% 98%));
+    --gradient-secondary: linear-gradient(135deg, hsl(0 0% 100%), hsl(220 14% 98%));
+    --gradient-accent: linear-gradient(135deg, hsl(220 14% 97%), hsl(220 13% 93%));
+    --gradient-hero: linear-gradient(135deg, hsl(0 0% 100%), hsl(220 14% 96%));
+    --gradient-card: linear-gradient(135deg, hsl(0 0% 100%), hsl(220 14% 98%));
     
-    /* Shadows - Softer, modern shadows */
-    --shadow-sm: 0 1px 3px hsl(217 33% 17% / 0.04);
-    --shadow-md: 0 4px 8px hsl(217 33% 17% / 0.06);
-    --shadow-lg: 0 8px 20px hsl(217 33% 17% / 0.08);
-    --shadow-glow: 0 0 30px hsl(167 85% 45% / 0.2);
-    --shadow-primary: 0 4px 12px hsl(167 85% 45% / 0.15);
+    /* Ultra subtle shadows */
+    --shadow-sm: 0 1px 2px hsl(222 84% 5% / 0.02);
+    --shadow-md: 0 2px 4px hsl(222 84% 5% / 0.03);
+    --shadow-lg: 0 4px 8px hsl(222 84% 5% / 0.04);
+    --shadow-glow: 0 0 20px hsl(220 14% 96% / 0.2);
+    --shadow-primary: 0 2px 6px hsl(220 14% 96% / 0.1);
     
     /* Layout */
     --radius: 0.75rem;

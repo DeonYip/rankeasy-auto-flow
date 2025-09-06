@@ -15,11 +15,11 @@ export function UserLayout({ children }: UserLayoutProps) {
   }
 
   return (
-    <div className="min-h-screen bg-background-alt">
+    <div className="min-h-screen bg-background">
       <UserSidebar />
-      <div className="lg:pl-80">
+      <div className="lg:pl-72">
         <Header />
-        <main className="py-6 px-6">
+        <main>
           {children}
         </main>
       </div>
