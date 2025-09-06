@@ -44,8 +44,12 @@ export function LoginForm() {
       <div className="w-full max-w-md">
         {/* Header */}
         <div className="text-center mb-8">
-          <div className="w-16 h-16 bg-primary rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
-            <Brain className="w-8 h-8 text-primary-foreground" />
+          <div className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-6 overflow-hidden">
+            <img 
+              src="/lovable-uploads/a02443b5-5412-4d06-b775-84f6abcd2767.png" 
+              alt="RankEasy.ai Logo" 
+              className="w-full h-full object-contain"
+            />
           </div>
           <div className="mb-2">
             <span className="text-sm font-medium text-primary uppercase tracking-wide">WELCOME BACK!</span>

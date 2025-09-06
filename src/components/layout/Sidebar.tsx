@@ -38,8 +38,12 @@ export function Sidebar() {
         {/* Logo */}
         <div className="flex items-center px-6 py-6 border-b border-sidebar-border">
           <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-gradient-primary rounded-xl flex items-center justify-center shadow-primary">
-              <Brain className="w-6 h-6 text-white" />
+            <div className="w-10 h-10 rounded-xl overflow-hidden shadow-primary">
+              <img 
+                src="/lovable-uploads/a02443b5-5412-4d06-b775-84f6abcd2767.png" 
+                alt="RankEasy.ai Logo" 
+                className="w-full h-full object-contain"
+              />
             </div>
             <div>
               <h1 className="text-xl font-bold text-sidebar-foreground">RankEasy.ai</h1>
