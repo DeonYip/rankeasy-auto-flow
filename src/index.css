@@ -6,37 +6,37 @@
 
 @layer base {
   :root {
-    /* Purple-Blue Theme - Inspired by CopyGen */
-    --primary: 262 83% 58%; /* #6366F1 - Soft purple-blue */
+    /* Light Blue Theme - Based on #E6F0FF */
+    --primary: 217 91% 60%; /* #2563EB - Primary blue that complements #E6F0FF */
     --primary-foreground: 0 0% 100%;
-    --primary-hover: 262 83% 52%;
-    --primary-glow: 262 83% 75%;
+    --primary-hover: 217 91% 55%;
+    --primary-glow: 217 91% 75%;
     
-    /* Soft complementary accent colors */
-    --accent: 262 83% 96%; /* Very light purple tint */
-    --accent-foreground: 262 83% 58%;
-    --accent-hover: 262 83% 92%;
+    /* Light blue accent using #E6F0FF */
+    --accent: 214 100% 95%; /* #E6F0FF - Your requested color */
+    --accent-foreground: 217 91% 60%;
+    --accent-hover: 214 100% 92%;
     
-    /* Soft clean backgrounds */
+    /* Clean backgrounds with light blue tints */
     --background: 0 0% 99%; /* Soft white */
     --foreground: 220 9% 15%; /* #1E293B - Soft dark */
-    --background-alt: 262 50% 98%; /* #FAFAFF - Purple-tinted light */
+    --background-alt: 214 100% 98%; /* Light blue-tinted background */
     
-    /* Enhanced card system with gradients */
+    /* Enhanced card system with light blue gradients */
     --card: 0 0% 100%;
     --card-foreground: 220 9% 15%;
-    --card-border: 262 30% 92%; /* #E8E7F3 - Purple-tinted border */
-    --card-hover: 262 50% 97%;
+    --card-border: 214 100% 90%; /* Light blue-tinted border */
+    --card-hover: 214 100% 97%;
     
-    /* Modern sidebar - Purple theme */
-    --sidebar-background: 262 83% 97%; /* #F5F4FF - Light purple */
+    /* Modern sidebar - Light blue theme */
+    --sidebar-background: 214 100% 97%; /* Very light blue */
     --sidebar-foreground: 220 9% 15%;
-    --sidebar-primary: 262 83% 58%; /* Purple primary */
+    --sidebar-primary: 217 91% 60%; /* Primary blue */
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 262 83% 94%; /* #EEECFF - Purple accent */
+    --sidebar-accent: 214 100% 94%; /* Light blue accent */
     --sidebar-accent-foreground: 220 9% 15%;
-    --sidebar-border: 262 30% 90%;
-    --sidebar-ring: 262 83% 58%;
+    --sidebar-border: 214 100% 88%;
+    --sidebar-ring: 217 91% 60%;
     
     /* Minimal status colors */
     --success: 142 71% 45%;
@@ -46,37 +46,37 @@
     --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 100%;
     
-    /* Ultra clean inputs */
-    --input: 220 13% 96%; /* Very light input background */
-    --input-foreground: 222 84% 5%;
-    --border: 220 13% 91%; /* Minimal border */
-    --ring: 249 95% 61%; /* Blue focus ring */
+    /* Clean inputs with light blue tints */
+    --input: 214 100% 96%; /* Very light blue input background */
+    --input-foreground: 220 9% 15%;
+    --border: 214 100% 88%; /* Light blue border */
+    --ring: 217 91% 60%; /* Primary blue focus ring */
     
     /* Refined muted states */
-    --muted: 262 50% 96%;
+    --muted: 214 100% 96%;
     --muted-foreground: 220 9% 46%;
-    --secondary: 262 83% 96%; /* Light purple secondary */
-    --secondary-foreground: 262 83% 58%;
+    --secondary: 214 100% 95%; /* #E6F0FF - Your requested color */
+    --secondary-foreground: 217 91% 60%;
     
     /* Popover */
     --popover: 0 0% 100%;
     --popover-foreground: 210 40% 15%;
     
-    /* Purple-blue gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(262 83% 58%), hsl(262 83% 75%));
-    --gradient-secondary: linear-gradient(135deg, hsl(0 0% 100%), hsl(262 83% 98%));
-    --gradient-accent: linear-gradient(135deg, hsl(262 83% 96%), hsl(262 83% 90%));
-    --gradient-hero: linear-gradient(135deg, hsl(0 0% 100%), hsl(262 83% 96%));
-    --gradient-card: linear-gradient(135deg, hsl(0 0% 100%), hsl(262 83% 98%));
-    --gradient-stats: linear-gradient(135deg, hsl(262 83% 94%), hsl(262 83% 88%));
+    /* Light blue gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(217 91% 60%), hsl(217 91% 75%));
+    --gradient-secondary: linear-gradient(135deg, hsl(0 0% 100%), hsl(214 100% 98%));
+    --gradient-accent: linear-gradient(135deg, hsl(214 100% 95%), hsl(214 100% 90%));
+    --gradient-hero: linear-gradient(135deg, hsl(0 0% 100%), hsl(214 100% 96%));
+    --gradient-card: linear-gradient(135deg, hsl(0 0% 100%), hsl(214 100% 98%));
+    --gradient-stats: linear-gradient(135deg, hsl(214 100% 94%), hsl(214 100% 88%));
     
-    /* Soft modern shadows */
-    --shadow-sm: 0 1px 3px hsl(262 83% 58% / 0.08);
-    --shadow-md: 0 2px 6px hsl(262 83% 58% / 0.10);
-    --shadow-lg: 0 4px 12px hsl(262 83% 58% / 0.12);
-    --shadow-glow: 0 0 24px hsl(262 83% 58% / 0.20);
-    --shadow-primary: 0 3px 8px hsl(262 83% 58% / 0.15);
-    --shadow-card: 0 1px 3px hsl(262 83% 58% / 0.06);
+    /* Soft modern shadows with blue tints */
+    --shadow-sm: 0 1px 3px hsl(217 91% 60% / 0.08);
+    --shadow-md: 0 2px 6px hsl(217 91% 60% / 0.10);
+    --shadow-lg: 0 4px 12px hsl(217 91% 60% / 0.12);
+    --shadow-glow: 0 0 24px hsl(217 91% 60% / 0.20);
+    --shadow-primary: 0 3px 8px hsl(217 91% 60% / 0.15);
+    --shadow-card: 0 1px 3px hsl(217 91% 60% / 0.06);
     
     /* Layout */
     --radius: 0.75rem;
