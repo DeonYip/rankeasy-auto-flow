@@ -136,53 +136,101 @@ export default function UserDashboard() {
         ))}
       </div>
 
-      {/* Recent Activity */}
+      {/* Recent Article Generation */}
       <Card className="bg-card border-card-border shadow-sm hover:shadow-md transition-all duration-300 max-w-4xl">
         <CardHeader className="border-b border-card-border/50">
-          <CardTitle className="admin-card-title text-foreground">Recent Activity</CardTitle>
+          <CardTitle className="admin-card-title text-foreground">Recent Article Generation</CardTitle>
           <CardDescription className="admin-card-description text-muted-foreground">
-            Your latest content generation and automation updates
+            Your latest generated articles and their details
           </CardDescription>
         </CardHeader>
         <CardContent className="pt-6">
           <div className="space-y-4">
             {[
               {
-                type: 'Article Generated',
+                id: 'art_2025_001',
                 title: '10 Best SEO Strategies for 2025',
-                time: '2 hours ago',
-                status: 'completed'
+                keywords: ['SEO', 'digital marketing', '2025 trends', 'search optimization'],
+                createdTime: '2024-12-06 14:30',
+                url: 'https://yourblog.com/articles/10-best-seo-strategies-2025',
+                status: 'Published'
               },
               {
-                type: 'Automation Started',
-                title: 'Tech Industry Blog Campaign',
-                time: '1 day ago',
-                status: 'active'
+                id: 'art_2025_002', 
+                title: 'Ultimate Guide to Content Marketing ROI',
+                keywords: ['content marketing', 'ROI', 'business growth', 'analytics'],
+                createdTime: '2024-12-05 09:15',
+                url: 'https://yourblog.com/articles/content-marketing-roi-guide',
+                status: 'Published'
               },
               {
-                type: 'Keywords Updated',
-                title: 'Added 23 new target keywords',
-                time: '2 days ago',
-                status: 'completed'
+                id: 'art_2025_003',
+                title: 'AI-Powered Marketing Automation Trends',
+                keywords: ['AI marketing', 'automation', 'technology trends', 'business efficiency'],
+                createdTime: '2024-12-04 16:45',
+                url: '',
+                status: 'Drafted'
               },
               {
-                type: 'Article Published',
-                title: 'Guide to Content Marketing ROI',
-                time: '3 days ago',
-                status: 'published'
+                id: 'art_2025_004',
+                title: 'Social Media Strategy for B2B Companies',
+                keywords: ['B2B marketing', 'social media', 'LinkedIn strategy', 'lead generation'],
+                createdTime: '2024-12-03 11:20',
+                url: '',
+                status: 'Scheduled'
               }
-            ].map((activity, index) => (
-              <div key={index} className="flex items-center justify-between p-4 rounded-lg bg-card-hover border border-card-border/30 hover:bg-accent/50 transition-colors duration-200">
-                <div>
-                  <p className="admin-body-text font-medium text-foreground">{activity.title}</p>
-                  <p className="admin-stats-label text-muted-foreground">{activity.type} • {activity.time}</p>
+            ].map((article, index) => (
+              <div key={index} className="p-4 rounded-lg bg-card-hover border border-card-border/30 hover:bg-accent/50 transition-colors duration-200">
+                <div className="flex items-start justify-between mb-3">
+                  <div className="flex-1">
+                    <p className="admin-body-text font-medium text-foreground mb-1">{article.title}</p>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
+                      <div>
+                        <span className="admin-stats-label text-muted-foreground">ID: </span>
+                        <span className="admin-stats-label text-foreground">{article.id}</span>
+                      </div>
+                      <div>
+                        <span className="admin-stats-label text-muted-foreground">创建时间: </span>
+                        <span className="admin-stats-label text-foreground">{article.createdTime}</span>
+                      </div>
+                    </div>
+                    <div className="mt-2">
+                      <span className="admin-stats-label text-muted-foreground">Keywords: </span>
+                      <div className="flex flex-wrap gap-1 mt-1">
+                        {article.keywords.map((keyword, kidx) => (
+                          <Badge key={kidx} variant="outline" className="text-xs bg-primary/5 text-primary border-primary/20">
+                            {keyword}
+                          </Badge>
+                        ))}
+                      </div>
+                    </div>
+                    {article.url && (
+                      <div className="mt-2">
+                        <span className="admin-stats-label text-muted-foreground">URL: </span>
+                        <a 
+                          href={article.url} 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="admin-stats-label text-primary hover:underline"
+                        >
+                          {article.url}
+                        </a>
+                      </div>
+                    )}
+                  </div>
+                  <Badge 
+                    variant={article.status === 'Published' ? 'default' : 'outline'}
+                    className={
+                      article.status === 'Published' 
+                        ? 'bg-green-100 text-green-800 border-green-200' 
+                        : article.status === 'Scheduled'
+                        ? 'bg-blue-100 text-blue-800 border-blue-200'
+                        : 'bg-gray-100 text-gray-800 border-gray-200'
+                    }
+                  >
+                    {article.status}
+                  </Badge>
                 </div>
-                <Badge 
-                  variant={activity.status === 'active' ? 'default' : 'outline'}
-                  className={activity.status === 'active' ? 'bg-primary/10 text-primary border-primary/20' : 'border-border'}
-                >
-                  {activity.status}
-                </Badge>
               </div>
             ))}
           </div>
