@@ -147,26 +147,48 @@ export default function BlogPage() {
                 </div>
 
                 <div className="space-y-4">
-                  <div className="p-4 rounded-lg bg-green-50 border border-green-200">
-                    <div className="flex items-center space-x-2 mb-2">
-                      <CheckCircle className="h-4 w-4 text-green-600" />
-                      <p className="admin-label text-green-800">Integration Status</p>
+                  <div className="p-6 rounded-lg bg-green-50 border border-green-200">
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="flex items-center space-x-3">
+                        <div className="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center">
+                          <CheckCircle className="h-5 w-5 text-green-600" />
+                        </div>
+                        <p className="admin-label text-green-800 text-base font-semibold">Integration Status</p>
+                      </div>
                     </div>
-                    <div className="space-y-2">
-                      <div className="flex items-center space-x-2">
+                    
+                    <div className="grid grid-cols-1 gap-4">
+                      {/* Connection Status */}
+                      <div className="flex items-center justify-between p-3 bg-white/50 rounded-lg border border-green-100">
+                        <div className="flex items-center space-x-3">
+                          <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                          <span className="text-green-800 font-medium">Connected</span>
+                        </div>
                         <Badge 
                           variant="outline" 
-                          className={`${
-                            connectionStatus === 'connected' 
-                              ? 'border-green-200 text-green-700 bg-green-50' 
-                              : 'border-orange-200 text-orange-700 bg-orange-50'
-                          } font-medium text-xs`}
+                          className="border-green-300 text-green-700 bg-green-100 font-medium"
                         >
-                          {connectionStatus === 'connected' ? 'Connected' : 'Not Connected'}
+                          Active
                         </Badge>
                       </div>
-                      <span className="admin-body-text text-green-700 font-medium">Fully Synced</span>
-                      <p className="text-xs text-green-600 mt-1">Last sync: 2 minutes ago</p>
+                      
+                      {/* Sync Status */}
+                      <div className="flex items-center justify-between p-3 bg-white/50 rounded-lg border border-green-100">
+                        <div className="flex items-center space-x-3">
+                          <div className="w-3 h-3 rounded-full bg-green-500 animate-pulse"></div>
+                          <span className="text-green-800 font-medium">Fully Synced</span>
+                        </div>
+                        <span className="text-sm text-green-600 font-medium">Live</span>
+                      </div>
+                      
+                      {/* Last Sync */}
+                      <div className="flex items-center justify-between p-3 bg-white/50 rounded-lg border border-green-100">
+                        <div className="flex items-center space-x-3">
+                          <Clock className="h-4 w-4 text-green-600" />
+                          <span className="text-green-800 font-medium">Last Sync</span>
+                        </div>
+                        <span className="text-sm text-green-600 font-medium">2 minutes ago</span>
+                      </div>
                     </div>
                   </div>
 
