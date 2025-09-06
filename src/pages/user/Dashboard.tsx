@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
+import { LineChart, Line, XAxis, YAxis, ResponsiveContainer } from 'recharts';
 import {
   Coins,
   TrendingUp,
@@ -15,6 +17,7 @@ import {
 
 export default function UserDashboard() {
   const { user } = useAuth();
+  const [selectedPeriod, setSelectedPeriod] = useState('1M');
 
   const keywordDistribution = [
     { label: 'Top 3', count: 28, color: 'bg-orange-500' },
@@ -24,6 +27,30 @@ export default function UserDashboard() {
     { label: '51-100', count: 256, color: 'bg-emerald-500' },
     { label: 'SERP Features', count: 44, color: 'bg-green-600' }
   ];
+
+  const countryDistribution = [
+    { country: 'United States', keywords: 487, percentage: 38.3, flag: '🇺🇸' },
+    { country: 'United Kingdom', keywords: 203, percentage: 16.0, flag: '🇬🇧' },
+    { country: 'Canada', keywords: 178, percentage: 14.0, flag: '🇨🇦' },
+    { country: 'Australia', keywords: 152, percentage: 12.0, flag: '🇦🇺' },
+    { country: 'Germany', keywords: 139, percentage: 10.9, flag: '🇩🇪' }
+  ];
+
+  const chartData = [
+    { month: 'Jan', keywords: 850 },
+    { month: 'Feb', keywords: 920 },
+    { month: 'Mar', keywords: 1050 },
+    { month: 'Apr', keywords: 1180 },
+    { month: 'May', keywords: 1220 },
+    { month: 'Jun', keywords: 1270 }
+  ];
+
+  const chartConfig = {
+    keywords: {
+      label: "Keywords",
+      color: "hsl(var(--primary))",
+    },
+  };
 
   const indexingData = [
     {
@@ -103,7 +130,7 @@ export default function UserDashboard() {
       </Card>
 
       {/* Organic Keywords */}
-      <Card className="bg-card border-card-border shadow-sm hover:shadow-md transition-all duration-300 max-w-4xl">
+      <Card className="bg-card border-card-border shadow-sm hover:shadow-md transition-all duration-300 max-w-6xl">
         <CardHeader className="border-b border-card-border/50">
           <CardTitle className="admin-card-title text-foreground">Organic Keywords 1,270</CardTitle>
           <CardDescription className="admin-card-description text-muted-foreground">
@@ -111,23 +138,96 @@ export default function UserDashboard() {
           </CardDescription>
         </CardHeader>
         <CardContent className="pt-6">
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-6">
-            {keywordDistribution.map((item, index) => (
-              <div key={index} className="text-center">
-                <div className={`w-full h-2 ${item.color} rounded-full mb-2`}></div>
-                <div className="admin-stats-value text-foreground text-sm">{item.count}</div>
-                <div className="admin-stats-label text-muted-foreground text-xs">{item.label}</div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {/* Distribution by Country */}
+            <div className="space-y-4">
+              <h3 className="admin-card-title text-foreground text-lg">Distribution by Country</h3>
+              <div className="space-y-3">
+                {countryDistribution.map((item, index) => (
+                  <div key={index} className="flex items-center justify-between p-3 rounded-lg bg-card-hover border border-card-border/30">
+                    <div className="flex items-center space-x-3">
+                      <span className="text-2xl">{item.flag}</span>
+                      <div>
+                        <div className="admin-body-text text-foreground font-medium">{item.country}</div>
+                        <div className="admin-stats-label text-muted-foreground">{item.keywords} keywords</div>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <div className="admin-stats-value text-foreground">{item.percentage}%</div>
+                    </div>
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
-          <div className="mt-4 p-4 bg-card-hover rounded-lg">
-            <div className="flex items-center justify-between mb-2">
-              <span className="admin-body-text text-foreground">Total Organic Keywords</span>
-              <span className="admin-stats-value text-foreground">1,270</span>
             </div>
-            <div className="flex items-center justify-between">
-              <span className="admin-stats-label text-muted-foreground">Month over month growth</span>
-              <span className="admin-stats-label text-green-600">+8.1%</span>
+
+            {/* Organic Keywords Graph */}
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <h3 className="admin-card-title text-foreground text-lg">Organic Keywords</h3>
+                <div className="flex items-center space-x-2">
+                  {['1M', '6M', '1Y', 'All'].map((period) => (
+                    <Button
+                      key={period}
+                      variant={selectedPeriod === period ? 'default' : 'outline'}
+                      size="sm"
+                      onClick={() => setSelectedPeriod(period)}
+                      className="text-xs px-3 py-1"
+                    >
+                      {period}
+                    </Button>
+                  ))}
+                </div>
+              </div>
+              <div className="h-64">
+                <ChartContainer config={chartConfig}>
+                  <LineChart data={chartData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+                    <XAxis 
+                      dataKey="month" 
+                      axisLine={false}
+                      tickLine={false}
+                      tick={{ fontSize: 12, fill: 'hsl(var(--muted-foreground))' }}
+                    />
+                    <YAxis 
+                      axisLine={false}
+                      tickLine={false}
+                      tick={{ fontSize: 12, fill: 'hsl(var(--muted-foreground))' }}
+                    />
+                    <ChartTooltip content={<ChartTooltipContent />} />
+                    <Line 
+                      type="monotone" 
+                      dataKey="keywords" 
+                      stroke="hsl(var(--primary))" 
+                      strokeWidth={3}
+                      dot={{ fill: 'hsl(var(--primary))', strokeWidth: 0, r: 4 }}
+                      activeDot={{ r: 6, fill: 'hsl(var(--primary))' }}
+                    />
+                  </LineChart>
+                </ChartContainer>
+              </div>
+              <div className="flex items-center justify-between p-4 bg-card-hover rounded-lg">
+                <span className="admin-body-text text-foreground">Total Organic Keywords</span>
+                <span className="admin-stats-value text-foreground">1,270</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Keyword Distribution */}
+          <div className="mt-8 space-y-4">
+            <h3 className="admin-card-title text-foreground text-lg">Keyword Ranking Distribution</h3>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+              {keywordDistribution.map((item, index) => (
+                <div key={index} className="text-center">
+                  <div className={`w-full h-2 ${item.color} rounded-full mb-2`}></div>
+                  <div className="admin-stats-value text-foreground text-sm">{item.count}</div>
+                  <div className="admin-stats-label text-muted-foreground text-xs">{item.label}</div>
+                </div>
+              ))}
+            </div>
+            <div className="mt-4 p-4 bg-card-hover rounded-lg">
+              <div className="flex items-center justify-between">
+                <span className="admin-stats-label text-muted-foreground">Month over month growth</span>
+                <span className="admin-stats-label text-green-600">+8.1%</span>
+              </div>
             </div>
           </div>
         </CardContent>
