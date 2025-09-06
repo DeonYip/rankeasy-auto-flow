@@ -89,7 +89,7 @@ export default function UserDashboard() {
   return (
     <div className="space-y-8 p-8">
       {/* Current Plan */}
-      <Card className="border-card-border bg-gradient-card shadow-sm hover:shadow-md transition-all duration-300 max-w-4xl">
+      <Card className="border-card-border bg-gradient-card shadow-sm hover:shadow-md transition-all duration-300">
         <CardHeader className="border-b border-card-border/50">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
@@ -137,7 +137,7 @@ export default function UserDashboard() {
       </Card>
 
       {/* Organic Keywords */}
-      <Card className="bg-card border-card-border shadow-sm hover:shadow-md transition-all duration-300 max-w-6xl">
+      <Card className="bg-card border-card-border shadow-sm hover:shadow-md transition-all duration-300">
         <CardHeader className="border-b border-card-border/50">
           <CardTitle className="admin-card-title text-foreground">Organic Keywords</CardTitle>
           <CardDescription className="admin-card-description text-muted-foreground">
@@ -241,7 +241,7 @@ export default function UserDashboard() {
       </Card>
 
       {/* Indexed on Google */}
-      <Card className="bg-card border-card-border shadow-sm hover:shadow-md transition-all duration-300 max-w-4xl">
+      <Card className="bg-card border-card-border shadow-sm hover:shadow-md transition-all duration-300">
         <CardHeader className="border-b border-card-border/50">
           <CardTitle className="text-lg font-semibold text-foreground">Indexed on Google</CardTitle>
           <CardDescription className="admin-card-description text-muted-foreground">
@@ -277,7 +277,7 @@ export default function UserDashboard() {
       </Card>
 
       {/* Recent Article Generation */}
-      <Card className="bg-card border-card-border shadow-sm hover:shadow-md transition-all duration-300 max-w-4xl">
+      <Card className="bg-card border-card-border shadow-sm hover:shadow-md transition-all duration-300">
         <CardHeader className="border-b border-card-border/50">
           <div className="flex items-center justify-between">
             <div>
