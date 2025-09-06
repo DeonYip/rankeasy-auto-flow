@@ -16,15 +16,13 @@ import {
 export default function UserDashboard() {
   const { user } = useAuth();
 
-  const stats = [
-    {
-      title: 'Ranked Keywords',
-      value: '156',
-      icon: TrendingUp,
-      description: 'Total keywords',
-      trend: '+8.1%',
-      color: 'text-orange-600'
-    }
+  const keywordDistribution = [
+    { label: 'Top 3', count: 28, color: 'bg-orange-500' },
+    { label: '4-10', count: 145, color: 'bg-blue-500' },
+    { label: '11-20', count: 312, color: 'bg-cyan-500' },
+    { label: '21-50', count: 485, color: 'bg-teal-500' },
+    { label: '51-100', count: 256, color: 'bg-emerald-500' },
+    { label: 'SERP Features', count: 44, color: 'bg-green-600' }
   ];
 
   const indexingData = [
@@ -104,32 +102,36 @@ export default function UserDashboard() {
         </CardContent>
       </Card>
 
-      {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl">
-        {stats.map((stat) => (
-          <Card key={stat.title} className="bg-card border-card-border shadow-sm hover:shadow-md transition-all duration-300">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
-              <CardTitle className="admin-card-description font-medium text-foreground">
-                {stat.title}
-              </CardTitle>
-              <div className={`w-8 h-8 rounded-lg bg-card-hover flex items-center justify-center`}>
-                <stat.icon className={`h-4 w-4 ${stat.color}`} />
+      {/* Organic Keywords */}
+      <Card className="bg-card border-card-border shadow-sm hover:shadow-md transition-all duration-300 max-w-4xl">
+        <CardHeader className="border-b border-card-border/50">
+          <CardTitle className="admin-card-title text-foreground">Organic Keywords 1,270</CardTitle>
+          <CardDescription className="admin-card-description text-muted-foreground">
+            Keyword ranking distribution and performance
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="pt-6">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-6">
+            {keywordDistribution.map((item, index) => (
+              <div key={index} className="text-center">
+                <div className={`w-full h-2 ${item.color} rounded-full mb-2`}></div>
+                <div className="admin-stats-value text-foreground text-sm">{item.count}</div>
+                <div className="admin-stats-label text-muted-foreground text-xs">{item.label}</div>
               </div>
-            </CardHeader>
-            <CardContent className="pt-3">
-              <div className="admin-stats-value text-foreground">{stat.value}</div>
-              <div className="flex items-center space-x-2 mt-2">
-                <span className="admin-stats-label text-green-600">
-                  {stat.trend}
-                </span>
-                <span className="admin-stats-label text-muted-foreground">
-                  {stat.description}
-                </span>
-              </div>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
+            ))}
+          </div>
+          <div className="mt-4 p-4 bg-card-hover rounded-lg">
+            <div className="flex items-center justify-between mb-2">
+              <span className="admin-body-text text-foreground">Total Organic Keywords</span>
+              <span className="admin-stats-value text-foreground">1,270</span>
+            </div>
+            <div className="flex items-center justify-between">
+              <span className="admin-stats-label text-muted-foreground">Month over month growth</span>
+              <span className="admin-stats-label text-green-600">+8.1%</span>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
 
       {/* Indexed on Google */}
       <Card className="bg-card border-card-border shadow-sm hover:shadow-md transition-all duration-300 max-w-4xl">
