@@ -20,6 +20,7 @@ import ArticlePage from "./pages/user/automation/Article";
 import ProductPage from "./pages/user/automation/Product";
 import KeywordsPage from "./pages/user/Keywords";
 import BlogPage from "./pages/user/Blog";
+import ProfilePage from "./pages/user/Profile";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -49,6 +50,7 @@ function AppRoutes() {
         <Routes>
           <Route path="/" element={<UserDashboard />} />
           <Route path="/user/dashboard" element={<UserDashboard />} />
+          <Route path="/user/profile" element={<ProfilePage />} />
           <Route path="/user/automation" element={<AutomationPage />} />
           <Route path="/user/automation/branding" element={<BrandingPage />} />
           <Route path="/user/automation/article" element={<ArticlePage />} />
