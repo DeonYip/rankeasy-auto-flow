@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { StatsCard } from '@/components/ui/stats-card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
@@ -13,11 +12,7 @@ import {
   FileText,
   Bot,
   Crown,
-  Calendar,
-  PenTool,
-  Layers,
-  Bookmark,
-  Zap
+  Calendar
 } from 'lucide-react';
 
 export default function UserDashboard() {
@@ -92,62 +87,9 @@ export default function UserDashboard() {
   ];
 
   return (
-    <div className="space-y-6 p-6">
-      {/* Welcome Header */}
-      <div className="mb-8">
-        <h1 className="page-title">
-          Welcome {user?.name || 'User'}!
-        </h1>
-        <p className="description-text">
-          Here's an overview of your content generation activity
-        </p>
-      </div>
-
-      {/* Stats Cards Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <StatsCard
-          variant="stats"
-          title="Words Available"
-          value="452"
-          description="1548/2000 free words generated"
-          actionLabel="See History"
-          actionHref="/history"
-          icon={<PenTool className="h-5 w-5 text-primary" />}
-        />
-        
-        <StatsCard
-          variant="stats"
-          title="Drafts Available" 
-          value="3"
-          description="7/10 free drafts created"
-          actionLabel="See All"
-          actionHref="/drafts"
-          icon={<Layers className="h-5 w-5 text-primary" />}
-        />
-        
-        <StatsCard
-          variant="stats"
-          title="Documents Available"
-          value="6"
-          description="4/10 free documents created"
-          actionLabel="See All"
-          actionHref="/documents"
-          icon={<FileText className="h-5 w-5 text-primary" />}
-        />
-        
-        <StatsCard
-          variant="stats"
-          title="Tools Available"
-          value="12"
-          description="4/16 free tools used to generate content"
-          actionLabel="All Tools"
-          actionHref="/tools"
-          icon={<Zap className="h-5 w-5 text-primary" />}
-        />
-      </div>
-
+    <div className="space-y-8 p-8">
       {/* Current Plan */}
-      <Card className="border-card-border bg-gradient-card shadow-card hover:shadow-md transition-all duration-300">
+      <Card className="border-card-border bg-gradient-card shadow-sm hover:shadow-md transition-all duration-300 max-w-4xl">
         <CardHeader className="border-b border-card-border/50">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
@@ -155,10 +97,10 @@ export default function UserDashboard() {
                 <Crown className="h-5 w-5 text-primary" />
               </div>
               <div>
-                <div className="card-label">Premium Plan</div>
-                <div className="description-text">
+                <CardTitle className="admin-card-title text-foreground">Premium Plan</CardTitle>
+                <CardDescription className="admin-card-description text-muted-foreground">
                   Your current subscription plan
-                </div>
+                </CardDescription>
               </div>
             </div>
             <Badge variant="outline" className="bg-primary/5 text-primary border-primary/20">
@@ -169,24 +111,24 @@ export default function UserDashboard() {
         <CardContent className="pt-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="space-y-3">
-              <p className="form-label">Monthly Token Usage</p>
+              <p className="admin-label text-foreground">Monthly Token Usage</p>
               <div className="space-y-3">
                 <div className="flex justify-between">
-                  <span className="table-cell">2,340 / 10,000</span>
-                  <span className="description-text">23%</span>
+                  <span className="admin-body-text text-foreground">2,340 / 10,000</span>
+                  <span className="admin-body-text text-muted-foreground">23%</span>
                 </div>
                 <Progress value={23} className="h-2 bg-muted" />
               </div>
             </div>
             <div className="space-y-3">
-              <p className="form-label">Next Billing</p>
+              <p className="admin-label text-foreground">Next Billing</p>
               <div className="flex items-center space-x-2">
                 <Calendar className="h-4 w-4 text-muted-foreground" />
-                <span className="table-cell">January 15, 2025</span>
+                <span className="admin-body-text text-foreground">January 15, 2025</span>
               </div>
             </div>
             <div className="flex items-end justify-end">
-              <Button variant="outline" size="sm" className="button-text border-border hover:bg-accent">
+              <Button variant="outline" size="sm" className="admin-button border-border hover:bg-accent">
                 Upgrade Plan
               </Button>
             </div>
@@ -195,10 +137,10 @@ export default function UserDashboard() {
       </Card>
 
       {/* Organic Keywords */}
-      <Card className="bg-card border-card-border shadow-card hover:shadow-md transition-all duration-300">
+      <Card className="bg-card border-card-border shadow-sm hover:shadow-md transition-all duration-300 max-w-6xl">
         <CardHeader className="border-b border-card-border/50">
-          <CardTitle className="section-header">Organic Keywords</CardTitle>
-          <CardDescription className="description-text">
+          <CardTitle className="admin-card-title text-foreground">Organic Keywords</CardTitle>
+          <CardDescription className="admin-card-description text-muted-foreground">
             Keyword ranking distribution and performance
           </CardDescription>
         </CardHeader>
@@ -299,7 +241,7 @@ export default function UserDashboard() {
       </Card>
 
       {/* Indexed on Google */}
-      <Card className="bg-card border-card-border shadow-card hover:shadow-md transition-all duration-300">
+      <Card className="bg-card border-card-border shadow-sm hover:shadow-md transition-all duration-300 max-w-4xl">
         <CardHeader className="border-b border-card-border/50">
           <CardTitle className="admin-card-title text-foreground">Indexed on Google</CardTitle>
           <CardDescription className="admin-card-description text-muted-foreground">
@@ -335,7 +277,7 @@ export default function UserDashboard() {
       </Card>
 
       {/* Recent Article Generation */}
-      <Card className="bg-card border-card-border shadow-card hover:shadow-md transition-all duration-300">
+      <Card className="bg-card border-card-border shadow-sm hover:shadow-md transition-all duration-300 max-w-4xl">
         <CardHeader className="border-b border-card-border/50">
           <div className="flex items-center justify-between">
             <div>
