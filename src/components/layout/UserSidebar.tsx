@@ -61,30 +61,6 @@ export function UserSidebar() {
         </div>
       </div>
 
-      {/* User info */}
-      {user && (
-        <div className="px-6 py-4 border-b border-sidebar-border/50">
-          <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
-              <User className="h-5 w-5 text-sidebar-foreground" />
-            </div>
-            <div className="flex-1 min-w-0">
-              <p className="admin-label text-sidebar-foreground truncate">
-                {user.name}
-              </p>
-              <p className="text-xs text-sidebar-foreground/60 truncate">
-                {user.email}
-              </p>
-            </div>
-          </div>
-          <div className="mt-3 flex items-center space-x-2">
-            <Coins className="h-4 w-4 text-primary" />
-            <span className="text-sm text-sidebar-foreground">
-              {user.tokenBalance.toLocaleString()} tokens
-            </span>
-          </div>
-        </div>
-      )}
 
       {/* Navigation */}
       <nav className="flex-1 px-4 py-6 space-y-1">
