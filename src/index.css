@@ -6,74 +6,74 @@
 
 @layer base {
   :root {
-    /* Core Brand Colors */
-    --primary: 240 100% 60%;
+    /* RankEasy.ai Brand Colors - Blue/Purple Theme */
+    --primary: 247 83% 68%; /* #7458ff - RankEasy blue/purple */
     --primary-foreground: 0 0% 100%;
-    --primary-hover: 240 100% 55%;
-    --primary-glow: 240 100% 75%;
+    --primary-hover: 247 83% 60%;
+    --primary-glow: 253 86% 75%;
     
     /* AI-themed accent colors */
-    --accent: 280 100% 65%;
+    --accent: 253 86% 75%;
     --accent-foreground: 0 0% 100%;
-    --accent-hover: 280 100% 60%;
+    --accent-hover: 253 86% 70%;
     
-    /* Professional neutrals */
+    /* Clean neutral backgrounds */
     --background: 0 0% 100%;
-    --foreground: 225 25% 15%;
-    --background-alt: 240 15% 98%;
+    --foreground: 210 20% 15%;
+    --background-alt: 210 17% 98%;
     
-    /* Card system */
+    /* Card system with subtle shadows */
     --card: 0 0% 100%;
-    --card-foreground: 225 25% 15%;
-    --card-border: 240 15% 92%;
-    --card-hover: 240 25% 97%;
+    --card-foreground: 210 20% 15%;
+    --card-border: 210 17% 91%;
+    --card-hover: 210 25% 97%;
     
-    /* Sidebar */
-    --sidebar-background: 225 25% 8%;
-    --sidebar-foreground: 225 10% 85%;
-    --sidebar-primary: 240 100% 60%;
+    /* Sidebar - Dark theme to match admin panels */
+    --sidebar-background: 210 30% 8%;
+    --sidebar-foreground: 210 15% 85%;
+    --sidebar-primary: 247 83% 68%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 225 20% 12%;
-    --sidebar-accent-foreground: 225 10% 85%;
-    --sidebar-border: 225 20% 15%;
-    --sidebar-ring: 240 100% 60%;
+    --sidebar-accent: 210 25% 12%;
+    --sidebar-accent-foreground: 210 15% 85%;
+    --sidebar-border: 210 25% 15%;
+    --sidebar-ring: 247 83% 68%;
     
     /* Status colors */
-    --success: 120 60% 45%;
+    --success: 142 76% 36%;
     --success-foreground: 0 0% 100%;
-    --warning: 45 100% 55%;
+    --warning: 45 93% 47%;
     --warning-foreground: 0 0% 100%;
-    --destructive: 0 85% 60%;
+    --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
     
     /* Input system */
-    --input: 240 15% 95%;
-    --input-foreground: 225 25% 15%;
-    --border: 240 15% 88%;
-    --ring: 240 100% 60%;
+    --input: 210 17% 95%;
+    --input-foreground: 210 20% 15%;
+    --border: 210 17% 88%;
+    --ring: 247 83% 68%;
     
     /* Muted states */
-    --muted: 240 15% 96%;
-    --muted-foreground: 225 15% 55%;
-    --secondary: 240 15% 96%;
-    --secondary-foreground: 225 25% 15%;
+    --muted: 210 17% 96%;
+    --muted-foreground: 210 15% 55%;
+    --secondary: 210 17% 96%;
+    --secondary-foreground: 210 20% 15%;
     
     /* Popover */
     --popover: 0 0% 100%;
-    --popover-foreground: 225 25% 15%;
+    --popover-foreground: 210 20% 15%;
     
-    /* Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(240 100% 60%), hsl(280 100% 65%));
-    --gradient-secondary: linear-gradient(135deg, hsl(240 15% 98%), hsl(240 25% 95%));
-    --gradient-accent: linear-gradient(135deg, hsl(280 100% 65%), hsl(320 100% 70%));
-    --gradient-hero: linear-gradient(135deg, hsl(240 100% 60%), hsl(280 100% 65%), hsl(320 100% 70%));
+    /* Gradients - RankEasy style */
+    --gradient-primary: linear-gradient(135deg, hsl(247 83% 68%), hsl(253 86% 75%));
+    --gradient-secondary: linear-gradient(135deg, hsl(210 17% 98%), hsl(210 25% 95%));
+    --gradient-accent: linear-gradient(135deg, hsl(253 86% 75%), hsl(267 89% 78%));
+    --gradient-hero: linear-gradient(135deg, hsl(247 83% 68%), hsl(253 86% 75%), hsl(267 89% 78%));
     
-    /* Shadows */
-    --shadow-sm: 0 2px 4px hsl(225 25% 15% / 0.05);
-    --shadow-md: 0 4px 12px hsl(225 25% 15% / 0.08);
-    --shadow-lg: 0 8px 24px hsl(225 25% 15% / 0.12);
-    --shadow-glow: 0 0 40px hsl(240 100% 60% / 0.3);
-    --shadow-primary: 0 4px 16px hsl(240 100% 60% / 0.25);
+    /* Shadows - Professional and subtle */
+    --shadow-sm: 0 2px 4px hsl(210 20% 15% / 0.05);
+    --shadow-md: 0 4px 12px hsl(210 20% 15% / 0.08);
+    --shadow-lg: 0 8px 24px hsl(210 20% 15% / 0.12);
+    --shadow-glow: 0 0 40px hsl(247 83% 68% / 0.3);
+    --shadow-primary: 0 4px 16px hsl(247 83% 68% / 0.25);
     
     /* Layout */
     --radius: 0.75rem;
@@ -87,28 +87,28 @@
 
   .dark {
     /* Dark theme overrides */
-    --background: 225 25% 8%;
-    --foreground: 225 10% 92%;
-    --background-alt: 225 25% 10%;
+    --background: 210 30% 8%;
+    --foreground: 210 15% 92%;
+    --background-alt: 210 30% 10%;
     
-    --card: 225 25% 10%;
-    --card-foreground: 225 10% 92%;
-    --card-border: 225 20% 18%;
-    --card-hover: 225 25% 12%;
+    --card: 210 30% 10%;
+    --card-foreground: 210 15% 92%;
+    --card-border: 210 25% 18%;
+    --card-hover: 210 30% 12%;
     
-    --input: 225 20% 15%;
-    --input-foreground: 225 10% 92%;
-    --border: 225 20% 18%;
+    --input: 210 25% 15%;
+    --input-foreground: 210 15% 92%;
+    --border: 210 25% 18%;
     
-    --muted: 225 20% 15%;
-    --muted-foreground: 225 10% 65%;
-    --secondary: 225 20% 15%;
-    --secondary-foreground: 225 10% 92%;
+    --muted: 210 25% 15%;
+    --muted-foreground: 210 15% 65%;
+    --secondary: 210 25% 15%;
+    --secondary-foreground: 210 15% 92%;
     
-    --popover: 225 25% 10%;
-    --popover-foreground: 225 10% 92%;
+    --popover: 210 30% 10%;
+    --popover-foreground: 210 15% 92%;
     
-    --gradient-secondary: linear-gradient(135deg, hsl(225 25% 10%), hsl(225 20% 12%));
+    --gradient-secondary: linear-gradient(135deg, hsl(210 30% 10%), hsl(210 25% 12%));
   }
 }
 
@@ -118,6 +118,7 @@
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-inter;
+    font-feature-settings: 'rlig' 1, 'calt' 1;
   }
 }
