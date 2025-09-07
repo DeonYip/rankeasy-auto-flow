@@ -36,6 +36,7 @@ const navigation = [
 export function UserSidebar() {
   const location = useLocation();
   const { user, logout } = useAuth();
+  const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [expandedItems, setExpandedItems] = useState<{ [key: string]: boolean }>({
     Automation: true // Keep automation expanded by default
   });
@@ -47,20 +48,56 @@ export function UserSidebar() {
     }));
   };
 
+  const closeMobileSidebar = () => {
+    setIsMobileOpen(false);
+  };
+
   return (
-    <div className="fixed inset-y-0 left-0 z-50 w-72 bg-sidebar-background border-r border-sidebar-border lg:block hidden">
-      {/* Logo */}
-      <div className="flex h-16 items-center px-6 border-b border-sidebar-border/50">
-        <div className="flex items-center space-x-3">
-          <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
-            <Bot className="h-5 w-5 text-primary" />
+    <>
+      {/* Mobile sidebar overlay */}
+      {isMobileOpen && (
+        <div 
+          className="fixed inset-0 z-40 bg-black bg-opacity-50 lg:hidden"
+          onClick={closeMobileSidebar}
+        />
+      )}
+      
+      {/* Mobile menu button */}
+      <button
+        onClick={() => setIsMobileOpen(!isMobileOpen)}
+        className="fixed top-4 left-4 z-50 lg:hidden p-2 rounded-lg bg-sidebar-background border border-sidebar-border shadow-lg"
+      >
+        <svg className="h-6 w-6 text-sidebar-foreground" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+
+      {/* Sidebar */}
+      <div className={`fixed inset-y-0 left-0 z-50 w-72 bg-sidebar-background border-r border-sidebar-border transform transition-transform duration-300 ease-in-out ${
+        isMobileOpen ? 'translate-x-0' : '-translate-x-full'
+      } lg:translate-x-0 lg:block`}>
+        {/* Logo */}
+        <div className="flex h-16 items-center px-6 border-b border-sidebar-border/50">
+          <div className="flex items-center space-x-3">
+            <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
+              <Bot className="h-5 w-5 text-primary" />
+            </div>
+            <div>
+              <h1 className="admin-card-title text-sidebar-foreground">RankEasy.ai</h1>
+              <p className="text-xs text-sidebar-foreground/60">Premium Panel</p>
+            </div>
           </div>
-          <div>
-            <h1 className="admin-card-title text-sidebar-foreground">RankEasy.ai</h1>
-            <p className="text-xs text-sidebar-foreground/60">Premium Panel</p>
-          </div>
+          
+          {/* Mobile close button */}
+          <button
+            onClick={closeMobileSidebar}
+            className="ml-auto lg:hidden p-1 rounded text-sidebar-foreground hover:bg-sidebar-accent"
+          >
+            <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
         </div>
-      </div>
 
 
       {/* Navigation */}
@@ -102,16 +139,17 @@ export function UserSidebar() {
                     {item.subItems.map((subItem) => {
                       const isActive = location.pathname === subItem.href;
                       return (
-                        <Link
-                          key={subItem.name}
-                          to={subItem.href}
-                          className={cn(
-                            'group flex items-center px-3 py-2 rounded-lg transition-colors duration-200 admin-nav-item',
-                            isActive
-                              ? 'bg-primary text-primary-foreground shadow-sm'
-                              : 'text-sidebar-foreground/80 hover:bg-sidebar-accent hover:text-sidebar-foreground'
-                          )}
-                        >
+                         <Link
+                           key={subItem.name}
+                           to={subItem.href}
+                           onClick={closeMobileSidebar}
+                           className={cn(
+                             'group flex items-center px-3 py-2 rounded-lg transition-colors duration-200 admin-nav-item',
+                             isActive
+                               ? 'bg-primary text-primary-foreground shadow-sm'
+                               : 'text-sidebar-foreground/80 hover:bg-sidebar-accent hover:text-sidebar-foreground'
+                           )}
+                         >
                           <subItem.icon
                             className={cn(
                               'mr-3 h-3.5 w-3.5 transition-colors duration-200',
@@ -135,6 +173,7 @@ export function UserSidebar() {
             <Link
               key={item.name}
               to={item.href}
+              onClick={closeMobileSidebar}
               className={cn(
                 'group flex items-center px-3 py-2.5 rounded-lg transition-colors duration-200 admin-nav-item',
                 isActive
@@ -184,6 +223,7 @@ export function UserSidebar() {
           <span className="text-sm font-medium">Sign out</span>
         </button>
       </div>
-    </div>
+      </div>
+    </>
   );
 }

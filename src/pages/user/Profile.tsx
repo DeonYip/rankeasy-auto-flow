@@ -39,7 +39,7 @@ export default function Profile() {
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="container mx-auto p-6 max-w-6xl">
+      <div className="container mx-auto p-4 md:p-6 max-w-6xl">
         {/* Header */}
         <div className="mb-8">
           <div className="flex items-center space-x-4 mb-6">
@@ -67,26 +67,26 @@ export default function Profile() {
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid w-full grid-cols-5">
-            <TabsTrigger value="account" className="flex items-center space-x-2">
-              <User className="h-4 w-4" />
-              <span>Account</span>
+          <TabsList className="grid w-full grid-cols-2 md:grid-cols-5">
+            <TabsTrigger value="account" className="flex items-center space-x-1 md:space-x-2">
+              <User className="h-3 w-3 md:h-4 md:w-4" />
+              <span className="text-xs md:text-sm">Account</span>
             </TabsTrigger>
-            <TabsTrigger value="billing" className="flex items-center space-x-2">
-              <CreditCard className="h-4 w-4" />
-              <span>Billing</span>
+            <TabsTrigger value="billing" className="flex items-center space-x-1 md:space-x-2">
+              <CreditCard className="h-3 w-3 md:h-4 md:w-4" />
+              <span className="text-xs md:text-sm">Billing</span>
             </TabsTrigger>
-            <TabsTrigger value="security" className="flex items-center space-x-2">
-              <Shield className="h-4 w-4" />
-              <span>Security</span>
+            <TabsTrigger value="security" className="flex items-center space-x-1 md:space-x-2 hidden md:flex">
+              <Shield className="h-3 w-3 md:h-4 md:w-4" />
+              <span className="text-xs md:text-sm">Security</span>
             </TabsTrigger>
-            <TabsTrigger value="notifications" className="flex items-center space-x-2">
-              <Bell className="h-4 w-4" />
-              <span>Notifications</span>
+            <TabsTrigger value="notifications" className="flex items-center space-x-1 md:space-x-2 hidden md:flex">
+              <Bell className="h-3 w-3 md:h-4 md:w-4" />
+              <span className="text-xs md:text-sm">Notifications</span>
             </TabsTrigger>
-            <TabsTrigger value="preferences" className="flex items-center space-x-2">
-              <Settings className="h-4 w-4" />
-              <span>Preferences</span>
+            <TabsTrigger value="preferences" className="flex items-center space-x-1 md:space-x-2 hidden md:flex">
+              <Settings className="h-3 w-3 md:h-4 md:w-4" />
+              <span className="text-xs md:text-sm">Preferences</span>
             </TabsTrigger>
           </TabsList>
 
@@ -103,7 +103,7 @@ export default function Profile() {
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                   <div className="space-y-2">
                     <Label htmlFor="firstName">First Name</Label>
                     <Input id="firstName" placeholder="John" defaultValue="John" />

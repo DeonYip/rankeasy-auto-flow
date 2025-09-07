@@ -87,7 +87,7 @@ export default function UserDashboard() {
   ];
 
   return (
-    <div className="space-y-8 p-8">
+    <div className="space-y-6 p-4 md:p-6 lg:p-8">
       {/* Current Plan */}
       <Card className="border-card-border bg-gradient-card shadow-sm hover:shadow-md transition-all duration-300">
         <CardHeader className="border-b border-card-border/50">
@@ -109,7 +109,7 @@ export default function UserDashboard() {
           </div>
         </CardHeader>
         <CardContent className="pt-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
             <div className="space-y-3">
               <p className="admin-label text-foreground">Monthly Token Usage</p>
               <div className="space-y-3">
@@ -145,9 +145,9 @@ export default function UserDashboard() {
           </CardDescription>
         </CardHeader>
         <CardContent className="pt-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6 lg:gap-8">
             {/* Distribution by Country */}
-            <div className="space-y-4 h-96 flex flex-col">
+            <div className="space-y-4 h-80 md:h-96 flex flex-col">
               <h3 className="admin-card-title text-foreground text-lg">Distribution by Country</h3>
               <div className="space-y-3 flex-1 overflow-y-auto">
                 {countryDistribution.map((item, index) => (
@@ -168,7 +168,7 @@ export default function UserDashboard() {
             </div>
 
             {/* Organic Keywords Graph */}
-            <div className="space-y-4 h-96 flex flex-col">
+            <div className="space-y-4 h-80 md:h-96 flex flex-col">
               <div className="flex items-center justify-between">
                 <h3 className="admin-card-title text-foreground text-lg">Organic Keywords</h3>
                 <div className="flex items-center space-x-2">
@@ -221,7 +221,7 @@ export default function UserDashboard() {
           {/* Keyword Distribution */}
           <div className="mt-8 space-y-4">
             <h3 className="admin-card-title text-foreground text-lg">Keyword Ranking Distribution</h3>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2 md:gap-4">
               {keywordDistribution.map((item, index) => (
                 <div key={index} className="text-center">
                   <div className={`w-full h-2 ${item.color} rounded-full mb-2`}></div>
@@ -335,7 +335,7 @@ export default function UserDashboard() {
                 <div className="flex items-start justify-between mb-3">
                   <div className="flex-1">
                     <p className="admin-body-text font-medium text-foreground mb-1">{article.title}</p>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm">
                       <div>
                         <span className="admin-stats-label text-muted-foreground">ID: </span>
                         <span className="admin-stats-label text-foreground">{article.id}</span>

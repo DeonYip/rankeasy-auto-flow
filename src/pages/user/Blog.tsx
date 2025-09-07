@@ -73,7 +73,7 @@ export default function BlogPage() {
   };
 
   return (
-    <div className="space-y-8 p-8">
+    <div className="space-y-6 p-4 md:p-6 lg:p-8">
       {/* Header */}
       <div>
         <h1 className="admin-title">Blog Management</h1>
@@ -192,7 +192,7 @@ export default function BlogPage() {
 
       {/* Blog Statistics */}
       {connectionStatus === 'connected' && (
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-6">
           {/* Total Articles */}
           <Card className="bg-gradient-to-br from-blue-50 to-indigo-50 border-blue-200 shadow-md hover:shadow-lg transition-all duration-300">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 border-b border-blue-100">
@@ -280,7 +280,7 @@ export default function BlogPage() {
             <div className="space-y-4">
               {recentArticles.map((article, index) => (
                 <div key={article.id} className="p-4 rounded-lg bg-muted/50 hover:bg-muted/70 transition-colors duration-200 border border-card-border">
-                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-start">
+                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-2 md:gap-4 items-start">
                     {/* Index and Title */}
                     <div className="lg:col-span-1 flex items-center">
                       <span className="text-sm font-medium text-muted-foreground bg-muted rounded px-2 py-1">
