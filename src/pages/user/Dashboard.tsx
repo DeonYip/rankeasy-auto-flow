@@ -88,6 +88,15 @@ export default function UserDashboard() {
 
   return (
     <div className="space-y-6 p-4 md:p-6 lg:p-8">
+      {/* Mobile Welcome Header */}
+      <div className="block lg:hidden mb-6">
+        <h2 className="admin-section-title text-foreground text-xl font-semibold">
+          Welcome back, {user?.name || 'Premium User'}
+        </h2>
+        <p className="admin-subtitle text-sm text-muted-foreground mt-1">
+          Manage your AI content generation platform
+        </p>
+      </div>
       {/* Current Plan */}
       <Card className="border-card-border bg-gradient-card shadow-sm hover:shadow-md transition-all duration-300">
         <CardHeader className="border-b border-card-border/50">

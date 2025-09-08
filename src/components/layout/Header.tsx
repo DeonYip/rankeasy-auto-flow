@@ -16,7 +16,7 @@ export function Header() {
   const { user, logout } = useAuth();
 
   return (
-    <header className="bg-card border-b border-card-border px-4 md:px-6 py-3 md:py-4">
+    <header className="bg-card border-b border-border px-4 md:px-6 py-3 md:py-4 lg:block hidden">
       <div className="flex items-center justify-between">
         <div className="min-w-0 flex-1">
           <h2 className="admin-section-title text-foreground text-lg md:text-xl truncate">

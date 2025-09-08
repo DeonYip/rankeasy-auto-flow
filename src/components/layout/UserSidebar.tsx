@@ -73,7 +73,7 @@ export function UserSidebar() {
       </button>
 
       {/* Sidebar */}
-      <div className={`fixed inset-y-0 left-0 z-50 w-72 bg-sidebar-background border-r border-sidebar-border transform transition-transform duration-300 ease-in-out ${
+      <div className={`fixed inset-y-0 left-0 z-50 w-72 bg-card border-r border-border shadow-lg transform transition-transform duration-300 ease-in-out ${
         isMobileOpen ? 'translate-x-0' : '-translate-x-full'
       } lg:translate-x-0 lg:block`}>
         {/* Logo */}
