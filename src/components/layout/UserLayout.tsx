@@ -19,7 +19,7 @@ export function UserLayout({ children }: UserLayoutProps) {
       <UserSidebar />
       <div className="lg:pl-72">
         <Header />
-        <main className="pt-0 lg:pt-0">
+        <main className="lg:pt-0">
           {children}
         </main>
       </div>
