@@ -33,7 +33,8 @@ import {
   Calendar,
   ArrowLeft,
   Play,
-  Pause
+  Pause,
+  AlertTriangle
 } from 'lucide-react';
 
 // Mock data for prompt versions
@@ -383,45 +384,142 @@ function PromptVersionDetail({ version }: { version: string }) {
   const [activeTab, setActiveTab] = useState('user-intention');
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState(promptData);
+  const [lastSaved, setLastSaved] = useState(new Date());
+  const [showVersionSelector, setShowVersionSelector] = useState(false);
+  const [showCompareDialog, setShowCompareDialog] = useState(false);
+  const [showPreview, setShowPreview] = useState(false);
+  const [history, setHistory] = useState<Array<{timestamp: Date, action: string}>>([]);
+
+  // Mock version metadata
+  const versionMeta = {
+    createdAt: '2024-12-25 14:30',
+    creator: 'Admin - Zhang San',
+    status: version === 'v1.0' ? 'Active' : 'Draft',
+    isReferenced: version === 'v1.0'
+  };
 
   const handleSave = () => {
-    // In real implementation, this would save to backend
+    setLastSaved(new Date());
+    setHistory(prev => [...prev, { timestamp: new Date(), action: 'Saved changes' }].slice(-5));
     setIsEditing(false);
+  };
+
+  const handleFieldChange = (field: string, value: string) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+    setHistory(prev => [...prev, { timestamp: new Date(), action: `Modified ${field}` }].slice(-5));
+  };
+
+  const getCharacterCount = (text: string) => {
+    return text.length;
+  };
+
+  const getStatusBadge = (status: string) => {
+    const badgeClass = status === 'Active' 
+      ? 'bg-green-100 text-green-800 border-green-200' 
+      : status === 'Draft' 
+      ? 'bg-gray-100 text-gray-800 border-gray-200'
+      : 'bg-red-100 text-red-800 border-red-200';
+    
+    return <Badge className={badgeClass}>{status}</Badge>;
   };
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center space-x-4">
-          <Button variant="ghost" onClick={() => navigate('/admin/prompts')}>
-            <ArrowLeft className="h-4 w-4 mr-2" />
-            Back to Versions
-          </Button>
-          <div>
-            <h1 className="admin-title text-foreground">Prompt Version {version}</h1>
-            <p className="admin-subtitle text-muted-foreground">
-              Edit and configure your blog writing prompt
-            </p>
-          </div>
-        </div>
-        <div className="flex space-x-2">
-          {isEditing ? (
-            <>
-              <Button variant="outline" onClick={() => setIsEditing(false)}>
-                Cancel
+      {/* Breadcrumb Navigation */}
+      <nav className="flex items-center space-x-2 text-sm text-muted-foreground">
+        <Button variant="ghost" size="sm" onClick={() => navigate('/admin/dashboard')}>
+          Dashboard
+        </Button>
+        <span>/</span>
+        <Button variant="ghost" size="sm" onClick={() => navigate('/admin/prompts')}>
+          Prompt Management
+        </Button>
+        <span>/</span>
+        <span>Blog Writing Prompt</span>
+        <span>/</span>
+        <span className="text-foreground font-medium">{version}</span>
+      </nav>
+
+      {/* Version Dependency Alert */}
+      {versionMeta.isReferenced && (
+        <Card className="border-yellow-200 bg-yellow-50">
+          <CardContent className="pt-4">
+            <div className="flex items-center space-x-2">
+              <AlertTriangle className="h-4 w-4 text-yellow-600" />
+              <span className="text-yellow-800">
+                This version is referenced by the "Daily Auto-Publishing" task. Modifications may affect publishing results.
+              </span>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Version Information Bar */}
+      <Card className="bg-gradient-card border-card-border shadow-sm">
+        <CardHeader>
+          <div className="flex items-center justify-between">
+            <div className="space-y-2">
+              <h1 className="text-3xl font-bold text-foreground">Version {version}</h1>
+              <div className="flex items-center space-x-4 text-sm text-muted-foreground">
+                <div className="flex items-center space-x-1">
+                  <Calendar className="h-4 w-4" />
+                  <span>Created: {versionMeta.createdAt}</span>
+                </div>
+                <div className="flex items-center space-x-1">
+                  <span>Creator: {versionMeta.creator}</span>
+                </div>
+                <div className="flex items-center space-x-1">
+                  <span>Status:</span>
+                  {getStatusBadge(versionMeta.status)}
+                </div>
+              </div>
+            </div>
+            
+            {/* Core Operation Button Group */}
+            <div className="flex items-center space-x-2">
+              <Button variant="outline" onClick={() => setShowVersionSelector(true)}>
+                Switch Version
               </Button>
               <Button onClick={handleSave}>
-                Save Changes
+                Save Current Version
               </Button>
-            </>
-          ) : (
-            <Button onClick={() => setIsEditing(true)}>
-              <Edit3 className="h-4 w-4 mr-2" />
-              Edit Prompt
-            </Button>
-          )}
-        </div>
-      </div>
+              <Button variant="outline">
+                <Copy className="h-4 w-4 mr-2" />
+                Duplicate as New
+              </Button>
+              <Button variant="outline" onClick={() => setShowCompareDialog(true)}>
+                Compare Versions
+              </Button>
+              {versionMeta.status !== 'Active' && (
+                <Button variant="destructive" size="sm">
+                  Delete Version
+                </Button>
+              )}
+            </div>
+          </div>
+        </CardHeader>
+      </Card>
+
+      {/* Last Saved Info & History */}
+      <Card className="bg-card border-card-border shadow-sm">
+        <CardContent className="pt-4">
+          <div className="flex items-center justify-between text-sm">
+            <div className="text-muted-foreground">
+              Last saved: {lastSaved.toLocaleString()}
+            </div>
+            <div className="flex items-center space-x-4">
+              <span className="text-muted-foreground">Recent changes:</span>
+              <div className="flex space-x-2">
+                {history.slice(-3).map((item, index) => (
+                  <Badge key={index} variant="outline" className="text-xs">
+                    {item.action}
+                  </Badge>
+                ))}
+              </div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
 
       <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
         <TabsList className="grid w-full grid-cols-5">
@@ -437,18 +535,35 @@ function PromptVersionDetail({ version }: { version: string }) {
             <CardHeader>
               <CardTitle>User Intention and Outline</CardTitle>
               <CardDescription>
-                Define the purpose, goals, and target audience for your blog content
+                Define the core user needs the AI must understand (e.g., "Write a technical blog about AI programming") and the logical framework of the content (e.g., "Introduction - Core Features - Case Studies - Conclusion").
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <Textarea
-                value={formData.userIntention}
-                onChange={(e) => setFormData(prev => ({ ...prev, userIntention: e.target.value }))}
-                disabled={!isEditing}
-                rows={15}
-                className="min-h-[400px] font-mono text-sm"
-                placeholder="Enter user intention and outline instructions..."
-              />
+              <div className="space-y-4">
+                <Textarea
+                  value={formData.userIntention}
+                  onChange={(e) => handleFieldChange('userIntention', e.target.value)}
+                  rows={15}
+                  className="min-h-[400px] font-mono text-sm"
+                  placeholder="Enter user intention and outline instructions..."
+                />
+                <div className="flex items-center justify-between text-sm">
+                  <div className="text-muted-foreground">
+                    Characters: {getCharacterCount(formData.userIntention)} / 4000
+                    {getCharacterCount(formData.userIntention) > 3200 && 
+                      <span className="text-yellow-600 ml-2">⚠ Exceeds 80% of recommended length</span>
+                    }
+                  </div>
+                  <div className="flex space-x-2">
+                    <Button variant="ghost" size="sm" disabled>
+                      Undo (Ctrl+Z)
+                    </Button>
+                    <Button variant="ghost" size="sm" disabled>
+                      Redo (Ctrl+Y)
+                    </Button>
+                  </div>
+                </div>
+              </div>
             </CardContent>
           </Card>
         </TabsContent>
@@ -458,18 +573,32 @@ function PromptVersionDetail({ version }: { version: string }) {
             <CardHeader>
               <CardTitle>Writing Content</CardTitle>
               <CardDescription>
-                Main content generation instructions and guidelines
+                Define detailed requirements for AI-generated content (style, professionalism, length, key focus areas, etc.). Stores content generation rules (e.g., "Formal style with accurate technical terminology; avoid colloquial language; length restricted to 800-1000 words").
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <Textarea
-                value={formData.writingContent}
-                onChange={(e) => setFormData(prev => ({ ...prev, writingContent: e.target.value }))}
-                disabled={!isEditing}
-                rows={15}
-                className="min-h-[400px] font-mono text-sm"
-                placeholder="Enter writing content instructions..."
-              />
+              <div className="space-y-4">
+                <Textarea
+                  value={formData.writingContent}
+                  onChange={(e) => handleFieldChange('writingContent', e.target.value)}
+                  rows={15}
+                  className="min-h-[400px] font-mono text-sm"
+                  placeholder="Enter writing content instructions..."
+                />
+                <div className="flex items-center justify-between text-sm">
+                  <div className="text-muted-foreground">
+                    Characters: {getCharacterCount(formData.writingContent)} / 4000
+                  </div>
+                  <div className="flex space-x-2">
+                    <Button variant="ghost" size="sm" disabled>
+                      Undo (Ctrl+Z)
+                    </Button>
+                    <Button variant="ghost" size="sm" disabled>
+                      Redo (Ctrl+Y)
+                    </Button>
+                  </div>
+                </div>
+              </div>
             </CardContent>
           </Card>
         </TabsContent>
@@ -479,18 +608,32 @@ function PromptVersionDetail({ version }: { version: string }) {
             <CardHeader>
               <CardTitle>AI Removal</CardTitle>
               <CardDescription>
-                Instructions for making content sound more human and less AI-generated
+                Define rules for eliminating AI-generated traces (e.g., avoiding templated expressions, adding human-like details). Stores AI-removal instructions (e.g., "Remove all templated conjunctions like 'in summary' or 'firstly'; add 1-2 sentences explaining practical use cases after code examples").
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <Textarea
-                value={formData.aiRemoval}
-                onChange={(e) => setFormData(prev => ({ ...prev, aiRemoval: e.target.value }))}
-                disabled={!isEditing}
-                rows={15}
-                className="min-h-[400px] font-mono text-sm"
-                placeholder="Enter AI removal instructions..."
-              />
+              <div className="space-y-4">
+                <Textarea
+                  value={formData.aiRemoval}
+                  onChange={(e) => handleFieldChange('aiRemoval', e.target.value)}
+                  rows={15}
+                  className="min-h-[400px] font-mono text-sm"
+                  placeholder="Enter AI removal instructions..."
+                />
+                <div className="flex items-center justify-between text-sm">
+                  <div className="text-muted-foreground">
+                    Characters: {getCharacterCount(formData.aiRemoval)} / 4000
+                  </div>
+                  <div className="flex space-x-2">
+                    <Button variant="ghost" size="sm" disabled>
+                      Undo (Ctrl+Z)
+                    </Button>
+                    <Button variant="ghost" size="sm" disabled>
+                      Redo (Ctrl+Y)
+                    </Button>
+                  </div>
+                </div>
+              </div>
             </CardContent>
           </Card>
         </TabsContent>
@@ -500,18 +643,32 @@ function PromptVersionDetail({ version }: { version: string }) {
             <CardHeader>
               <CardTitle>Meta Structure</CardTitle>
               <CardDescription>
-                SEO meta tags, titles, descriptions, and structural guidelines
+                Define the format of blog metadata (title, abstract, keywords, categories, etc.). Stores metadata generation rules (e.g., "Title must include the keywords 'AI programming' and 'automation'; abstract limited to 100 words, including core features; 3-5 keywords automatically extracted").
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <Textarea
-                value={formData.metaStructure}
-                onChange={(e) => setFormData(prev => ({ ...prev, metaStructure: e.target.value }))}
-                disabled={!isEditing}
-                rows={15}
-                className="min-h-[400px] font-mono text-sm"
-                placeholder="Enter meta structure instructions..."
-              />
+              <div className="space-y-4">
+                <Textarea
+                  value={formData.metaStructure}
+                  onChange={(e) => handleFieldChange('metaStructure', e.target.value)}
+                  rows={15}
+                  className="min-h-[400px] font-mono text-sm"
+                  placeholder="Enter meta structure instructions..."
+                />
+                <div className="flex items-center justify-between text-sm">
+                  <div className="text-muted-foreground">
+                    Characters: {getCharacterCount(formData.metaStructure)} / 4000
+                  </div>
+                  <div className="flex space-x-2">
+                    <Button variant="ghost" size="sm" disabled>
+                      Undo (Ctrl+Z)
+                    </Button>
+                    <Button variant="ghost" size="sm" disabled>
+                      Redo (Ctrl+Y)
+                    </Button>
+                  </div>
+                </div>
+              </div>
             </CardContent>
           </Card>
         </TabsContent>
@@ -521,22 +678,81 @@ function PromptVersionDetail({ version }: { version: string }) {
             <CardHeader>
               <CardTitle>Images</CardTitle>
               <CardDescription>
-                Image selection, optimization, and placement guidelines
+                Define rules for AI-generated/matched images (theme, style, quantity, placement, etc.). Stores image instructions (e.g., "Generate 2 images: 1 screenshot of the Dashboard interface (minimalist style), 1 step-by-step diagram of the Prompt editing process; images must include alt text describing content").
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <Textarea
-                value={formData.images}
-                onChange={(e) => setFormData(prev => ({ ...prev, images: e.target.value }))}
-                disabled={!isEditing}
-                rows={15}
-                className="min-h-[400px] font-mono text-sm"
-                placeholder="Enter image instructions..."
-              />
+              <div className="space-y-4">
+                <Textarea
+                  value={formData.images}
+                  onChange={(e) => handleFieldChange('images', e.target.value)}
+                  rows={15}
+                  className="min-h-[400px] font-mono text-sm"
+                  placeholder="Enter image instructions..."
+                />
+                <div className="flex items-center justify-between text-sm">
+                  <div className="text-muted-foreground">
+                    Characters: {getCharacterCount(formData.images)} / 4000
+                  </div>
+                  <div className="flex space-x-2">
+                    <Button variant="ghost" size="sm" disabled>
+                      Undo (Ctrl+Z)
+                    </Button>
+                    <Button variant="ghost" size="sm" disabled>
+                      Redo (Ctrl+Y)
+                    </Button>
+                  </div>
+                </div>
+              </div>
             </CardContent>
           </Card>
         </TabsContent>
       </Tabs>
+
+      {/* Preview Function */}
+      <Card className="bg-card border-card-border shadow-sm">
+        <CardContent className="pt-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <h3 className="font-medium text-foreground">Preview Function</h3>
+              <p className="text-sm text-muted-foreground">
+                Generate a simulated effect of the current version's prompt to evaluate effectiveness
+              </p>
+            </div>
+            <Button onClick={() => setShowPreview(true)}>
+              Generate Preview
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Preview Dialog */}
+      <Dialog open={showPreview} onOpenChange={setShowPreview}>
+        <DialogContent className="max-w-4xl">
+          <DialogHeader>
+            <DialogTitle>Prompt Preview - Version {version}</DialogTitle>
+            <DialogDescription>
+              Sample content generated using current prompt configuration
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div className="bg-muted/50 p-4 rounded-lg">
+              <h4 className="font-medium mb-2">Generated Content Sample:</h4>
+              <p className="text-sm text-muted-foreground">
+                "The Ultimate Guide to AI Programming Automation: 5 Essential Techniques Every Developer Should Master"
+              </p>
+              <div className="mt-2 text-xs text-muted-foreground">
+                Meta: Title optimized for SEO | 800-1000 words | Professional tone | 3 code examples included
+              </div>
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setShowPreview(false)}>
+              Close
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
