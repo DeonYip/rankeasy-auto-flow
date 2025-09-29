@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -6,7 +7,6 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import {
   Table,
   TableBody,
@@ -28,467 +28,513 @@ import {
   MessageSquare,
   Plus,
   Edit3,
-  Trash2,
   Copy,
-  Search,
-  Tag,
-  Calendar,
   CheckCircle,
-  AlertTriangle,
-  MoreHorizontal
+  Calendar,
+  ArrowLeft,
+  Play,
+  Pause
 } from 'lucide-react';
 
+// Mock data for prompt versions
+const promptVersions = [
+  {
+    id: 'v1.0',
+    version: 'v1.0',
+    isActive: true,
+    lastUpdated: '2024-12-25',
+    blogsCreated: 47,
+    description: 'Initial blog writing prompt version'
+  },
+  {
+    id: 'v1.1',
+    version: 'v1.1',
+    isActive: false,
+    lastUpdated: '2024-12-20',
+    blogsCreated: 32,
+    description: 'Enhanced SEO optimization and meta structure'
+  },
+  {
+    id: 'v1.2',
+    version: 'v1.2',
+    isActive: false,
+    lastUpdated: '2024-12-15',
+    blogsCreated: 25,
+    description: 'Improved content flow and readability'
+  },
+  {
+    id: 'v0.9',
+    version: 'v0.9',
+    isActive: false,
+    lastUpdated: '2024-12-10',
+    blogsCreated: 18,
+    description: 'Beta version with basic functionality'
+  }
+];
+
+// Mock prompt data for a specific version
+const getPromptData = (version: string) => ({
+  userIntention: `Create comprehensive, SEO-optimized blog posts that provide valuable insights and drive organic traffic. Focus on user search intent and deliver actionable content that establishes authority in the subject matter.
+
+Target audience: Business professionals, entrepreneurs, and industry experts seeking practical knowledge and insights.
+
+Goals:
+- Increase organic search visibility
+- Establish thought leadership
+- Drive qualified traffic to the website
+- Encourage social sharing and engagement`,
+
+  writingContent: `Write a comprehensive, engaging blog post about [TOPIC] that follows these guidelines:
+
+**Structure Requirements:**
+- Start with a compelling hook in the introduction
+- Use clear, descriptive H2 and H3 headings
+- Include 5-7 main sections with 150-200 words each
+- Add bullet points and numbered lists for easy scanning
+- Conclude with actionable takeaways
+
+**Content Guidelines:**
+- Write in a conversational yet professional tone
+- Include relevant statistics, examples, and case studies
+- Use transition sentences between sections
+- Incorporate the target keyword [KEYWORD] naturally
+- Add internal linking opportunities where relevant
+
+**SEO Requirements:**
+- Target word count: [WORD_COUNT] words
+- Include keyword variations and LSI keywords
+- Optimize for featured snippets with clear answers
+- Use semantic keywords related to the main topic`,
+
+  aiRemoval: `Instructions for removing AI-like patterns and ensuring human-like content:
+
+**Avoid AI Patterns:**
+- Remove phrases like "In conclusion," "It's important to note," "Furthermore"
+- Eliminate repetitive sentence structures
+- Avoid overly formal or robotic language
+- Remove generic statements without specificity
+
+**Humanization Techniques:**
+- Add personal insights and opinions
+- Include real-world examples and anecdotes
+- Use conversational connectors like "Here's the thing" or "What's interesting is"
+- Vary sentence length and structure naturally
+- Include rhetorical questions to engage readers
+
+**Content Enhancement:**
+- Add specific numbers, percentages, and data points
+- Include industry-specific terminology naturally
+- Create unique analogies and comparisons
+- Add controversial or thought-provoking statements (when appropriate)`,
+
+  metaStructure: `Meta title and description optimization guidelines:
+
+**Meta Title (50-60 characters):**
+- Include primary keyword [KEYWORD] near the beginning
+- Create compelling, click-worthy titles
+- Use power words like "Ultimate," "Complete," "Essential"
+- Ensure it accurately reflects the content
+- Format: [Number] [Adjective] [Keyword] [Benefit/Action]
+
+**Meta Description (150-160 characters):**
+- Include primary keyword and 1-2 secondary keywords
+- Create a compelling summary that encourages clicks
+- Include a clear value proposition
+- End with a call-to-action when appropriate
+- Use active voice and action-oriented language
+
+**URL Structure:**
+- Use primary keyword in URL slug
+- Keep it concise and readable
+- Use hyphens to separate words
+- Avoid unnecessary words like "a," "the," "and"
+
+**Schema Markup:**
+- Implement Article schema
+- Include author, publication date, and organization
+- Add FAQ schema for Q&A sections
+- Consider HowTo schema for step-by-step content`,
+
+  images: `Image optimization and selection guidelines:
+
+**Image Selection:**
+- Choose high-quality, relevant images that support the content
+- Use original images when possible, or high-quality stock photos
+- Ensure images match the article's tone and brand style
+- Include at least 1 hero image and 3-5 supporting images
+
+**Technical Requirements:**
+- Optimal size: 1200x630 pixels for featured images
+- File format: WebP for smaller file sizes, JPG/PNG as fallback
+- Compress images to under 100KB when possible
+- Use descriptive, keyword-rich file names
+
+**Alt Text Optimization:**
+- Write descriptive alt text including target keywords naturally
+- Keep alt text between 100-125 characters
+- Describe what the image shows, not just keywords
+- Include location or brand name when relevant
+
+**Image Placement:**
+- Place hero image after the introduction
+- Break up long text sections with relevant images
+- Use images to illustrate complex concepts
+- Consider infographics for data-heavy content
+
+**Captions and Attribution:**
+- Add engaging captions that encourage further reading
+- Include proper attribution for licensed images
+- Use captions to provide additional context or insights
+- Keep captions concise but informative`
+});
+
 export default function PromptManagement() {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('all');
-  const [selectedStatus, setSelectedStatus] = useState('all');
-  const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
+  const { version } = useParams();
+  const navigate = useNavigate();
+  const [activeVersion, setActiveVersion] = useState('v1.0');
+  const [isCloneDialogOpen, setIsCloneDialogOpen] = useState(false);
+  const [cloneVersion, setCloneVersion] = useState('');
 
-  const promptStats = [
-    {
-      title: 'Total Prompts',
-      value: '147',
-      change: '+8 this month',
-      icon: MessageSquare,
-      color: 'bg-blue-500'
-    },
-    {
-      title: 'Active Prompts',
-      value: '134',
-      change: '+5 this month',
-      icon: CheckCircle,
-      color: 'bg-green-500'
-    },
-    {
-      title: 'Categories',
-      value: '12',
-      change: '+2 this month',
-      icon: Tag,
-      color: 'bg-purple-500'
-    },
-    {
-      title: 'Usage Today',
-      value: '2,847',
-      change: '+12.3%',
-      icon: MessageSquare,
-      color: 'bg-orange-500'
-    }
-  ];
+  // If version parameter exists, show the detail page
+  if (version) {
+    return <PromptVersionDetail version={version} />;
+  }
 
-  const prompts = [
-    {
-      id: 'prompt_001',
-      name: 'SEO Article Writer',
-      description: 'Generates comprehensive SEO-optimized articles',
-      category: 'Content Creation',
-      status: 'Active',
-      usageCount: 2847,
-      lastUsed: '2 hours ago',
-      createdDate: '2024-01-15',
-      prompt: 'Write a comprehensive SEO-optimized article about [TOPIC]. Include proper headings, meta description, and focus on user intent...',
-      variables: ['TOPIC', 'KEYWORD', 'WORD_COUNT']
-    },
-    {
-      id: 'prompt_002',
-      name: 'Product Description Generator',
-      description: 'Creates compelling product descriptions for e-commerce',
-      category: 'E-commerce',
-      status: 'Active',
-      usageCount: 1923,
-      lastUsed: '1 hour ago',
-      createdDate: '2024-02-20',
-      prompt: 'Create a compelling product description for [PRODUCT_NAME]. Highlight key features, benefits, and include a call-to-action...',
-      variables: ['PRODUCT_NAME', 'FEATURES', 'PRICE']
-    },
-    {
-      id: 'prompt_003',
-      name: 'Social Media Post Creator',
-      description: 'Generates engaging social media content',
-      category: 'Social Media',
-      status: 'Active',
-      usageCount: 1456,
-      lastUsed: '3 hours ago',
-      createdDate: '2024-03-10',
-      prompt: 'Create an engaging social media post for [PLATFORM] about [TOPIC]. Include relevant hashtags and call-to-action...',
-      variables: ['PLATFORM', 'TOPIC', 'TONE']
-    },
-    {
-      id: 'prompt_004',
-      name: 'Email Marketing Template',
-      description: 'Creates persuasive email marketing campaigns',
-      category: 'Email Marketing',
-      status: 'Draft',
-      usageCount: 0,
-      lastUsed: 'Never',
-      createdDate: '2024-12-01',
-      prompt: 'Create a persuasive email marketing campaign for [CAMPAIGN_TYPE]. Include subject line, body content, and CTA...',
-      variables: ['CAMPAIGN_TYPE', 'AUDIENCE', 'OFFER']
-    },
-    {
-      id: 'prompt_005',
-      name: 'Blog Post Outline',
-      description: 'Generates structured blog post outlines',
-      category: 'Content Creation',
-      status: 'Active',
-      usageCount: 987,
-      lastUsed: '5 hours ago',
-      createdDate: '2024-04-15',
-      prompt: 'Create a detailed blog post outline for [TOPIC]. Include introduction, main sections, key points, and conclusion...',
-      variables: ['TOPIC', 'AUDIENCE', 'WORD_COUNT']
-    }
-  ];
-
-  const categories = ['Content Creation', 'E-commerce', 'Social Media', 'Email Marketing', 'SEO', 'Analytics'];
-
-  const getStatusBadge = (status: string) => {
-    switch (status) {
-      case 'Active':
-        return <Badge className="bg-green-100 text-green-800 border-green-200">Active</Badge>;
-      case 'Draft':
-        return <Badge className="bg-gray-100 text-gray-800 border-gray-200">Draft</Badge>;
-      case 'Archived':
-        return <Badge className="bg-red-100 text-red-800 border-red-200">Archived</Badge>;
-      default:
-        return <Badge variant="outline">{status}</Badge>;
-    }
+  const handleActivate = (versionId: string) => {
+    setActiveVersion(versionId);
+    // In real implementation, this would update the backend
   };
 
-  const filteredPrompts = prompts.filter(prompt => {
-    const matchesSearch = prompt.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         prompt.description.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCategory = selectedCategory === 'all' || prompt.category === selectedCategory;
-    const matchesStatus = selectedStatus === 'all' || prompt.status.toLowerCase() === selectedStatus;
-    
-    return matchesSearch && matchesCategory && matchesStatus;
-  });
+  const handleClone = (versionId: string) => {
+    setCloneVersion(versionId);
+    setIsCloneDialogOpen(true);
+  };
+
+  const handleEdit = (versionId: string) => {
+    navigate(`/admin/prompts/${versionId}`);
+  };
 
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="admin-title text-foreground">Prompt Management</h1>
+          <h1 className="admin-title text-foreground">Blog Writing Prompt Versions</h1>
           <p className="admin-subtitle text-muted-foreground">
-            Manage AI prompts, templates, and automation workflows
+            Manage different versions of your blog writing prompts. Only one version can be active at a time.
           </p>
         </div>
-        <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
-          <DialogTrigger asChild>
-            <Button className="admin-button">
-              <Plus className="h-4 w-4 mr-2" />
-              Create Prompt
-            </Button>
-          </DialogTrigger>
-          <DialogContent className="max-w-2xl">
-            <DialogHeader>
-              <DialogTitle>Create New Prompt</DialogTitle>
-              <DialogDescription>
-                Create a new AI prompt template for content generation
-              </DialogDescription>
-            </DialogHeader>
-            <div className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <Label htmlFor="prompt-name">Prompt Name</Label>
-                  <Input id="prompt-name" placeholder="Enter prompt name" />
-                </div>
-                <div>
-                  <Label htmlFor="prompt-category">Category</Label>
-                  <Select>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select category" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {categories.map(category => (
-                        <SelectItem key={category} value={category}>{category}</SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
-              <div>
-                <Label htmlFor="prompt-description">Description</Label>
-                <Input id="prompt-description" placeholder="Enter prompt description" />
-              </div>
-              <div>
-                <Label htmlFor="prompt-content">Prompt Content</Label>
-                <Textarea 
-                  id="prompt-content" 
-                  placeholder="Enter your prompt template..." 
-                  rows={8}
-                />
-              </div>
-              <div>
-                <Label htmlFor="prompt-variables">Variables (comma-separated)</Label>
-                <Input id="prompt-variables" placeholder="e.g., TOPIC, KEYWORD, WORD_COUNT" />
-              </div>
+        <Button className="admin-button" onClick={() => setIsCloneDialogOpen(true)}>
+          <Plus className="h-4 w-4 mr-2" />
+          Create New Version
+        </Button>
+      </div>
+
+      {/* Active Prompt Status */}
+      <Card className="bg-gradient-card border-card-border shadow-sm">
+        <CardHeader>
+          <CardTitle className="admin-card-title text-foreground flex items-center">
+            <CheckCircle className="h-5 w-5 text-green-500 mr-2" />
+            Currently Active: {promptVersions.find(p => p.isActive)?.version}
+          </CardTitle>
+          <CardDescription className="admin-card-description text-muted-foreground">
+            This version is currently being used for all blog generation
+          </CardDescription>
+        </CardHeader>
+      </Card>
+
+      {/* Prompt Versions List */}
+      <Card className="bg-card border-card-border shadow-sm hover:shadow-md transition-all duration-300">
+        <CardHeader>
+          <CardTitle className="admin-card-title text-foreground">Prompt Version History</CardTitle>
+          <CardDescription className="admin-card-description text-muted-foreground">
+            All versions of your blog writing prompts
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Version</TableHead>
+                <TableHead>Status</TableHead>
+                <TableHead>Last Updated</TableHead>
+                <TableHead>Blogs Created</TableHead>
+                <TableHead>Description</TableHead>
+                <TableHead className="w-[200px]">Actions</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {promptVersions.map((prompt) => (
+                <TableRow 
+                  key={prompt.id} 
+                  className="cursor-pointer hover:bg-muted/50"
+                  onClick={() => navigate(`/admin/prompts/${prompt.version}`)}
+                >
+                  <TableCell>
+                    <div className="font-medium text-foreground">{prompt.version}</div>
+                  </TableCell>
+                  <TableCell>
+                    {prompt.isActive ? (
+                      <Badge className="bg-green-100 text-green-800 border-green-200">
+                        <Play className="h-3 w-3 mr-1" />
+                        Active
+                      </Badge>
+                    ) : (
+                      <Badge variant="outline" className="text-muted-foreground">
+                        <Pause className="h-3 w-3 mr-1" />
+                        Inactive
+                      </Badge>
+                    )}
+                  </TableCell>
+                  <TableCell>
+                    <div className="flex items-center text-muted-foreground">
+                      <Calendar className="h-4 w-4 mr-2" />
+                      {prompt.lastUpdated}
+                    </div>
+                  </TableCell>
+                  <TableCell>
+                    <div className="flex items-center">
+                      <MessageSquare className="h-4 w-4 mr-2 text-blue-500" />
+                      <span className="font-medium">{prompt.blogsCreated}</span>
+                    </div>
+                  </TableCell>
+                  <TableCell>
+                    <span className="text-muted-foreground">{prompt.description}</span>
+                  </TableCell>
+                  <TableCell>
+                    <div className="flex items-center space-x-2">
+                      {!prompt.isActive && (
+                        <Button 
+                          variant="outline" 
+                          size="sm"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleActivate(prompt.id);
+                          }}
+                        >
+                          Activate
+                        </Button>
+                      )}
+                      <Button 
+                        variant="ghost" 
+                        size="sm"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleEdit(prompt.version);
+                        }}
+                      >
+                        <Edit3 className="h-4 w-4" />
+                      </Button>
+                      <Button 
+                        variant="ghost" 
+                        size="sm"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleClone(prompt.id);
+                        }}
+                      >
+                        <Copy className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </CardContent>
+      </Card>
+
+      {/* Clone Dialog */}
+      <Dialog open={isCloneDialogOpen} onOpenChange={setIsCloneDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Clone Prompt Version</DialogTitle>
+            <DialogDescription>
+              Create a new version based on an existing prompt
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div>
+              <Label htmlFor="new-version">New Version Number</Label>
+              <Input id="new-version" placeholder="e.g., v1.3" />
             </div>
-            <DialogFooter>
-              <Button variant="outline" onClick={() => setIsCreateDialogOpen(false)}>
+            <div>
+              <Label htmlFor="description">Description</Label>
+              <Input id="description" placeholder="Brief description of changes" />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setIsCloneDialogOpen(false)}>
+              Cancel
+            </Button>
+            <Button onClick={() => setIsCloneDialogOpen(false)}>
+              Create Version
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </div>
+  );
+}
+
+// Component for individual prompt version detail page
+function PromptVersionDetail({ version }: { version: string }) {
+  const navigate = useNavigate();
+  const promptData = getPromptData(version);
+  const [activeTab, setActiveTab] = useState('user-intention');
+  const [isEditing, setIsEditing] = useState(false);
+  const [formData, setFormData] = useState(promptData);
+
+  const handleSave = () => {
+    // In real implementation, this would save to backend
+    setIsEditing(false);
+  };
+
+  return (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <div className="flex items-center space-x-4">
+          <Button variant="ghost" onClick={() => navigate('/admin/prompts')}>
+            <ArrowLeft className="h-4 w-4 mr-2" />
+            Back to Versions
+          </Button>
+          <div>
+            <h1 className="admin-title text-foreground">Prompt Version {version}</h1>
+            <p className="admin-subtitle text-muted-foreground">
+              Edit and configure your blog writing prompt
+            </p>
+          </div>
+        </div>
+        <div className="flex space-x-2">
+          {isEditing ? (
+            <>
+              <Button variant="outline" onClick={() => setIsEditing(false)}>
                 Cancel
               </Button>
-              <Button onClick={() => setIsCreateDialogOpen(false)}>
-                Create Prompt
+              <Button onClick={handleSave}>
+                Save Changes
               </Button>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
+            </>
+          ) : (
+            <Button onClick={() => setIsEditing(true)}>
+              <Edit3 className="h-4 w-4 mr-2" />
+              Edit Prompt
+            </Button>
+          )}
+        </div>
       </div>
 
-      {/* Statistics */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {promptStats.map((stat, index) => (
-          <Card key={index} className="bg-gradient-card border-card-border shadow-sm hover:shadow-md transition-all duration-300">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="admin-card-description text-muted-foreground text-sm font-medium">
-                {stat.title}
-              </CardTitle>
-              <div className={`w-8 h-8 rounded-lg ${stat.color} flex items-center justify-center`}>
-                <stat.icon className="h-4 w-4 text-white" />
-              </div>
-            </CardHeader>
-            <CardContent>
-              <div className="admin-stats-value text-foreground">{stat.value}</div>
-              <p className="text-xs text-green-600 mt-1">{stat.change}</p>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
-
-      <Tabs defaultValue="all-prompts" className="space-y-6">
-        <TabsList className="grid w-full grid-cols-4 lg:w-[600px]">
-          <TabsTrigger value="all-prompts">All Prompts</TabsTrigger>
-          <TabsTrigger value="active">Active</TabsTrigger>
-          <TabsTrigger value="categories">Categories</TabsTrigger>
-          <TabsTrigger value="analytics">Analytics</TabsTrigger>
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
+        <TabsList className="grid w-full grid-cols-5">
+          <TabsTrigger value="user-intention">User Intention</TabsTrigger>
+          <TabsTrigger value="writing-content">Writing Content</TabsTrigger>
+          <TabsTrigger value="ai-removal">AI Removal</TabsTrigger>
+          <TabsTrigger value="meta-structure">Meta Structure</TabsTrigger>
+          <TabsTrigger value="images">Images</TabsTrigger>
         </TabsList>
 
-        <TabsContent value="all-prompts" className="space-y-6">
-          {/* Filters and Search */}
+        <TabsContent value="user-intention" className="space-y-4">
           <Card className="bg-card border-card-border shadow-sm">
-            <CardContent className="pt-6">
-              <div className="flex flex-col md:flex-row gap-4">
-                <div className="flex-1">
-                  <Label htmlFor="search" className="admin-label text-foreground">Search Prompts</Label>
-                  <div className="relative mt-2">
-                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                    <Input
-                      id="search"
-                      placeholder="Search by name or description..."
-                      value={searchTerm}
-                      onChange={(e) => setSearchTerm(e.target.value)}
-                      className="pl-10"
-                    />
-                  </div>
-                </div>
-                <div>
-                  <Label className="admin-label text-foreground">Category</Label>
-                  <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-                    <SelectTrigger className="mt-2 w-[180px]">
-                      <SelectValue placeholder="Select category" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="all">All Categories</SelectItem>
-                      {categories.map(category => (
-                        <SelectItem key={category} value={category}>{category}</SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div>
-                  <Label className="admin-label text-foreground">Status</Label>
-                  <Select value={selectedStatus} onValueChange={setSelectedStatus}>
-                    <SelectTrigger className="mt-2 w-[150px]">
-                      <SelectValue placeholder="Select status" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="all">All Status</SelectItem>
-                      <SelectItem value="active">Active</SelectItem>
-                      <SelectItem value="draft">Draft</SelectItem>
-                      <SelectItem value="archived">Archived</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Prompts Table */}
-          <Card className="bg-card border-card-border shadow-sm hover:shadow-md transition-all duration-300">
             <CardHeader>
-              <CardTitle className="admin-card-title text-foreground">Prompts</CardTitle>
-              <CardDescription className="admin-card-description text-muted-foreground">
-                {filteredPrompts.length} prompts found
+              <CardTitle>User Intention and Outline</CardTitle>
+              <CardDescription>
+                Define the purpose, goals, and target audience for your blog content
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Prompt</TableHead>
-                    <TableHead>Category</TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead>Usage</TableHead>
-                    <TableHead>Last Used</TableHead>
-                    <TableHead className="w-[100px]">Actions</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {filteredPrompts.map((prompt) => (
-                    <TableRow key={prompt.id}>
-                      <TableCell>
-                        <div className="space-y-1">
-                          <div className="admin-body-text text-foreground font-medium">{prompt.name}</div>
-                          <div className="admin-stats-label text-muted-foreground">{prompt.description}</div>
-                          <div className="admin-stats-label text-muted-foreground text-xs">ID: {prompt.id}</div>
-                          <div className="flex flex-wrap gap-1 mt-1">
-                            {prompt.variables.map((variable, index) => (
-                              <Badge key={index} variant="outline" className="text-xs">
-                                {variable}
-                              </Badge>
-                            ))}
-                          </div>
-                        </div>
-                      </TableCell>
-                      <TableCell>
-                        <Badge className="bg-blue-100 text-blue-800 border-blue-200">
-                          {prompt.category}
-                        </Badge>
-                      </TableCell>
-                      <TableCell>
-                        {getStatusBadge(prompt.status)}
-                      </TableCell>
-                      <TableCell>
-                        <span className="admin-body-text text-foreground">{prompt.usageCount.toLocaleString()}</span>
-                      </TableCell>
-                      <TableCell>
-                        <span className="admin-stats-label text-muted-foreground">{prompt.lastUsed}</span>
-                      </TableCell>
-                      <TableCell>
-                        <div className="flex items-center space-x-2">
-                          <Button variant="ghost" size="sm">
-                            <Edit3 className="h-4 w-4" />
-                          </Button>
-                          <Button variant="ghost" size="sm">
-                            <Copy className="h-4 w-4" />
-                          </Button>
-                          <Button variant="ghost" size="sm">
-                            <MoreHorizontal className="h-4 w-4" />
-                          </Button>
-                        </div>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
+              <Textarea
+                value={formData.userIntention}
+                onChange={(e) => setFormData(prev => ({ ...prev, userIntention: e.target.value }))}
+                disabled={!isEditing}
+                rows={15}
+                className="min-h-[400px] font-mono text-sm"
+                placeholder="Enter user intention and outline instructions..."
+              />
             </CardContent>
           </Card>
         </TabsContent>
 
-        <TabsContent value="active">
+        <TabsContent value="writing-content" className="space-y-4">
           <Card className="bg-card border-card-border shadow-sm">
             <CardHeader>
-              <CardTitle className="admin-card-title text-foreground">Active Prompts</CardTitle>
-              <CardDescription className="admin-card-description text-muted-foreground">
-                Currently active and available prompts
+              <CardTitle>Writing Content</CardTitle>
+              <CardDescription>
+                Main content generation instructions and guidelines
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="text-center py-8">
-                <CheckCircle className="h-12 w-12 text-green-500 mx-auto mb-4" />
-                <p className="admin-body-text text-muted-foreground">
-                  {prompts.filter(p => p.status === 'Active').length} active prompts
-                </p>
-              </div>
+              <Textarea
+                value={formData.writingContent}
+                onChange={(e) => setFormData(prev => ({ ...prev, writingContent: e.target.value }))}
+                disabled={!isEditing}
+                rows={15}
+                className="min-h-[400px] font-mono text-sm"
+                placeholder="Enter writing content instructions..."
+              />
             </CardContent>
           </Card>
         </TabsContent>
 
-        <TabsContent value="categories">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {categories.map((category, index) => {
-              const categoryPrompts = prompts.filter(p => p.category === category);
-              const totalUsage = categoryPrompts.reduce((sum, p) => sum + p.usageCount, 0);
-              
-              return (
-                <Card key={index} className="bg-card border-card-border shadow-sm hover:shadow-md transition-all duration-300">
-                  <CardHeader>
-                    <CardTitle className="admin-card-title text-foreground">{category}</CardTitle>
-                    <CardDescription className="admin-card-description text-muted-foreground">
-                      {categoryPrompts.length} prompts
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="space-y-2">
-                      <div className="flex items-center justify-between">
-                        <span className="admin-body-text text-muted-foreground">Total Usage</span>
-                        <span className="admin-stats-value text-foreground text-sm">{totalUsage.toLocaleString()}</span>
-                      </div>
-                      <div className="flex items-center justify-between">
-                        <span className="admin-body-text text-muted-foreground">Active Prompts</span>
-                        <span className="admin-stats-value text-foreground text-sm">
-                          {categoryPrompts.filter(p => p.status === 'Active').length}
-                        </span>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              );
-            })}
-          </div>
+        <TabsContent value="ai-removal" className="space-y-4">
+          <Card className="bg-card border-card-border shadow-sm">
+            <CardHeader>
+              <CardTitle>AI Removal</CardTitle>
+              <CardDescription>
+                Instructions for making content sound more human and less AI-generated
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Textarea
+                value={formData.aiRemoval}
+                onChange={(e) => setFormData(prev => ({ ...prev, aiRemoval: e.target.value }))}
+                disabled={!isEditing}
+                rows={15}
+                className="min-h-[400px] font-mono text-sm"
+                placeholder="Enter AI removal instructions..."
+              />
+            </CardContent>
+          </Card>
         </TabsContent>
 
-        <TabsContent value="analytics">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <Card className="bg-card border-card-border shadow-sm">
-              <CardHeader>
-                <CardTitle className="admin-card-title text-foreground">Most Used Prompts</CardTitle>
-                <CardDescription className="admin-card-description text-muted-foreground">
-                  Top performing prompts by usage
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {prompts.sort((a, b) => b.usageCount - a.usageCount).slice(0, 5).map((prompt, index) => (
-                    <div key={prompt.id} className="flex items-center justify-between p-3 rounded-lg bg-card-hover border border-card-border/30">
-                      <div>
-                        <div className="admin-body-text text-foreground font-medium">{prompt.name}</div>
-                        <div className="admin-stats-label text-muted-foreground">{prompt.category}</div>
-                      </div>
-                      <div className="text-right">
-                        <div className="admin-stats-value text-foreground text-sm">{prompt.usageCount.toLocaleString()}</div>
-                        <div className="admin-stats-label text-muted-foreground">uses</div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
+        <TabsContent value="meta-structure" className="space-y-4">
+          <Card className="bg-card border-card-border shadow-sm">
+            <CardHeader>
+              <CardTitle>Meta Structure</CardTitle>
+              <CardDescription>
+                SEO meta tags, titles, descriptions, and structural guidelines
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Textarea
+                value={formData.metaStructure}
+                onChange={(e) => setFormData(prev => ({ ...prev, metaStructure: e.target.value }))}
+                disabled={!isEditing}
+                rows={15}
+                className="min-h-[400px] font-mono text-sm"
+                placeholder="Enter meta structure instructions..."
+              />
+            </CardContent>
+          </Card>
+        </TabsContent>
 
-            <Card className="bg-card border-card-border shadow-sm">
-              <CardHeader>
-                <CardTitle className="admin-card-title text-foreground">Category Performance</CardTitle>
-                <CardDescription className="admin-card-description text-muted-foreground">
-                  Usage breakdown by category
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {categories.slice(0, 4).map((category, index) => {
-                    const categoryUsage = prompts
-                      .filter(p => p.category === category)
-                      .reduce((sum, p) => sum + p.usageCount, 0);
-                    
-                    return (
-                      <div key={category} className="flex items-center justify-between">
-                        <span className="admin-body-text text-foreground">{category}</span>
-                        <span className="admin-stats-value text-foreground text-sm">{categoryUsage.toLocaleString()}</span>
-                      </div>
-                    );
-                  })}
-                </div>
-              </CardContent>
-            </Card>
-          </div>
+        <TabsContent value="images" className="space-y-4">
+          <Card className="bg-card border-card-border shadow-sm">
+            <CardHeader>
+              <CardTitle>Images</CardTitle>
+              <CardDescription>
+                Image selection, optimization, and placement guidelines
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Textarea
+                value={formData.images}
+                onChange={(e) => setFormData(prev => ({ ...prev, images: e.target.value }))}
+                disabled={!isEditing}
+                rows={15}
+                className="min-h-[400px] font-mono text-sm"
+                placeholder="Enter image instructions..."
+              />
+            </CardContent>
+          </Card>
         </TabsContent>
       </Tabs>
     </div>
