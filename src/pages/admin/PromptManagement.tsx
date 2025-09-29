@@ -34,7 +34,10 @@ import {
   ArrowLeft,
   Play,
   Pause,
-  AlertTriangle
+  AlertTriangle,
+  ArrowUpDown,
+  ArrowUp,
+  ArrowDown
 } from 'lucide-react';
 
 // Mock data for prompt versions
@@ -195,15 +198,56 @@ export default function PromptManagement() {
   const [activeVersion, setActiveVersion] = useState('v1.0');
   const [isCloneDialogOpen, setIsCloneDialogOpen] = useState(false);
   const [cloneVersion, setCloneVersion] = useState('');
+  const [sortField, setSortField] = useState<'version' | 'lastUpdated'>('version');
+  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc');
 
   // If version parameter exists, show the detail page
   if (version) {
     return <PromptVersionDetail version={version} />;
   }
 
-  const handleActivate = (versionId: string) => {
+  const handleToggleStatus = (versionId: string) => {
     setActiveVersion(versionId);
     // In real implementation, this would update the backend
+  };
+
+  const handleSort = (field: 'version' | 'lastUpdated') => {
+    if (sortField === field) {
+      setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
+    } else {
+      setSortField(field);
+      setSortDirection('desc');
+    }
+  };
+
+  const getSortedVersions = () => {
+    return [...promptVersions].sort((a, b) => {
+      let aVal, bVal;
+      
+      if (sortField === 'version') {
+        // Parse version numbers for proper sorting (v1.0, v1.1, v1.2, etc.)
+        aVal = parseFloat(a.version.replace('v', ''));
+        bVal = parseFloat(b.version.replace('v', ''));
+      } else {
+        aVal = new Date(a.lastUpdated).getTime();
+        bVal = new Date(b.lastUpdated).getTime();
+      }
+      
+      if (sortDirection === 'asc') {
+        return aVal - bVal;
+      } else {
+        return bVal - aVal;
+      }
+    });
+  };
+
+  const getSortIcon = (field: 'version' | 'lastUpdated') => {
+    if (sortField !== field) {
+      return <ArrowUpDown className="h-4 w-4 text-muted-foreground" />;
+    }
+    return sortDirection === 'asc' 
+      ? <ArrowUp className="h-4 w-4 text-primary" />
+      : <ArrowDown className="h-4 w-4 text-primary" />;
   };
 
   const handleClone = (versionId: string) => {
@@ -255,66 +299,85 @@ export default function PromptManagement() {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Version</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Last Updated</TableHead>
-                <TableHead>Blogs Created</TableHead>
-                <TableHead>Description</TableHead>
+                <TableHead className="w-[120px]">
+                  <Button
+                    variant="ghost"
+                    className="h-auto p-0 font-semibold hover:bg-transparent"
+                    onClick={() => handleSort('version')}
+                  >
+                    Version
+                    {getSortIcon('version')}
+                  </Button>
+                </TableHead>
+                <TableHead className="w-[160px]">
+                  <Button
+                    variant="ghost"
+                    className="h-auto p-0 font-semibold hover:bg-transparent"
+                    onClick={() => handleSort('lastUpdated')}
+                  >
+                    Last Updated
+                    {getSortIcon('lastUpdated')}
+                  </Button>
+                </TableHead>
+                <TableHead className="w-[140px]">Blogs Created</TableHead>
+                <TableHead className="flex-1">Description</TableHead>
                 <TableHead className="w-[200px]">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {promptVersions.map((prompt) => (
+              {getSortedVersions().map((prompt, index) => (
                 <TableRow 
                   key={prompt.id} 
-                  className="cursor-pointer hover:bg-muted/50"
+                  className={`cursor-pointer hover:bg-muted/50 transition-colors border-b ${
+                    index % 2 === 1 ? 'bg-muted/20' : 'bg-background'
+                  }`}
                   onClick={() => navigate(`/admin/prompts/${prompt.version}`)}
                 >
-                  <TableCell>
+                  <TableCell className="border-r border-border/50">
                     <div className="font-medium text-foreground">{prompt.version}</div>
                   </TableCell>
-                  <TableCell>
-                    {prompt.isActive ? (
-                      <Badge className="bg-green-100 text-green-800 border-green-200">
-                        <Play className="h-3 w-3 mr-1" />
-                        Active
-                      </Badge>
-                    ) : (
-                      <Badge variant="outline" className="text-muted-foreground">
-                        <Pause className="h-3 w-3 mr-1" />
-                        Inactive
-                      </Badge>
-                    )}
-                  </TableCell>
-                  <TableCell>
+                  <TableCell className="border-r border-border/50">
                     <div className="flex items-center text-muted-foreground">
                       <Calendar className="h-4 w-4 mr-2" />
                       {prompt.lastUpdated}
                     </div>
                   </TableCell>
-                  <TableCell>
+                  <TableCell className="border-r border-border/50">
                     <div className="flex items-center">
                       <MessageSquare className="h-4 w-4 mr-2 text-blue-500" />
                       <span className="font-medium">{prompt.blogsCreated}</span>
                     </div>
                   </TableCell>
-                  <TableCell>
+                  <TableCell className="border-r border-border/50">
                     <span className="text-muted-foreground">{prompt.description}</span>
                   </TableCell>
                   <TableCell>
                     <div className="flex items-center space-x-2">
-                      {!prompt.isActive && (
-                        <Button 
-                          variant="outline" 
-                          size="sm"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleActivate(prompt.id);
-                          }}
-                        >
-                          Activate
-                        </Button>
-                      )}
+                      <Button
+                        variant={prompt.isActive ? "default" : "outline"}
+                        size="sm"
+                        className={`min-w-[80px] ${
+                          prompt.isActive 
+                            ? 'bg-green-600 hover:bg-green-700 text-white' 
+                            : 'hover:bg-green-50 hover:text-green-700 hover:border-green-300'
+                        }`}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleToggleStatus(prompt.id);
+                        }}
+                      >
+                        {prompt.isActive ? (
+                          <>
+                            <CheckCircle className="h-3 w-3 mr-1" />
+                            Active
+                          </>
+                        ) : (
+                          <>
+                            <Play className="h-3 w-3 mr-1" />
+                            Activate
+                          </>
+                        )}
+                      </Button>
                       <Button 
                         variant="ghost" 
                         size="sm"
