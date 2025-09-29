@@ -6,6 +6,9 @@ import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Separator } from '@/components/ui/separator';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Switch } from '@/components/ui/switch';
 import {
   Upload,
   Download,
@@ -14,19 +17,88 @@ import {
   Hash,
   FileText,
   AlertCircle,
-  Check
+  Check,
+  Play,
+  Pause,
+  Eye,
+  TrendingUp,
+  TrendingDown,
+  Minus,
+  BarChart3,
+  Calendar,
+  Target
 } from 'lucide-react';
 
 export default function KeywordsPage() {
-  const [keywords, setKeywords] = useState<string[]>([
-    'content marketing strategy',
-    'SEO optimization techniques',
-    'digital marketing trends',
-    'social media automation',
-    'email marketing campaigns'
+  // Mock data for keywords with blog analytics
+  const [keywordData, setKeywordData] = useState([
+    { 
+      keyword: 'content marketing strategy', 
+      blogCount: 12, 
+      ranking: 3, 
+      trend: 'up', 
+      isActive: true,
+      lastBlog: '2024-01-15',
+      blogs: [
+        'Advanced Content Marketing Strategies for 2024',
+        'Building Your Content Marketing Funnel',
+        'Content Marketing ROI Measurement Guide'
+      ]
+    },
+    { 
+      keyword: 'SEO optimization techniques', 
+      blogCount: 8, 
+      ranking: 7, 
+      trend: 'up', 
+      isActive: true,
+      lastBlog: '2024-01-14',
+      blogs: [
+        'Technical SEO Best Practices',
+        'On-Page SEO Optimization Guide'
+      ]
+    },
+    { 
+      keyword: 'digital marketing trends', 
+      blogCount: 15, 
+      ranking: 2, 
+      trend: 'stable', 
+      isActive: false,
+      lastBlog: '2024-01-10',
+      blogs: [
+        '2024 Digital Marketing Trends',
+        'Emerging Marketing Technologies',
+        'Future of Digital Advertising'
+      ]
+    },
+    { 
+      keyword: 'social media automation', 
+      blogCount: 6, 
+      ranking: 12, 
+      trend: 'down', 
+      isActive: true,
+      lastBlog: '2024-01-12',
+      blogs: [
+        'Social Media Automation Tools',
+        'Best Practices for Social Automation'
+      ]
+    },
+    { 
+      keyword: 'email marketing campaigns', 
+      blogCount: 10, 
+      ranking: 5, 
+      trend: 'up', 
+      isActive: true,
+      lastBlog: '2024-01-13',
+      blogs: [
+        'Email Marketing Campaign Strategy',
+        'Personalization in Email Marketing',
+        'Email Automation Workflows'
+      ]
+    }
   ]);
+
   const [textInput, setTextInput] = useState('');
-  const [dragActive, setDragActive] = useState(false);
+  const [selectedKeyword, setSelectedKeyword] = useState<any>(null);
 
   const handleTextSubmit = () => {
     if (!textInput.trim()) return;
@@ -35,56 +107,56 @@ export default function KeywordsPage() {
       .split(',')
       .map(keyword => keyword.trim())
       .filter(keyword => keyword.length > 0)
-      .filter(keyword => !keywords.includes(keyword));
+      .filter(keyword => !keywordData.some(item => item.keyword === keyword));
     
-    setKeywords(prev => [...prev, ...newKeywords]);
+    const newKeywordData = newKeywords.map(keyword => ({
+      keyword,
+      blogCount: 0,
+      ranking: Math.floor(Math.random() * 20) + 1,
+      trend: 'stable' as const,
+      isActive: true,
+      lastBlog: '',
+      blogs: []
+    }));
+    
+    setKeywordData(prev => [...prev, ...newKeywordData]);
     setTextInput('');
   };
 
-  const handleFileUpload = (file: File) => {
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const text = e.target?.result as string;
-      const csvKeywords = text
-        .split(/[,\n]/)
-        .map(keyword => keyword.trim().replace(/['"]/g, ''))
-        .filter(keyword => keyword.length > 0)
-        .filter(keyword => !keywords.includes(keyword));
-      
-      setKeywords(prev => [...prev, ...csvKeywords]);
-    };
-    reader.readAsText(file);
+  const toggleKeywordStatus = (index: number) => {
+    setKeywordData(prev => prev.map((item, i) => 
+      i === index ? { ...item, isActive: !item.isActive } : item
+    ));
   };
 
-  const handleDrop = (e: React.DragEvent) => {
-    e.preventDefault();
-    setDragActive(false);
-    
-    const files = Array.from(e.dataTransfer.files);
-    const csvFile = files.find(file => file.type === 'text/csv' || file.name.endsWith('.csv'));
-    
-    if (csvFile) {
-      handleFileUpload(csvFile);
-    }
-  };
-
-  const removeKeyword = (indexToRemove: number) => {
-    setKeywords(prev => prev.filter((_, index) => index !== indexToRemove));
+  const removeKeyword = (index: number) => {
+    setKeywordData(prev => prev.filter((_, i) => i !== index));
   };
 
   const clearAllKeywords = () => {
-    setKeywords([]);
+    setKeywordData([]);
   };
 
   const exportKeywords = () => {
-    const csvContent = keywords.join(',\n');
-    const blob = new Blob([csvContent], { type: 'text/csv' });
+    const csvContent = keywordData.map(item => 
+      `${item.keyword},${item.blogCount},${item.ranking},${item.isActive ? 'Active' : 'Paused'}`
+    ).join('\n');
+    const csvHeader = 'Keyword,Blog Count,Ranking,Status\n';
+    const blob = new Blob([csvHeader + csvContent], { type: 'text/csv' });
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'keywords.csv';
+    a.download = 'blog-keywords.csv';
     a.click();
     window.URL.revokeObjectURL(url);
+  };
+
+  const getTrendIcon = (trend: string) => {
+    switch (trend) {
+      case 'up': return <TrendingUp className="h-4 w-4 text-green-500" />;
+      case 'down': return <TrendingDown className="h-4 w-4 text-red-500" />;
+      default: return <Minus className="h-4 w-4 text-gray-500" />;
+    }
   };
 
   return (
@@ -107,7 +179,7 @@ export default function KeywordsPage() {
             <Hash className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="admin-stats-value">{keywords.length}</div>
+            <div className="admin-stats-value">{keywordData.length}</div>
             <p className="admin-stats-label">Active keywords</p>
           </CardContent>
         </Card>
@@ -184,9 +256,9 @@ export default function KeywordsPage() {
         <CardHeader className="border-b border-card-border bg-gradient-to-r from-primary/5 to-primary/10">
           <div className="flex items-center justify-between">
             <div>
-              <CardTitle className="admin-card-title">Current Keywords</CardTitle>
+              <CardTitle className="admin-card-title">Blog Keywords</CardTitle>
               <CardDescription className="admin-card-description">
-                Manage your active keyword list
+                Manage your active blog keyword analytics and automation
               </CardDescription>
             </div>
             <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2">
@@ -194,7 +266,7 @@ export default function KeywordsPage() {
                   variant="outline" 
                   size="sm" 
                   onClick={exportKeywords}
-                  disabled={keywords.length === 0}
+                  disabled={keywordData.length === 0}
                   className="admin-button w-full sm:w-auto"
                 >
                   <Download className="h-4 w-4 mr-2" />
@@ -204,7 +276,7 @@ export default function KeywordsPage() {
                   variant="outline" 
                   size="sm" 
                   onClick={clearAllKeywords}
-                  disabled={keywords.length === 0}
+                  disabled={keywordData.length === 0}
                   className="admin-button text-destructive border-destructive hover:bg-destructive hover:text-destructive-foreground w-full sm:w-auto"
                 >
                   <Trash2 className="h-4 w-4 mr-2" />
@@ -214,7 +286,7 @@ export default function KeywordsPage() {
           </div>
         </CardHeader>
         <CardContent className="p-6">
-          {keywords.length === 0 ? (
+          {keywordData.length === 0 ? (
             <Alert>
               <AlertCircle className="h-4 w-4" />
               <AlertDescription className="admin-body-text">
@@ -223,44 +295,160 @@ export default function KeywordsPage() {
             </Alert>
           ) : (
             <div className="space-y-4">
-              <div className="flex flex-wrap gap-2">
-                {keywords.map((keyword, index) => (
-                  <Badge
-                    key={index}
-                    variant="secondary"
-                    className="px-3 py-1 text-sm admin-body-text flex items-center space-x-2"
-                  >
-                    <span>{keyword}</span>
-                    <button
-                      onClick={() => removeKeyword(index)}
-                      className="ml-2 hover:text-destructive transition-colors"
-                    >
-                      <Trash2 className="h-3 w-3" />
-                    </button>
-                  </Badge>
-                ))}
-              </div>
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead className="admin-label">Keyword</TableHead>
+                    <TableHead className="admin-label text-center">Blog Count</TableHead>
+                    <TableHead className="admin-label text-center">Ranking</TableHead>
+                    <TableHead className="admin-label text-center">Trend</TableHead>
+                    <TableHead className="admin-label text-center">Last Blog</TableHead>
+                    <TableHead className="admin-label text-center">Status</TableHead>
+                    <TableHead className="admin-label text-center">Actions</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {keywordData.map((item, index) => (
+                    <TableRow key={index} className="hover:bg-muted/50">
+                      <TableCell className="font-medium admin-body-text">
+                        {item.keyword}
+                      </TableCell>
+                      <TableCell className="text-center">
+                        <Dialog>
+                          <DialogTrigger asChild>
+                            <Button 
+                              variant="ghost" 
+                              size="sm" 
+                              className="h-8 w-8 p-0 hover:bg-primary/10"
+                              onClick={() => setSelectedKeyword(item)}
+                            >
+                              <span className="text-primary font-semibold">{item.blogCount}</span>
+                            </Button>
+                          </DialogTrigger>
+                          <DialogContent className="max-w-2xl">
+                            <DialogHeader>
+                              <DialogTitle className="flex items-center space-x-2">
+                                <FileText className="h-5 w-5" />
+                                <span>Blogs for "{item.keyword}"</span>
+                              </DialogTitle>
+                              <DialogDescription>
+                                {item.blogCount} blog posts generated for this keyword
+                              </DialogDescription>
+                            </DialogHeader>
+                            <div className="space-y-3 max-h-96 overflow-y-auto">
+                              {item.blogs.length > 0 ? (
+                                item.blogs.map((blog, blogIndex) => (
+                                  <div key={blogIndex} className="p-3 border rounded-lg hover:bg-muted/50">
+                                    <p className="admin-body-text font-medium">{blog}</p>
+                                    <p className="admin-stats-label mt-1">Published on {item.lastBlog}</p>
+                                  </div>
+                                ))
+                              ) : (
+                                <p className="admin-body-text text-muted-foreground">No blogs generated yet.</p>
+                              )}
+                            </div>
+                          </DialogContent>
+                        </Dialog>
+                      </TableCell>
+                      <TableCell className="text-center">
+                        <div className="flex items-center justify-center space-x-1">
+                          <span className="admin-body-text font-semibold">#{item.ranking}</span>
+                        </div>
+                      </TableCell>
+                      <TableCell className="text-center">
+                        {getTrendIcon(item.trend)}
+                      </TableCell>
+                      <TableCell className="text-center admin-stats-label">
+                        {item.lastBlog || 'Never'}
+                      </TableCell>
+                      <TableCell className="text-center">
+                        <div className="flex items-center justify-center space-x-2">
+                          <Switch
+                            checked={item.isActive}
+                            onCheckedChange={() => toggleKeywordStatus(index)}
+                          />
+                          <span className="admin-stats-label">
+                            {item.isActive ? 'Active' : 'Paused'}
+                          </span>
+                        </div>
+                      </TableCell>
+                      <TableCell className="text-center">
+                        <div className="flex items-center justify-center space-x-1">
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => removeKeyword(index)}
+                            className="h-8 w-8 p-0 hover:bg-destructive/10 hover:text-destructive"
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
               
               <Separator />
               
-              <div className="text-center">
-                <p className="admin-stats-label">
-                  {keywords.length} keyword{keywords.length !== 1 ? 's' : ''} configured for content generation
-                </p>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+                <div>
+                  <p className="admin-stats-value">{keywordData.length}</p>
+                  <p className="admin-stats-label">Total Keywords</p>
+                </div>
+                <div>
+                  <p className="admin-stats-value">{keywordData.filter(k => k.isActive).length}</p>
+                  <p className="admin-stats-label">Active Keywords</p>
+                </div>
+                <div>
+                  <p className="admin-stats-value">{keywordData.reduce((sum, k) => sum + k.blogCount, 0)}</p>
+                  <p className="admin-stats-label">Total Blogs Generated</p>
+                </div>
               </div>
             </div>
           )}
         </CardContent>
       </Card>
 
-      {/* Usage Information */}
-      <Alert>
-        <AlertCircle className="h-4 w-4" />
-        <AlertDescription className="admin-body-text">
-          <strong>How keywords are used:</strong> These keywords will be automatically integrated into your content generation process. 
-          Each article will focus on relevant keywords from this list based on your automation configuration and content requirements.
-        </AlertDescription>
-      </Alert>
+      {/* Usage Information & Improvements */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <Alert>
+          <AlertCircle className="h-4 w-4" />
+          <AlertDescription className="admin-body-text">
+            <strong>How keywords work:</strong> These keywords automatically integrate into your content generation process. 
+            Each article focuses on relevant keywords based on your automation configuration and performance metrics.
+          </AlertDescription>
+        </Alert>
+
+        <Card className="bg-gradient-card shadow-md">
+          <CardHeader className="pb-3">
+            <CardTitle className="admin-card-title flex items-center space-x-2">
+              <BarChart3 className="h-5 w-5 text-primary" />
+              <span>Quick Analytics</span>
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-2">
+            <div className="flex justify-between">
+              <span className="admin-stats-label">Avg. Ranking:</span>
+              <span className="admin-body-text font-semibold">
+                #{Math.round(keywordData.reduce((sum, k) => sum + k.ranking, 0) / (keywordData.length || 1))}
+              </span>
+            </div>
+            <div className="flex justify-between">
+              <span className="admin-stats-label">Top Performer:</span>
+              <span className="admin-body-text font-semibold">
+                {keywordData.sort((a, b) => a.ranking - b.ranking)[0]?.keyword.slice(0, 20) || 'None'}
+              </span>
+            </div>
+            <div className="flex justify-between">
+              <span className="admin-stats-label">Most Active:</span>
+              <span className="admin-body-text font-semibold">
+                {keywordData.sort((a, b) => b.blogCount - a.blogCount)[0]?.keyword.slice(0, 20) || 'None'}
+              </span>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 }
