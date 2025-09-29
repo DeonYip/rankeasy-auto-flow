@@ -139,8 +139,8 @@ export default function KeywordsPage() {
         </Card>
       </div>
 
-      {/* Add Keywords Methods */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
+      {/* Add Keywords Method */}
+      <div className="grid grid-cols-1 gap-4 md:gap-6">
         {/* Text Input Method */}
         <Card className="bg-gradient-card shadow-md hover:shadow-lg transition-all duration-300">
           <CardHeader className="border-b border-card-border bg-gradient-to-r from-primary/5 to-primary/10">
@@ -175,58 +175,6 @@ export default function KeywordsPage() {
             >
               Add Keywords
             </Button>
-          </CardContent>
-        </Card>
-
-        {/* CSV Upload Method */}
-        <Card className="bg-gradient-card shadow-md hover:shadow-lg transition-all duration-300">
-          <CardHeader className="border-b border-card-border bg-gradient-to-r from-primary/5 to-primary/10">
-            <CardTitle className="admin-card-title flex items-center space-x-2">
-              <Upload className="h-5 w-5 text-primary" />
-              <span>Upload CSV File</span>
-            </CardTitle>
-            <CardDescription className="admin-card-description">
-              Upload a CSV file containing your keywords
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4 p-6">
-            <div
-              className={`border-2 border-dashed rounded-lg p-8 text-center transition-colors ${
-                dragActive 
-                  ? 'border-primary bg-primary/5' 
-                  : 'border-muted-foreground/25 hover:border-primary/50'
-              }`}
-              onDrop={handleDrop}
-              onDragOver={(e) => {
-                e.preventDefault();
-                setDragActive(true);
-              }}
-              onDragLeave={() => setDragActive(false)}
-            >
-              <Upload className="h-8 w-8 text-muted-foreground mx-auto mb-4" />
-              <p className="admin-body-text mb-2">
-                Drag and drop your CSV file here, or
-              </p>
-              <Button 
-                variant="outline" 
-                className="admin-button"
-                onClick={() => {
-                  const input = document.createElement('input');
-                  input.type = 'file';
-                  input.accept = '.csv';
-                  input.onchange = (e) => {
-                    const file = (e.target as HTMLInputElement).files?.[0];
-                    if (file) handleFileUpload(file);
-                  };
-                  input.click();
-                }}
-              >
-                Browse Files
-              </Button>
-              <p className="admin-stats-label mt-2">
-                Supports CSV files with comma-separated keywords
-              </p>
-            </div>
           </CardContent>
         </Card>
       </div>
