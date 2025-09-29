@@ -30,6 +30,10 @@ import {
 } from 'lucide-react';
 
 export default function KeywordsPage() {
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(50);
+  
   // Mock data for keywords with blog analytics
   const [keywordData, setKeywordData] = useState([
     { 
@@ -100,6 +104,12 @@ export default function KeywordsPage() {
   const [textInput, setTextInput] = useState('');
   const [selectedKeyword, setSelectedKeyword] = useState<any>(null);
 
+  // Pagination calculations
+  const totalPages = Math.ceil(keywordData.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const paginatedData = keywordData.slice(startIndex, endIndex);
+
   const handleTextSubmit = () => {
     if (!textInput.trim()) return;
     
@@ -169,44 +179,68 @@ export default function KeywordsPage() {
         </p>
       </div>
 
-      {/* Keyword Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
+      {/* Consolidated Analytics */}
+      <div className="grid grid-cols-1 gap-6">
         <Card className="bg-gradient-card shadow-md hover:shadow-lg transition-all duration-300">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="admin-card-description font-medium">
-              Total Keywords
+          <CardHeader className="border-b border-card-border bg-gradient-to-r from-primary/5 to-primary/10">
+            <CardTitle className="admin-card-title flex items-center space-x-2">
+              <BarChart3 className="h-5 w-5 text-primary" />
+              <span>Keyword Analytics Overview</span>
             </CardTitle>
-            <Hash className="h-4 w-4 text-muted-foreground" />
+            <CardDescription className="admin-card-description">
+              Complete analytics and performance metrics for your keyword strategy
+            </CardDescription>
           </CardHeader>
-          <CardContent>
-            <div className="admin-stats-value">{keywordData.length}</div>
-            <p className="admin-stats-label">Active keywords</p>
-          </CardContent>
-        </Card>
-
-        <Card className="bg-gradient-card shadow-md hover:shadow-lg transition-all duration-300">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="admin-card-description font-medium">
-              Articles Generated
-            </CardTitle>
-            <FileText className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="admin-stats-value">47</div>
-            <p className="admin-stats-label">Using these keywords</p>
-          </CardContent>
-        </Card>
-
-        <Card className="bg-gradient-card shadow-md hover:shadow-lg transition-all duration-300">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="admin-card-description font-medium">
-              Ranked Organic Keywords
-            </CardTitle>
-            <Check className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="admin-stats-value">1,270</div>
-            <p className="admin-stats-label">Currently ranking</p>
+          <CardContent className="p-6">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
+              <div className="text-center">
+                <div className="admin-stats-value">{keywordData.length}</div>
+                <p className="admin-stats-label">Total Keywords</p>
+              </div>
+              <div className="text-center">
+                <div className="admin-stats-value">{keywordData.filter(k => k.isActive).length}</div>
+                <p className="admin-stats-label">Active Keywords</p>
+              </div>
+              <div className="text-center">
+                <div className="admin-stats-value">{keywordData.reduce((sum, k) => sum + k.blogCount, 0)}</div>
+                <p className="admin-stats-label">Total Blogs Generated</p>
+              </div>
+              <div className="text-center">
+                <div className="admin-stats-value">1,270</div>
+                <p className="admin-stats-label">Ranked Keywords</p>
+              </div>
+            </div>
+            
+            <Separator className="my-4" />
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="flex justify-between">
+                <span className="admin-stats-label">Avg. Ranking:</span>
+                <span className="admin-body-text font-semibold">
+                  #{Math.round(keywordData.reduce((sum, k) => sum + k.ranking, 0) / (keywordData.length || 1))}
+                </span>
+              </div>
+              <div className="flex justify-between">
+                <span className="admin-stats-label">Top Performer:</span>
+                <span className="admin-body-text font-semibold">
+                  {keywordData.sort((a, b) => a.ranking - b.ranking)[0]?.keyword.slice(0, 20) || 'None'}
+                </span>
+              </div>
+              <div className="flex justify-between">
+                <span className="admin-stats-label">Most Active:</span>
+                <span className="admin-body-text font-semibold">
+                  {keywordData.sort((a, b) => b.blogCount - a.blogCount)[0]?.keyword.slice(0, 20) || 'None'}
+                </span>
+              </div>
+            </div>
+            
+            <Alert className="mt-4">
+              <AlertCircle className="h-4 w-4" />
+              <AlertDescription className="admin-body-text">
+                <strong>How keywords work:</strong> These keywords automatically integrate into your content generation process. 
+                Each article focuses on relevant keywords based on your automation configuration and performance metrics.
+              </AlertDescription>
+            </Alert>
           </CardContent>
         </Card>
       </div>
@@ -295,6 +329,47 @@ export default function KeywordsPage() {
             </Alert>
           ) : (
             <div className="space-y-4">
+              {/* Pagination Controls */}
+              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                <div className="flex items-center space-x-2">
+                  <Label className="admin-label">Show:</Label>
+                  <select 
+                    value={itemsPerPage} 
+                    onChange={(e) => {
+                      setItemsPerPage(Number(e.target.value));
+                      setCurrentPage(1);
+                    }}
+                    className="admin-body-text border rounded px-2 py-1"
+                  >
+                    <option value={50}>50 per page</option>
+                    <option value={100}>100 per page</option>
+                    <option value={250}>250 per page</option>
+                    <option value={500}>500 per page</option>
+                  </select>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                    disabled={currentPage === 1}
+                  >
+                    Previous
+                  </Button>
+                  <span className="admin-body-text">
+                    Page {currentPage} of {totalPages} ({keywordData.length} total)
+                  </span>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                    disabled={currentPage === totalPages}
+                  >
+                    Next
+                  </Button>
+                </div>
+              </div>
+              
               <Table>
                 <TableHeader>
                   <TableRow>
@@ -308,8 +383,10 @@ export default function KeywordsPage() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {keywordData.map((item, index) => (
-                    <TableRow key={index} className="hover:bg-muted/50">
+                  {paginatedData.map((item, index) => {
+                    const originalIndex = startIndex + index;
+                    return (
+                    <TableRow key={originalIndex} className="hover:bg-muted/50">
                       <TableCell className="font-medium admin-body-text">
                         {item.keyword}
                       </TableCell>
@@ -365,7 +442,7 @@ export default function KeywordsPage() {
                         <div className="flex items-center justify-center space-x-2">
                           <Switch
                             checked={item.isActive}
-                            onCheckedChange={() => toggleKeywordStatus(index)}
+                            onCheckedChange={() => toggleKeywordStatus(originalIndex)}
                           />
                           <span className="admin-stats-label">
                             {item.isActive ? 'Active' : 'Paused'}
@@ -377,7 +454,7 @@ export default function KeywordsPage() {
                           <Button
                             variant="ghost"
                             size="sm"
-                            onClick={() => removeKeyword(index)}
+                            onClick={() => removeKeyword(originalIndex)}
                             className="h-8 w-8 p-0 hover:bg-destructive/10 hover:text-destructive"
                           >
                             <Trash2 className="h-4 w-4" />
@@ -385,70 +462,15 @@ export default function KeywordsPage() {
                         </div>
                       </TableCell>
                     </TableRow>
-                  ))}
+                  );
+                  })}
                 </TableBody>
               </Table>
-              
-              <Separator />
-              
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
-                <div>
-                  <p className="admin-stats-value">{keywordData.length}</p>
-                  <p className="admin-stats-label">Total Keywords</p>
-                </div>
-                <div>
-                  <p className="admin-stats-value">{keywordData.filter(k => k.isActive).length}</p>
-                  <p className="admin-stats-label">Active Keywords</p>
-                </div>
-                <div>
-                  <p className="admin-stats-value">{keywordData.reduce((sum, k) => sum + k.blogCount, 0)}</p>
-                  <p className="admin-stats-label">Total Blogs Generated</p>
-                </div>
-              </div>
             </div>
           )}
         </CardContent>
       </Card>
 
-      {/* Usage Information & Improvements */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Alert>
-          <AlertCircle className="h-4 w-4" />
-          <AlertDescription className="admin-body-text">
-            <strong>How keywords work:</strong> These keywords automatically integrate into your content generation process. 
-            Each article focuses on relevant keywords based on your automation configuration and performance metrics.
-          </AlertDescription>
-        </Alert>
-
-        <Card className="bg-gradient-card shadow-md">
-          <CardHeader className="pb-3">
-            <CardTitle className="admin-card-title flex items-center space-x-2">
-              <BarChart3 className="h-5 w-5 text-primary" />
-              <span>Quick Analytics</span>
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-2">
-            <div className="flex justify-between">
-              <span className="admin-stats-label">Avg. Ranking:</span>
-              <span className="admin-body-text font-semibold">
-                #{Math.round(keywordData.reduce((sum, k) => sum + k.ranking, 0) / (keywordData.length || 1))}
-              </span>
-            </div>
-            <div className="flex justify-between">
-              <span className="admin-stats-label">Top Performer:</span>
-              <span className="admin-body-text font-semibold">
-                {keywordData.sort((a, b) => a.ranking - b.ranking)[0]?.keyword.slice(0, 20) || 'None'}
-              </span>
-            </div>
-            <div className="flex justify-between">
-              <span className="admin-stats-label">Most Active:</span>
-              <span className="admin-body-text font-semibold">
-                {keywordData.sort((a, b) => b.blogCount - a.blogCount)[0]?.keyword.slice(0, 20) || 'None'}
-              </span>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
     </div>
   );
 }
