@@ -20,7 +20,7 @@ export default function ArticlePage() {
     word_counts: '5000',
     tone_of_voice: 'Formal',
     blog_activation: 'Disable Blog Publishing',
-    blog_frequency: '1',
+    blog_frequency: '10',
     status: 'Save as Draft',
   });
 
@@ -84,15 +84,15 @@ export default function ArticlePage() {
         </p>
       </div>
 
-      {/* Article Configuration */}
+      {/* Article Content Setup */}
       <Card className="bg-gradient-card shadow-md hover:shadow-lg transition-all duration-300">
         <CardHeader className="border-b border-card-border bg-gradient-to-r from-primary/5 to-primary/10">
           <CardTitle className="admin-card-title flex items-center space-x-2">
             <Settings className="h-5 w-5 text-primary" />
-            <span>Article Automation Setup</span>
+            <span>Article Content Setup</span>
           </CardTitle>
           <CardDescription className="admin-card-description">
-            Configure automation parameters for content generation.
+            Configure content parameters for content generation.
           </CardDescription>
         </CardHeader>
         <CardContent className="p-6 space-y-6">
@@ -195,57 +195,46 @@ export default function ArticlePage() {
               </Select>
               <p className="admin-stats-label">Writing style and expression tone</p>
             </div>
+          </div>
+        </CardContent>
+      </Card>
 
-            {/* Blog Activation Toggle */}
-            <div className="space-y-4 col-span-full">
-              <div className="space-y-3">
-                <Label className="admin-label">
-                  Blog Activation Toggle
-                </Label>
-                <RadioGroup
-                  value={formData.blog_activation}
-                  onValueChange={(value) => handleInputChange('blog_activation', value)}
-                  className="flex space-x-6"
-                >
-                  <div className="flex items-center space-x-2 transition-all duration-200 hover:scale-105">
-                    <RadioGroupItem value="Enable Blog Publishing" id="enable" />
-                    <Label htmlFor="enable" className="admin-body-text cursor-pointer">Enable Blog Publishing</Label>
-                  </div>
-                  <div className="flex items-center space-x-2 transition-all duration-200 hover:scale-105">
-                    <RadioGroupItem value="Disable Blog Publishing" id="disable" />
-                    <Label htmlFor="disable" className="admin-body-text cursor-pointer">Disable Blog Publishing</Label>
-                  </div>
-                </RadioGroup>
-                <p className="admin-stats-label">Control whether blog publishing automation is active</p>
+      {/* Article Automation Setup */}
+      <Card className="bg-gradient-card shadow-md hover:shadow-lg transition-all duration-300">
+        <CardHeader className="border-b border-card-border bg-gradient-to-r from-primary/5 to-primary/10">
+          <CardTitle className="admin-card-title flex items-center space-x-2">
+            <Settings className="h-5 w-5 text-primary" />
+            <span>Article Automation Setup</span>
+          </CardTitle>
+          <CardDescription className="admin-card-description">
+            Configure automation parameters for blog generation.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="p-6 space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="space-y-2">
+              <Label htmlFor="blog_frequency" className="admin-label">
+                Publishing Frequency <Badge variant="outline" className="ml-2">{`{{blog_frequency}}`}</Badge>
+              </Label>
+              <div className="flex items-center space-x-2">
+                <Input
+                  id="blog_frequency"
+                  type="number"
+                  placeholder="10"
+                  value={formData.blog_frequency}
+                  onChange={(e) => handleInputChange('blog_frequency', e.target.value)}
+                  className="admin-body-text w-20 transition-all duration-200 hover:shadow-sm hover:border-primary/50"
+                  min="1"
+                  max="100"
+                />
+                <span className="admin-body-text text-muted-foreground">Blogs/Day</span>
               </div>
-
-              {/* Blog Publishing Frequency - only visible when enabled */}
-              {formData.blog_activation === 'Enable Blog Publishing' && (
-                <div className="space-y-2 p-4 border border-primary/20 rounded-lg bg-primary/5">
-                  <Label htmlFor="blog_frequency" className="admin-label">
-                    Blog Publishing Frequency <Badge variant="outline" className="ml-2">{`{{blog_frequency}}`}</Badge>
-                  </Label>
-                  <div className="flex items-center space-x-2">
-                    <Input
-                      id="blog_frequency"
-                      type="number"
-                      placeholder="1"
-                      value={formData.blog_frequency}
-                      onChange={(e) => handleInputChange('blog_frequency', e.target.value)}
-                      className="admin-body-text w-20 transition-all duration-200 hover:shadow-sm hover:border-primary/50"
-                      min="1"
-                      max="10"
-                    />
-                    <span className="admin-body-text text-muted-foreground">Blogs/Day</span>
-                  </div>
-                  <p className="admin-stats-label">Number of blog posts to publish per day</p>
-                </div>
-              )}
+              <p className="admin-stats-label">Content update frequency schedule</p>
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="status" className="admin-label">
-                Article Status <Badge variant="outline" className="ml-2">{`{{status}}`}</Badge>
+                Blog Status <Badge variant="outline" className="ml-2">{`{{status}}`}</Badge>
               </Label>
               <Select value={formData.status} onValueChange={(value) => handleInputChange('status', value)}>
                 <SelectTrigger className="admin-body-text transition-all duration-200 hover:shadow-sm hover:border-primary/50">
@@ -253,11 +242,31 @@ export default function ArticlePage() {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="Save as Draft">Save as Draft</SelectItem>
-                  <SelectItem value="Pending Review">Pending Review</SelectItem>
-                  <SelectItem value="Published">Published</SelectItem>
+                  <SelectItem value="Publish">Publish</SelectItem>
                 </SelectContent>
               </Select>
               <p className="admin-stats-label">Article publication status setting</p>
+            </div>
+
+            <div className="space-y-2">
+              <Label className="admin-label">
+                Automation
+              </Label>
+              <RadioGroup
+                value={formData.blog_activation}
+                onValueChange={(value) => handleInputChange('blog_activation', value)}
+                className="flex space-x-6"
+              >
+                <div className="flex items-center space-x-2 transition-all duration-200 hover:scale-105">
+                  <RadioGroupItem value="Enable Blog Publishing" id="enable" />
+                  <Label htmlFor="enable" className="admin-body-text cursor-pointer">On</Label>
+                </div>
+                <div className="flex items-center space-x-2 transition-all duration-200 hover:scale-105">
+                  <RadioGroupItem value="Disable Blog Publishing" id="disable" />
+                  <Label htmlFor="disable" className="admin-body-text cursor-pointer">Off</Label>
+                </div>
+              </RadioGroup>
+              <p className="admin-stats-label">Turn on and off the blogs automation</p>
             </div>
           </div>
         </CardContent>
