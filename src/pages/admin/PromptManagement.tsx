@@ -520,64 +520,77 @@ function PromptVersionDetail({ version }: { version: string }) {
       {/* Version Information Bar */}
       <Card className="bg-gradient-card border-card-border shadow-sm">
         <CardHeader>
-          <div className="flex items-center justify-between">
-            <div className="space-y-2">
-              <h1 className="text-3xl font-bold text-foreground">Version {version}</h1>
-              <div className="flex items-center space-x-4 text-sm text-muted-foreground">
-                <div className="flex items-center space-x-1">
-                  <Calendar className="h-4 w-4" />
-                  <span>Created: {versionMeta.createdAt}</span>
+          {/* Centered Version Title */}
+          <div className="text-center mb-6">
+            <h1 className="text-3xl font-bold text-foreground">Version {version}</h1>
+          </div>
+          
+          <div className="grid grid-cols-2 gap-8">
+            {/* Left Column - Version Metadata */}
+            <div className="space-y-3">
+              <h3 className="text-lg font-semibold text-foreground mb-4">Version Information</h3>
+              <div className="space-y-2">
+                <div className="flex items-center space-x-2 text-sm">
+                  <Calendar className="h-4 w-4 text-muted-foreground" />
+                  <span className="text-muted-foreground">Created:</span>
+                  <span className="text-foreground">{versionMeta.createdAt}</span>
                 </div>
-                <div className="flex items-center space-x-1">
-                  <span>Creator: {versionMeta.creator}</span>
+                <div className="flex items-center space-x-2 text-sm">
+                  <span className="text-muted-foreground">Creator:</span>
+                  <span className="text-foreground">{versionMeta.creator}</span>
                 </div>
-                <div className="flex items-center space-x-1">
-                  <span>Status:</span>
+                <div className="flex items-center space-x-2 text-sm">
+                  <span className="text-muted-foreground">Status:</span>
                   {getStatusBadge(versionMeta.status)}
                 </div>
               </div>
             </div>
             
-            {/* Core Operation Button Group */}
-            <div className="flex items-center space-x-2">
-              <Button variant="outline" onClick={() => setShowVersionSelector(true)}>
-                Switch Version
-              </Button>
-              <Button onClick={handleSave}>
-                Save Current Version
-              </Button>
-              <Button variant="outline">
-                <Copy className="h-4 w-4 mr-2" />
-                Duplicate as New
-              </Button>
-              <Button variant="outline" onClick={() => setShowCompareDialog(true)}>
-                Compare Versions
-              </Button>
-              {versionMeta.status !== 'Active' && (
-                <Button variant="destructive" size="sm">
-                  Delete Version
+            {/* Right Column - Action Buttons */}
+            <div className="space-y-3">
+              <h3 className="text-lg font-semibold text-foreground mb-4">Actions</h3>
+              <div className="grid grid-cols-2 gap-3">
+                <Button variant="outline" onClick={() => setShowVersionSelector(true)}>
+                  Switch Version
                 </Button>
-              )}
+                <Button onClick={handleSave}>
+                  Save Current Version
+                </Button>
+                <Button variant="outline">
+                  <Copy className="h-4 w-4 mr-2" />
+                  Duplicate as New
+                </Button>
+                <Button variant="outline" onClick={() => setShowCompareDialog(true)}>
+                  Compare Versions
+                </Button>
+                {versionMeta.status !== 'Active' && (
+                  <Button variant="destructive" size="sm" className="col-span-2">
+                    Delete Version
+                  </Button>
+                )}
+              </div>
             </div>
           </div>
         </CardHeader>
       </Card>
 
-      {/* Last Saved Info & History */}
+      {/* Last Saved Info & History - Grouped and Right-aligned */}
       <Card className="bg-card border-card-border shadow-sm">
         <CardContent className="pt-4">
-          <div className="flex items-center justify-between text-sm">
-            <div className="text-muted-foreground">
-              Last saved: {lastSaved.toLocaleString()}
-            </div>
-            <div className="flex items-center space-x-4">
-              <span className="text-muted-foreground">Recent changes:</span>
-              <div className="flex space-x-2">
-                {history.slice(-3).map((item, index) => (
-                  <Badge key={index} variant="outline" className="text-xs">
-                    {item.action}
-                  </Badge>
-                ))}
+          <div className="flex justify-end">
+            <div className="text-right space-y-2">
+              <div className="text-sm text-muted-foreground">
+                Last saved: {lastSaved.toLocaleString()}
+              </div>
+              <div className="flex items-center justify-end space-x-2">
+                <span className="text-sm text-muted-foreground">Recent changes:</span>
+                <div className="flex space-x-1">
+                  {history.slice(-3).map((item, index) => (
+                    <Badge key={index} variant="outline" className="text-xs">
+                      {item.action}
+                    </Badge>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
@@ -610,20 +623,12 @@ function PromptVersionDetail({ version }: { version: string }) {
                   className="min-h-[400px] font-mono text-sm"
                   placeholder="Enter user intention and outline instructions..."
                 />
-                <div className="flex items-center justify-between text-sm">
+                <div className="flex items-center justify-start text-sm">
                   <div className="text-muted-foreground">
                     Characters: {getCharacterCount(formData.userIntention)} / 4000
                     {getCharacterCount(formData.userIntention) > 3200 && 
                       <span className="text-yellow-600 ml-2">⚠ Exceeds 80% of recommended length</span>
                     }
-                  </div>
-                  <div className="flex space-x-2">
-                    <Button variant="ghost" size="sm" disabled>
-                      Undo (Ctrl+Z)
-                    </Button>
-                    <Button variant="ghost" size="sm" disabled>
-                      Redo (Ctrl+Y)
-                    </Button>
                   </div>
                 </div>
               </div>
@@ -648,17 +653,9 @@ function PromptVersionDetail({ version }: { version: string }) {
                   className="min-h-[400px] font-mono text-sm"
                   placeholder="Enter writing content instructions..."
                 />
-                <div className="flex items-center justify-between text-sm">
+                <div className="flex items-center justify-start text-sm">
                   <div className="text-muted-foreground">
                     Characters: {getCharacterCount(formData.writingContent)} / 4000
-                  </div>
-                  <div className="flex space-x-2">
-                    <Button variant="ghost" size="sm" disabled>
-                      Undo (Ctrl+Z)
-                    </Button>
-                    <Button variant="ghost" size="sm" disabled>
-                      Redo (Ctrl+Y)
-                    </Button>
                   </div>
                 </div>
               </div>
@@ -683,17 +680,9 @@ function PromptVersionDetail({ version }: { version: string }) {
                   className="min-h-[400px] font-mono text-sm"
                   placeholder="Enter AI removal instructions..."
                 />
-                <div className="flex items-center justify-between text-sm">
+                <div className="flex items-center justify-start text-sm">
                   <div className="text-muted-foreground">
                     Characters: {getCharacterCount(formData.aiRemoval)} / 4000
-                  </div>
-                  <div className="flex space-x-2">
-                    <Button variant="ghost" size="sm" disabled>
-                      Undo (Ctrl+Z)
-                    </Button>
-                    <Button variant="ghost" size="sm" disabled>
-                      Redo (Ctrl+Y)
-                    </Button>
                   </div>
                 </div>
               </div>
@@ -718,17 +707,9 @@ function PromptVersionDetail({ version }: { version: string }) {
                   className="min-h-[400px] font-mono text-sm"
                   placeholder="Enter meta structure instructions..."
                 />
-                <div className="flex items-center justify-between text-sm">
+                <div className="flex items-center justify-start text-sm">
                   <div className="text-muted-foreground">
                     Characters: {getCharacterCount(formData.metaStructure)} / 4000
-                  </div>
-                  <div className="flex space-x-2">
-                    <Button variant="ghost" size="sm" disabled>
-                      Undo (Ctrl+Z)
-                    </Button>
-                    <Button variant="ghost" size="sm" disabled>
-                      Redo (Ctrl+Y)
-                    </Button>
                   </div>
                 </div>
               </div>
@@ -753,17 +734,9 @@ function PromptVersionDetail({ version }: { version: string }) {
                   className="min-h-[400px] font-mono text-sm"
                   placeholder="Enter image instructions..."
                 />
-                <div className="flex items-center justify-between text-sm">
+                <div className="flex items-center justify-start text-sm">
                   <div className="text-muted-foreground">
                     Characters: {getCharacterCount(formData.images)} / 4000
-                  </div>
-                  <div className="flex space-x-2">
-                    <Button variant="ghost" size="sm" disabled>
-                      Undo (Ctrl+Z)
-                    </Button>
-                    <Button variant="ghost" size="sm" disabled>
-                      Redo (Ctrl+Y)
-                    </Button>
                   </div>
                 </div>
               </div>
@@ -771,6 +744,13 @@ function PromptVersionDetail({ version }: { version: string }) {
           </Card>
         </TabsContent>
       </Tabs>
+
+      {/* Save Button Below Prompt Sections */}
+      <div className="flex justify-center">
+        <Button onClick={handleSave} size="lg" className="px-8">
+          Save All Changes
+        </Button>
+      </div>
 
       {/* Preview Function */}
       <Card className="bg-card border-card-border shadow-sm">
