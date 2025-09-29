@@ -81,6 +81,7 @@ function AppRoutes() {
         <Route path="/admin/users" element={<UserManagement />} />
         <Route path="/admin/blogs" element={<UserBlogAdmin />} />
         <Route path="/admin/prompts" element={<PromptManagement />} />
+        <Route path="/admin/prompts/:version" element={<PromptManagement />} />
         <Route path="/admin/debug" element={<DebugTasks />} />
         <Route path="/admin/products" element={<ProductsGeneration />} />
         <Route path="/admin/settings" element={<SystemSettings />} />
