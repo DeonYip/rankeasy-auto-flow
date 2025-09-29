@@ -89,7 +89,7 @@ export default function UserDashboard() {
   return (
     <div className="space-y-6 p-4 md:p-6 lg:p-8">
       {/* Mobile Welcome Header */}
-      <div className="block lg:hidden mb-6">
+      <div className="block lg:hidden mb-6 mt-4">
         <h2 className="admin-section-title text-foreground text-xl font-semibold">
           Welcome back, {user?.name || 'Premium User'}
         </h2>
