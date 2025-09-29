@@ -27,8 +27,14 @@ import {
   Shield,
   AlertTriangle,
   CheckCircle,
-  Clock
+  Clock,
+  CreditCard,
+  DollarSign,
+  Settings,
+  UserCog
 } from 'lucide-react';
+import { Switch } from '@/components/ui/switch';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 
 export default function UserManagement() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -44,24 +50,24 @@ export default function UserManagement() {
       color: 'bg-blue-500'
     },
     {
-      title: 'Active Users',
-      value: '2,234',
+      title: 'Active Subscriptions',
+      value: '1,234',
       change: '+8.7%',
-      icon: CheckCircle,
+      icon: CreditCard,
       color: 'bg-green-500'
     },
     {
-      title: 'Premium Users',
-      value: '1,234',
+      title: 'Monthly Revenue',
+      value: '$45,678',
       change: '+15.2%',
-      icon: Crown,
+      icon: DollarSign,
       color: 'bg-purple-500'
     },
     {
-      title: 'Pending Approval',
+      title: 'Payment Issues',
       value: '23',
       change: '-2.1%',
-      icon: Clock,
+      icon: AlertTriangle,
       color: 'bg-orange-500'
     }
   ];
@@ -76,7 +82,11 @@ export default function UserManagement() {
       joinDate: '2024-01-15',
       lastActive: '2 hours ago',
       articlesCount: 47,
-      avatar: '/avatars/john-doe.png'
+      avatar: '/avatars/john-doe.png',
+      paymentStatus: 'Paid',
+      subscriptionPlan: 'Premium Monthly',
+      nextBilling: '2024-12-15',
+      mrr: 29.99
     },
     {
       id: 2,
@@ -87,7 +97,11 @@ export default function UserManagement() {
       joinDate: '2024-02-20',
       lastActive: '5 minutes ago',
       articlesCount: 12,
-      avatar: '/avatars/sarah-smith.png'
+      avatar: '/avatars/sarah-smith.png',
+      paymentStatus: 'N/A',
+      subscriptionPlan: 'Free',
+      nextBilling: null,
+      mrr: 0
     },
     {
       id: 3,
@@ -98,7 +112,11 @@ export default function UserManagement() {
       joinDate: '2024-03-10',
       lastActive: '3 days ago',
       articlesCount: 89,
-      avatar: '/avatars/mike-wilson.png'
+      avatar: '/avatars/mike-wilson.png',
+      paymentStatus: 'Failed',
+      subscriptionPlan: 'Premium Yearly',
+      nextBilling: '2024-12-10',
+      mrr: 299.99
     },
     {
       id: 4,
@@ -109,7 +127,11 @@ export default function UserManagement() {
       joinDate: '2023-12-05',
       lastActive: '1 hour ago',
       articlesCount: 156,
-      avatar: '/avatars/emily-chen.png'
+      avatar: '/avatars/emily-chen.png',
+      paymentStatus: 'N/A',
+      subscriptionPlan: 'Admin',
+      nextBilling: null,
+      mrr: 0
     },
     {
       id: 5,
@@ -120,7 +142,11 @@ export default function UserManagement() {
       joinDate: '2024-12-01',
       lastActive: 'Never',
       articlesCount: 0,
-      avatar: '/avatars/david-rodriguez.png'
+      avatar: '/avatars/david-rodriguez.png',
+      paymentStatus: 'N/A',
+      subscriptionPlan: 'Free',
+      nextBilling: null,
+      mrr: 0
     }
   ];
 
@@ -148,6 +174,31 @@ export default function UserManagement() {
       default:
         return <Badge variant="outline">{role}</Badge>;
     }
+  };
+
+  const getPaymentStatusBadge = (status: string) => {
+    switch (status) {
+      case 'Paid':
+        return <Badge className="bg-green-100 text-green-800 border-green-200">Paid</Badge>;
+      case 'Failed':
+        return <Badge className="bg-red-100 text-red-800 border-red-200">Payment Failed</Badge>;
+      case 'Pending':
+        return <Badge className="bg-yellow-100 text-yellow-800 border-yellow-200">Pending</Badge>;
+      case 'N/A':
+        return <Badge className="bg-gray-100 text-gray-800 border-gray-200">N/A</Badge>;
+      default:
+        return <Badge variant="outline">{status}</Badge>;
+    }
+  };
+
+  const handlePlanChange = (userId: number, newPlan: string) => {
+    // In a real app, this would make an API call
+    console.log(`Changing plan for user ${userId} to ${newPlan}`);
+  };
+
+  const toggleUserStatus = (userId: number, currentStatus: string) => {
+    const newStatus = currentStatus === 'Active' ? 'Suspended' : 'Active';
+    console.log(`Changing status for user ${userId} to ${newStatus}`);
   };
 
   const filteredUsers = users.filter(user => {
@@ -266,12 +317,12 @@ export default function UserManagement() {
                 <TableHeader>
                   <TableRow>
                     <TableHead>User</TableHead>
-                    <TableHead>Role</TableHead>
+                    <TableHead>Plan & Payment</TableHead>
                     <TableHead>Status</TableHead>
-                    <TableHead>Articles</TableHead>
-                    <TableHead>Join Date</TableHead>
+                    <TableHead>Revenue</TableHead>
+                    <TableHead>Next Billing</TableHead>
                     <TableHead>Last Active</TableHead>
-                    <TableHead className="w-[50px]"></TableHead>
+                    <TableHead>Actions</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -290,24 +341,79 @@ export default function UserManagement() {
                         </div>
                       </TableCell>
                       <TableCell>
-                        {getRoleBadge(user.role)}
+                        <div className="space-y-1">
+                          {getRoleBadge(user.role)}
+                          {getPaymentStatusBadge(user.paymentStatus)}
+                          <div className="admin-stats-label text-muted-foreground text-xs">
+                            {user.subscriptionPlan}
+                          </div>
+                        </div>
                       </TableCell>
                       <TableCell>
-                        {getStatusBadge(user.status)}
+                        <div className="flex items-center gap-2">
+                          {getStatusBadge(user.status)}
+                          <Switch 
+                            checked={user.status === 'Active'} 
+                            onCheckedChange={() => toggleUserStatus(user.id, user.status)}
+                          />
+                        </div>
                       </TableCell>
                       <TableCell>
-                        <span className="admin-body-text text-foreground">{user.articlesCount}</span>
+                        <div className="admin-body-text text-foreground font-medium">
+                          ${user.mrr}{user.role !== 'Free' ? '/mo' : ''}
+                        </div>
                       </TableCell>
                       <TableCell>
-                        <span className="admin-stats-label text-muted-foreground">{user.joinDate}</span>
+                        <span className="admin-stats-label text-muted-foreground">
+                          {user.nextBilling || 'N/A'}
+                        </span>
                       </TableCell>
                       <TableCell>
                         <span className="admin-stats-label text-muted-foreground">{user.lastActive}</span>
                       </TableCell>
                       <TableCell>
-                        <Button variant="ghost" size="sm">
-                          <MoreHorizontal className="h-4 w-4" />
-                        </Button>
+                        <div className="flex gap-1">
+                          <Dialog>
+                            <DialogTrigger asChild>
+                              <Button variant="ghost" size="sm">
+                                <UserCog className="h-4 w-4" />
+                              </Button>
+                            </DialogTrigger>
+                            <DialogContent>
+                              <DialogHeader>
+                                <DialogTitle>Manage User Plan</DialogTitle>
+                                <DialogDescription>
+                                  Change subscription plan for {user.name}
+                                </DialogDescription>
+                              </DialogHeader>
+                              <div className="space-y-4">
+                                <div>
+                                  <Label>Current Plan: {user.subscriptionPlan}</Label>
+                                </div>
+                                <div>
+                                  <Label>Change to:</Label>
+                                  <Select onValueChange={(value) => handlePlanChange(user.id, value)}>
+                                    <SelectTrigger className="mt-2">
+                                      <SelectValue placeholder="Select new plan" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                      <SelectItem value="free">Free</SelectItem>
+                                      <SelectItem value="premium-monthly">Premium Monthly</SelectItem>
+                                      <SelectItem value="premium-yearly">Premium Yearly</SelectItem>
+                                      <SelectItem value="admin">Admin</SelectItem>
+                                    </SelectContent>
+                                  </Select>
+                                </div>
+                              </div>
+                              <DialogFooter>
+                                <Button>Update Plan</Button>
+                              </DialogFooter>
+                            </DialogContent>
+                          </Dialog>
+                          <Button variant="ghost" size="sm">
+                            <MoreHorizontal className="h-4 w-4" />
+                          </Button>
+                        </div>
                       </TableCell>
                     </TableRow>
                   ))}
