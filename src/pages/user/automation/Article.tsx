@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import {
   Settings,
   Save
@@ -16,20 +17,62 @@ export default function ArticlePage() {
     target_audience: '',
     target_market: '',
     language: 'English',
-    word_counts: '8000',
-    tone_of_voice: '',
+    word_counts: '5000',
+    tone_of_voice: 'Formal',
+    blog_activation: 'Disable Blog Publishing',
     blog_frequency: '1',
-    status: 'draft',
+    status: 'Save as Draft',
   });
+
+  const [errors, setErrors] = useState<Record<string, string>>({});
 
   const handleInputChange = (field: string, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
+    // Clear error when user starts typing
+    if (errors[field]) {
+      setErrors(prev => ({ ...prev, [field]: '' }));
+    }
+  };
+
+  const validateForm = () => {
+    const newErrors: Record<string, string> = {};
+    
+    if (!formData.core_keyword.trim()) {
+      newErrors.core_keyword = 'Core Keyword is required';
+    }
+    if (!formData.target_audience.trim()) {
+      newErrors.target_audience = 'Target Audience is required';
+    }
+    if (!formData.target_market.trim()) {
+      newErrors.target_market = 'Target Market is required';
+    }
+    
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
   const handleSave = () => {
-    console.log('Saving article configuration:', formData);
-    // Implementation for saving configuration
+    if (validateForm()) {
+      console.log('Saving article configuration:', formData);
+      // Implementation for saving configuration
+    }
   };
+
+  // Language options (top 100 languages)
+  const languages = [
+    'English', 'Chinese', 'Spanish', 'French', 'German', 'Japanese', 'Korean', 'Italian', 'Portuguese', 'Russian',
+    'Arabic', 'Hindi', 'Dutch', 'Swedish', 'Norwegian', 'Danish', 'Finnish', 'Polish', 'Czech', 'Hungarian',
+    'Romanian', 'Bulgarian', 'Croatian', 'Serbian', 'Slovak', 'Slovenian', 'Estonian', 'Latvian', 'Lithuanian', 'Greek',
+    'Turkish', 'Hebrew', 'Thai', 'Vietnamese', 'Indonesian', 'Malay', 'Filipino', 'Bengali', 'Urdu', 'Persian',
+    'Ukrainian', 'Belarusian', 'Georgian', 'Armenian', 'Azerbaijani', 'Kazakh', 'Uzbek', 'Tajik', 'Kyrgyz', 'Mongolian'
+  ];
+
+  // Tone of voice options (20 options)
+  const toneOptions = [
+    'Formal', 'Casual', 'Professional', 'Conversational', 'Authoritative', 'Friendly', 'Inspirational', 'Educational',
+    'Persuasive', 'Informative', 'Encouraging', 'Confident', 'Empathetic', 'Enthusiastic', 'Thoughtful', 'Direct',
+    'Humorous', 'Serious', 'Optimistic', 'Analytical'
+  ];
 
   return (
     <div className="space-y-8 p-8">
@@ -60,11 +103,12 @@ export default function ArticlePage() {
               </Label>
               <Input
                 id="core_keyword"
-                placeholder="Main keyword for the entire project"
+                placeholder="e.g., digital marketing"
                 value={formData.core_keyword}
                 onChange={(e) => handleInputChange('core_keyword', e.target.value)}
-                className="admin-body-text"
+                className={`admin-body-text transition-all duration-200 hover:shadow-sm hover:border-primary/50 ${errors.core_keyword ? 'border-red-500' : ''}`}
               />
+              {errors.core_keyword && <p className="text-red-500 text-sm">{errors.core_keyword}</p>}
               <p className="admin-stats-label">Primary keyword that runs through the entire project</p>
             </div>
 
@@ -74,11 +118,12 @@ export default function ArticlePage() {
               </Label>
               <Input
                 id="target_audience"
-                placeholder="e.g., Small business owners, Marketing professionals"
+                placeholder="e.g., small business owners, marketing professionals"
                 value={formData.target_audience}
                 onChange={(e) => handleInputChange('target_audience', e.target.value)}
-                className="admin-body-text"
+                className={`admin-body-text transition-all duration-200 hover:shadow-sm hover:border-primary/50 ${errors.target_audience ? 'border-red-500' : ''}`}
               />
+              {errors.target_audience && <p className="text-red-500 text-sm">{errors.target_audience}</p>}
               <p className="admin-stats-label">Demographic characteristics of intended readers</p>
             </div>
 
@@ -91,8 +136,9 @@ export default function ArticlePage() {
                 placeholder="e.g., North America, APAC, Europe"
                 value={formData.target_market}
                 onChange={(e) => handleInputChange('target_market', e.target.value)}
-                className="admin-body-text"
+                className={`admin-body-text transition-all duration-200 hover:shadow-sm hover:border-primary/50 ${errors.target_market ? 'border-red-500' : ''}`}
               />
+              {errors.target_market && <p className="text-red-500 text-sm">{errors.target_market}</p>}
               <p className="admin-stats-label">Geographic regions and market scope</p>
             </div>
 
@@ -101,16 +147,13 @@ export default function ArticlePage() {
                 Language <Badge variant="outline" className="ml-2">{`{{language}}`}</Badge>
               </Label>
               <Select value={formData.language} onValueChange={(value) => handleInputChange('language', value)}>
-                <SelectTrigger className="admin-body-text">
+                <SelectTrigger className="admin-body-text transition-all duration-200 hover:shadow-sm hover:border-primary/50">
                   <SelectValue placeholder="Select content language" />
                 </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="English">English</SelectItem>
-                  <SelectItem value="Chinese">Chinese (中文)</SelectItem>
-                  <SelectItem value="Spanish">Spanish (Español)</SelectItem>
-                  <SelectItem value="French">French (Français)</SelectItem>
-                  <SelectItem value="German">German (Deutsch)</SelectItem>
-                  <SelectItem value="Japanese">Japanese (日本語)</SelectItem>
+                <SelectContent className="max-h-60 overflow-y-auto">
+                  {languages.map((language) => (
+                    <SelectItem key={language} value={language}>{language}</SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
               <p className="admin-stats-label">Article content language (supports multiple languages)</p>
@@ -120,19 +163,20 @@ export default function ArticlePage() {
               <Label htmlFor="word_counts" className="admin-label">
                 Target Word Count <Badge variant="outline" className="ml-2">{`{{word_counts}}`}</Badge>
               </Label>
-              <Select value={formData.word_counts} onValueChange={(value) => handleInputChange('word_counts', value)}>
-                <SelectTrigger className="admin-body-text">
-                  <SelectValue placeholder="Select word count range" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="5000">5,000 words</SelectItem>
-                  <SelectItem value="8000">8,000 words</SelectItem>
-                  <SelectItem value="10000">10,000 words</SelectItem>
-                  <SelectItem value="12000">12,000 words</SelectItem>
-                  <SelectItem value="15000">15,000 words</SelectItem>
-                </SelectContent>
-              </Select>
-              <p className="admin-stats-label">Target article length (5,000-15,000 words)</p>
+              <div className="flex items-center space-x-2">
+                <Input
+                  id="word_counts"
+                  type="number"
+                  placeholder="5000"
+                  value={formData.word_counts}
+                  onChange={(e) => handleInputChange('word_counts', e.target.value)}
+                  className="admin-body-text transition-all duration-200 hover:shadow-sm hover:border-primary/50"
+                  min="1000"
+                  max="50000"
+                />
+                <span className="admin-body-text text-muted-foreground">words</span>
+              </div>
+              <p className="admin-stats-label">Target article length (default: 5,000 words)</p>
             </div>
 
             <div className="space-y-2">
@@ -140,37 +184,63 @@ export default function ArticlePage() {
                 Tone of Voice <Badge variant="outline" className="ml-2">{`{{tone_of_voice}}`}</Badge>
               </Label>
               <Select value={formData.tone_of_voice} onValueChange={(value) => handleInputChange('tone_of_voice', value)}>
-                <SelectTrigger className="admin-body-text">
+                <SelectTrigger className="admin-body-text transition-all duration-200 hover:shadow-sm hover:border-primary/50">
                   <SelectValue placeholder="Select content tone" />
                 </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="professional">Professional</SelectItem>
-                  <SelectItem value="conversational">Conversational</SelectItem>
-                  <SelectItem value="authoritative">Authoritative</SelectItem>
-                  <SelectItem value="friendly">Friendly</SelectItem>
-                  <SelectItem value="formal">Formal</SelectItem>
-                  <SelectItem value="casual">Casual</SelectItem>
+                <SelectContent className="max-h-60 overflow-y-auto">
+                  {toneOptions.map((tone) => (
+                    <SelectItem key={tone} value={tone}>{tone}</SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
               <p className="admin-stats-label">Writing style and expression tone</p>
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="blog_frequency" className="admin-label">
-                Publishing Frequency <Badge variant="outline" className="ml-2">{`{{blog_frequency}}`}</Badge>
-              </Label>
-              <Select value={formData.blog_frequency} onValueChange={(value) => handleInputChange('blog_frequency', value)}>
-                <SelectTrigger className="admin-body-text">
-                  <SelectValue placeholder="Select frequency" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="1">Daily (1 article/day)</SelectItem>
-                  <SelectItem value="3">3 times per week</SelectItem>
-                  <SelectItem value="2">Twice per week</SelectItem>
-                  <SelectItem value="weekly">Weekly</SelectItem>
-                </SelectContent>
-              </Select>
-              <p className="admin-stats-label">Content update frequency schedule</p>
+            {/* Blog Activation Toggle */}
+            <div className="space-y-4 col-span-full">
+              <div className="space-y-3">
+                <Label className="admin-label">
+                  Blog Activation Toggle
+                </Label>
+                <RadioGroup
+                  value={formData.blog_activation}
+                  onValueChange={(value) => handleInputChange('blog_activation', value)}
+                  className="flex space-x-6"
+                >
+                  <div className="flex items-center space-x-2 transition-all duration-200 hover:scale-105">
+                    <RadioGroupItem value="Enable Blog Publishing" id="enable" />
+                    <Label htmlFor="enable" className="admin-body-text cursor-pointer">Enable Blog Publishing</Label>
+                  </div>
+                  <div className="flex items-center space-x-2 transition-all duration-200 hover:scale-105">
+                    <RadioGroupItem value="Disable Blog Publishing" id="disable" />
+                    <Label htmlFor="disable" className="admin-body-text cursor-pointer">Disable Blog Publishing</Label>
+                  </div>
+                </RadioGroup>
+                <p className="admin-stats-label">Control whether blog publishing automation is active</p>
+              </div>
+
+              {/* Blog Publishing Frequency - only visible when enabled */}
+              {formData.blog_activation === 'Enable Blog Publishing' && (
+                <div className="space-y-2 p-4 border border-primary/20 rounded-lg bg-primary/5">
+                  <Label htmlFor="blog_frequency" className="admin-label">
+                    Blog Publishing Frequency <Badge variant="outline" className="ml-2">{`{{blog_frequency}}`}</Badge>
+                  </Label>
+                  <div className="flex items-center space-x-2">
+                    <Input
+                      id="blog_frequency"
+                      type="number"
+                      placeholder="1"
+                      value={formData.blog_frequency}
+                      onChange={(e) => handleInputChange('blog_frequency', e.target.value)}
+                      className="admin-body-text w-20 transition-all duration-200 hover:shadow-sm hover:border-primary/50"
+                      min="1"
+                      max="10"
+                    />
+                    <span className="admin-body-text text-muted-foreground">Blogs/Day</span>
+                  </div>
+                  <p className="admin-stats-label">Number of blog posts to publish per day</p>
+                </div>
+              )}
             </div>
 
             <div className="space-y-2">
@@ -178,12 +248,13 @@ export default function ArticlePage() {
                 Article Status <Badge variant="outline" className="ml-2">{`{{status}}`}</Badge>
               </Label>
               <Select value={formData.status} onValueChange={(value) => handleInputChange('status', value)}>
-                <SelectTrigger className="admin-body-text">
+                <SelectTrigger className="admin-body-text transition-all duration-200 hover:shadow-sm hover:border-primary/50">
                   <SelectValue placeholder="Select status" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="draft">Save as Draft</SelectItem>
-                  <SelectItem value="auto-publish">Auto-Publish</SelectItem>
+                  <SelectItem value="Save as Draft">Save as Draft</SelectItem>
+                  <SelectItem value="Pending Review">Pending Review</SelectItem>
+                  <SelectItem value="Published">Published</SelectItem>
                 </SelectContent>
               </Select>
               <p className="admin-stats-label">Article publication status setting</p>
@@ -194,10 +265,10 @@ export default function ArticlePage() {
 
       {/* Save Button */}
       <div className="flex justify-end space-x-4">
-        <Button variant="outline" className="admin-button">
+        <Button variant="outline" className="admin-button transition-all duration-200 hover:shadow-md">
           Reset to Defaults
         </Button>
-        <Button onClick={handleSave} className="admin-button flex items-center space-x-2">
+        <Button onClick={handleSave} className="admin-button flex items-center space-x-2 transition-all duration-200 hover:shadow-md hover:scale-105">
           <Save className="h-4 w-4" />
           <span>Save Configuration</span>
         </Button>
