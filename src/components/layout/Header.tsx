@@ -2,21 +2,14 @@ import React from 'react';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/contexts/AuthContext';
 import { LogOut, Bell, User } from 'lucide-react';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Badge } from '@/components/ui/badge';
-
 export function Header() {
-  const { user, logout } = useAuth();
-
-  return (
-    <header className="bg-card border-b border-border px-4 md:px-6 py-3 md:py-4 hidden lg:block">
+  const {
+    user,
+    logout
+  } = useAuth();
+  return <header className="bg-card border-b border-border px-4 md:px-6 py-3 md:py-4 hidden lg:block">
       <div className="flex items-center justify-between">
         <div className="min-w-0 flex-1">
           <h2 className="admin-section-title text-foreground text-lg md:text-xl truncate">
@@ -29,20 +22,12 @@ export function Header() {
 
         <div className="flex items-center space-x-2 md:space-x-4">
           {/* Token Balance - Hidden on small screens */}
-          <div className="hidden sm:flex items-center space-x-2 bg-background-alt px-3 md:px-4 py-2 rounded-lg border border-border">
-            <div className="w-2 h-2 bg-success rounded-full"></div>
-            <span className="admin-label text-foreground text-sm">
-              {user?.tokenBalance?.toLocaleString()} tokens
-            </span>
-          </div>
+          
 
           {/* Notifications */}
           <Button variant="ghost" size="icon" className="relative h-8 w-8 md:h-10 md:w-10">
             <Bell className="h-4 w-4 md:h-5 md:w-5" />
-            <Badge 
-              variant="destructive" 
-              className="absolute -top-1 -right-1 h-4 w-4 md:h-5 md:w-5 rounded-full p-0 flex items-center justify-center text-xs"
-            >
+            <Badge variant="destructive" className="absolute -top-1 -right-1 h-4 w-4 md:h-5 md:w-5 rounded-full p-0 flex items-center justify-center text-xs">
               3
             </Badge>
           </Button>
@@ -84,6 +69,5 @@ export function Header() {
           </DropdownMenu>
         </div>
       </div>
-    </header>
-  );
+    </header>;
 }
