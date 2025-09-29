@@ -8,7 +8,9 @@ import { Badge } from '@/components/ui/badge';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import {
   Settings,
-  Save
+  Save,
+  Play,
+  StopCircle
 } from 'lucide-react';
 
 export default function ArticlePage() {
@@ -19,10 +21,11 @@ export default function ArticlePage() {
     language: 'English',
     word_counts: '5000',
     tone_of_voice: 'Formal',
-    blog_activation: 'Disable Blog Publishing',
     blog_frequency: '10',
     status: 'Save as Draft',
   });
+
+  const [isAutomationRunning, setIsAutomationRunning] = useState(false);
 
   const [errors, setErrors] = useState<Record<string, string>>({});
 
@@ -56,6 +59,34 @@ export default function ArticlePage() {
       console.log('Saving article configuration:', formData);
       // Implementation for saving configuration
     }
+  };
+
+  const handleResetDefaults = () => {
+    setFormData({
+      core_keyword: '',
+      target_audience: '',
+      target_market: '',
+      language: 'English',
+      word_counts: '5000',
+      tone_of_voice: 'Formal',
+      blog_frequency: '10',
+      status: 'Save as Draft',
+    });
+    setErrors({});
+  };
+
+  const handleRunAutomation = () => {
+    if (validateForm()) {
+      setIsAutomationRunning(true);
+      console.log('Starting automation with config:', formData);
+      // Implementation for starting automation
+    }
+  };
+
+  const handleStopAutomation = () => {
+    setIsAutomationRunning(false);
+    console.log('Stopping automation');
+    // Implementation for stopping automation
   };
 
   // Language options (top 100 languages)
@@ -196,6 +227,17 @@ export default function ArticlePage() {
               <p className="admin-stats-label">Writing style and expression tone</p>
             </div>
           </div>
+          
+          {/* Save and Reset Buttons */}
+          <div className="flex justify-end space-x-4 pt-4 border-t border-card-border">
+            <Button variant="outline" onClick={handleResetDefaults} className="admin-button transition-all duration-200 hover:shadow-md">
+              Reset to Defaults
+            </Button>
+            <Button onClick={handleSave} className="admin-button flex items-center space-x-2 transition-all duration-200 hover:shadow-md hover:scale-105">
+              <Save className="h-4 w-4" />
+              <span>Save Configuration</span>
+            </Button>
+          </div>
         </CardContent>
       </Card>
 
@@ -248,40 +290,36 @@ export default function ArticlePage() {
               <p className="admin-stats-label">Article publication status setting</p>
             </div>
 
-            <div className="space-y-2">
+            <div className="space-y-4">
               <Label className="admin-label">
-                Automation
+                Automation Control
               </Label>
-              <RadioGroup
-                value={formData.blog_activation}
-                onValueChange={(value) => handleInputChange('blog_activation', value)}
-                className="flex space-x-6"
-              >
-                <div className="flex items-center space-x-2 transition-all duration-200 hover:scale-105">
-                  <RadioGroupItem value="Enable Blog Publishing" id="enable" />
-                  <Label htmlFor="enable" className="admin-body-text cursor-pointer">On</Label>
-                </div>
-                <div className="flex items-center space-x-2 transition-all duration-200 hover:scale-105">
-                  <RadioGroupItem value="Disable Blog Publishing" id="disable" />
-                  <Label htmlFor="disable" className="admin-body-text cursor-pointer">Off</Label>
-                </div>
-              </RadioGroup>
-              <p className="admin-stats-label">Turn on and off the blogs automation</p>
+              <div className="flex space-x-4">
+                <Button 
+                  onClick={handleRunAutomation}
+                  disabled={isAutomationRunning}
+                  className="admin-button flex items-center space-x-2 transition-all duration-200 hover:shadow-md hover:scale-105 bg-green-600 hover:bg-green-700"
+                >
+                  <Play className="h-4 w-4" />
+                  <span>Run Automation</span>
+                </Button>
+                <Button 
+                  onClick={handleStopAutomation}
+                  disabled={!isAutomationRunning}
+                  variant="outline"
+                  className="admin-button flex items-center space-x-2 transition-all duration-200 hover:shadow-md hover:scale-105 text-red-600 border-red-600 hover:bg-red-50"
+                >
+                  <StopCircle className="h-4 w-4" />
+                  <span>Stop</span>
+                </Button>
+              </div>
+              <p className="admin-stats-label">
+                {isAutomationRunning ? 'Automation is currently running' : 'Start or stop the blog automation process'}
+              </p>
             </div>
           </div>
         </CardContent>
       </Card>
-
-      {/* Save Button */}
-      <div className="flex justify-end space-x-4">
-        <Button variant="outline" className="admin-button transition-all duration-200 hover:shadow-md">
-          Reset to Defaults
-        </Button>
-        <Button onClick={handleSave} className="admin-button flex items-center space-x-2 transition-all duration-200 hover:shadow-md hover:scale-105">
-          <Save className="h-4 w-4" />
-          <span>Save Configuration</span>
-        </Button>
-      </div>
     </div>
   );
 }
